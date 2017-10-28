@@ -1,0 +1,25 @@
+module concurrent;
+
+import java.io.*;
+
+behavior RadialGrowth{
+	
+
+	void act(String[] args){
+		System.out.println("hello");
+
+		try{
+			BufferedReader reader = new BufferedReader(new FileReader(args[2]));
+
+			String line;
+			while((line = reader.readLine()) != null){
+				System.out.println(line);
+			}
+		}catch(Exception e){
+			System.err.format("error occured", e);
+		}
+
+	}
+
+
+}

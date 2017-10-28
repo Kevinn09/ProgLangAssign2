@@ -1,0 +1,9 @@
+Assure you are outside of the directory where the salsa file exists.
+
+Run in this order:
+
+java -cp salsa1.1.5.jar:. salsac.SalsaCompiler concurrent/*.salsa
+
+javac -cp salsa1.1.5.jar:. concurrent/*.java
+
+java -cp salsa1.1.5.jar:. concurrent.RadialGrowth
