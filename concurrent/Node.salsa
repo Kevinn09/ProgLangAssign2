@@ -28,11 +28,12 @@ behavior Node {
   }
 
   //prints a status message-will need to send this to output.txt?
+  //problem??
   void printStatusMessage(int leaderId, int time, String message){
-    standardOutput<-println("ID=" + Integer.toString(leaderId) + " " + message + " at t=" + Integer.toString(time));
+    //standardOutput<-println("ID=" + Integer.toString(leaderId) + " " + message + " at t=" + Integer.toString(time));
   }
 
-  // Send a message to the left Person
+  // Send a message
   void sendMessage(int time, int senderId, int senderCanBecomeLeader){
     left<-receiveMessage(senderId, senderCanBecomeLeader, time);
   }
@@ -41,8 +42,27 @@ behavior Node {
     left = ptr;
   }
 
+  //Whenever a node v sees a message with w>v, it decides not to be a leader
+  //  and becomes passive
   void receiveMessage(int senderId, int senderCanBecomeLeader, int timestamp){
-
+    if( senderId == id ){//if the current ID == the person we want to send to
+      // becomes leader
+      currentLeader = true;
+    }
+    if( id > senderId ){
+      //this node has a bigger ID than the original sender, so set the leader bit to 0
+      senderCanBecomeLeader = 0;
+    }
+    else if(timestamp == 0){
+      // return message to sender including the leader bit (senderCanBecomeLeader)
+    }
+    else if(senderCanBecomeLeader == 1){
+      timestamp *= 2;
+      left<-receiveMessage(senderId, senderCanBecomeLeader, timestamp-1);
+    }
+    else{
+      hasRevolted = false; //
+    }
   }
 
 
@@ -63,7 +83,9 @@ behavior Node {
   }
 
 
-  void findNextLeader(int senderId, int overallTimeStamp, int senderPriority){
+  void recieveElectionMessage(int senderId, int overallTimeStamp, int senderPriority){
+
+
   }
 
 

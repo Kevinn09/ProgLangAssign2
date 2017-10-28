@@ -268,7 +268,7 @@ public class RadialGrowth extends UniversalActor  {
 
 		String file;
 		Vector nodes = new Vector();
-		Node root = null;
+		Node rootNode = null;
 		Node ptr;
 		public void act(String[] args) {
 			System.out.println("hello");
@@ -280,9 +280,9 @@ public class RadialGrowth extends UniversalActor  {
 					System.out.println(line);
 					Node newNode = ((Node)new Node(this).construct(line));
 					nodes.add(((Node)new Node(this).construct(line)));
-					if (root==null) {{
-						root = newNode;
-						ptr = root;
+					if (rootNode==null) {{
+						rootNode = newNode;
+						ptr = rootNode;
 					}
 }					else {{
 					}
@@ -311,10 +311,10 @@ public class RadialGrowth extends UniversalActor  {
 		}
 		public void beginElection() {
 			{
-				// root<-startElection(0, 0)
+				// rootNode<-startElection(0, 0)
 				{
 					Object _arguments[] = { new Integer(0), new Integer(0) };
-					Message message = new Message( self, root, "startElection", _arguments, null, null );
+					Message message = new Message( self, rootNode, "startElection", _arguments, null, null );
 					__messages.add( message );
 				}
 			}

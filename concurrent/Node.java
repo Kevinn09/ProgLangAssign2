@@ -282,11 +282,81 @@ public class Node extends UniversalActor  {
 			priority = Integer.parseInt(inputs[3]);
 			tolerance = Integer.parseInt(inputs[4]);
 		}
-		public void printStatusMessage(int leaderId, int timestamp, String statusMessage) {
+		public void printStatusMessage(int leaderId, int time, String message) {
 		}
+		public void sendMessage(int time, int senderId, int senderCanBecomeLeader) {
+			{
+				// left<-receiveMessage(senderId, senderCanBecomeLeader, time)
+				{
+					Object _arguments[] = { senderId, senderCanBecomeLeader, time };
+					Message message = new Message( self, left, "receiveMessage", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
+		}
+		public void addtoLeft(Node ptr) {
+			left = ptr;
+		}
+		public void receiveMessage(int senderId, int senderCanBecomeLeader, int timestamp) {
+			if (senderId==id) {{
+				currentLeader = true;
+			}
+}			if (id>senderId) {{
+				senderCanBecomeLeader = 0;
+			}
+}			else {if (timestamp==0) {{
+			}
+}			else {if (senderCanBecomeLeader==1) {{
+				timestamp *= 2;
+				{
+					// left<-receiveMessage(senderId, senderCanBecomeLeader, timestamp-1)
+					{
+						Object _arguments[] = { senderId, senderCanBecomeLeader, timestamp-1 };
+						Message message = new Message( self, left, "receiveMessage", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+			}
+}			else {{
+				hasRevolted = false;
+			}
+}}}		}
 		public void startElection(int originalId, int timestamp) {
-		}
-		public void findNextLeader(int senderId, int overallTimeStamp, int senderPriority) {
+			hasRevolted = false;
+			if (originalId!=id) {{
+				if (hasBeenLeader) {{
+					{
+						// left<-startElection(originalId, timestamp)
+						{
+							Object _arguments[] = { originalId, timestamp };
+							Message message = new Message( self, left, "startElection", _arguments, null, null );
+							__messages.add( message );
+						}
+					}
+				}
+}				else {{
+					{
+						// left<-receiveElectionMessage(id, timestamp, priority)
+						{
+							Object _arguments[] = { id, timestamp, priority };
+							Message message = new Message( self, left, "receiveElectionMessage", _arguments, null, null );
+							__messages.add( message );
+						}
+					}
+				}
+}			}
+}			else {{
+				{
+					// standardOutput<-println("End of simulation")
+					{
+						Object _arguments[] = { "End of simulation" };
+						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+			}
+}		}
+		public void recieveElectionMessage(int senderId, int overallTimeStamp, int senderPriority) {
 		}
 		public void receiveLeaderMessage(int senderId, int timestamp, int numberRevolted, int totalPeople, int overallTimeStamp) {
 		}
