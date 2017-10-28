@@ -1,0 +1,45 @@
+module concurrent;
+
+behavior Node {
+  int id; //ID of the node
+  int priority; //priority of the node
+  int tolerance; //how long they can stand someone else being a leader
+
+  String port; 
+  String host;
+
+  boolean hasBeenLeader;
+  boolean currentLeader;
+  boolean hasRevolted;
+
+  Node left;//node to the left of the current node- so they can pass messages
+
+  Node(String fileLine){ //creating the object
+    String[] inputs = fileLine.split("\t"); //parses the line 
+   
+  }
+
+  //prints a status message-will need to send this to output.txt?
+  void printStatusMessage(int leaderId, int timestamp, String statusMessage){
+  
+  }
+
+
+
+
+  //begins the election for a new leader
+  void startElection(int originalId, int timestamp){
+  }
+
+
+  void findNextLeader(int senderId, int overallTimeStamp, int senderPriority){
+  }
+
+
+  // Update all nodes with timestamps
+  void receiveLeaderMessage(int senderId, int timestamp, int numberRevolted, int totalPeople, int overallTimeStamp){
+  }
+
+
+
+}

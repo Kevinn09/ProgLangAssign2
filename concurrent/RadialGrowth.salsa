@@ -2,24 +2,33 @@ module concurrent;
 
 import java.io.*;
 
+//java -cp salsa1.1.5.jar:. salsac.SalsaCompiler concurrent/RadialGrowth.salsa
+//javac -cp salsa1.1.5.jar:. concurrent/*.java
+//java -cp salsa1.1.5.jar:. concurrent.RadialGrowth config.tsv
+
 behavior RadialGrowth{
 	
 
 	void act(String[] args){
 		System.out.println("hello");
-
+		String filename =args[1];
 		try{
-			BufferedReader reader = new BufferedReader(new FileReader(args[2]));
-
+			BufferedReader reader = new BufferedReader(new FileReader(args[1]));
 			String line;
 			while((line = reader.readLine()) != null){
 				System.out.println(line);
+				Node newActor = new Node(line);
+				//need to figure out who is to the left
 			}
-		}catch(Exception e){
-			System.err.format("error occured", e);
-		}
 
+			reader.close();
+
+		}catch(IOException ioe){
+			standardOutput<-println("[error] Can't open the file "+filename+" for reading.");
+		}
+		
 	}
 
-
 }
+
+

@@ -31,9 +31,8 @@ import salsa.resources.ActorService;
 
 // End SALSA compiler generated import delcarations.
 
-import java.io.*;
 
-public class RadialGrowth extends UniversalActor  {
+public class Node extends UniversalActor  {
 	public static void main(String args[]) {
 		UAN uan = null;
 		UAL ual = null;
@@ -68,7 +67,7 @@ public class RadialGrowth extends UniversalActor  {
 			ual = new UAL( ServiceFactory.getTheater().getLocation() + System.getProperty("identifier"));
 		}
 		RunTime.receivedMessage();
-		RadialGrowth instance = (RadialGrowth)new RadialGrowth(uan, ual,null).construct();
+		Node instance = (Node)new Node(uan, ual,null).construct();
 		gc.WeakReference instanceRef=new gc.WeakReference(uan,ual);
 		{
 			Object[] _arguments = { args };
@@ -81,18 +80,18 @@ public class RadialGrowth extends UniversalActor  {
 		RunTime.finishedProcessingMessage();
 	}
 
-	public static ActorReference getReferenceByName(UAN uan)	{ return new RadialGrowth(false, uan); }
-	public static ActorReference getReferenceByName(String uan)	{ return RadialGrowth.getReferenceByName(new UAN(uan)); }
-	public static ActorReference getReferenceByLocation(UAL ual)	{ return new RadialGrowth(false, ual); }
+	public static ActorReference getReferenceByName(UAN uan)	{ return new Node(false, uan); }
+	public static ActorReference getReferenceByName(String uan)	{ return Node.getReferenceByName(new UAN(uan)); }
+	public static ActorReference getReferenceByLocation(UAL ual)	{ return new Node(false, ual); }
 
-	public static ActorReference getReferenceByLocation(String ual)	{ return RadialGrowth.getReferenceByLocation(new UAL(ual)); }
-	public RadialGrowth(boolean o, UAN __uan)	{ super(false,__uan); }
-	public RadialGrowth(boolean o, UAL __ual)	{ super(false,__ual); }
-	public RadialGrowth(UAN __uan,UniversalActor.State sourceActor)	{ this(__uan, null, sourceActor); }
-	public RadialGrowth(UAL __ual,UniversalActor.State sourceActor)	{ this(null, __ual, sourceActor); }
-	public RadialGrowth(UniversalActor.State sourceActor)		{ this(null, null, sourceActor);  }
-	public RadialGrowth()		{  }
-	public RadialGrowth(UAN __uan, UAL __ual, Object obj) {
+	public static ActorReference getReferenceByLocation(String ual)	{ return Node.getReferenceByLocation(new UAL(ual)); }
+	public Node(boolean o, UAN __uan)	{ super(false,__uan); }
+	public Node(boolean o, UAL __ual)	{ super(false,__ual); }
+	public Node(UAN __uan,UniversalActor.State sourceActor)	{ this(__uan, null, sourceActor); }
+	public Node(UAL __ual,UniversalActor.State sourceActor)	{ this(null, __ual, sourceActor); }
+	public Node(UniversalActor.State sourceActor)		{ this(null, null, sourceActor);  }
+	public Node()		{  }
+	public Node(UAN __uan, UAL __ual, Object obj) {
 		//decide the type of sourceActor
 		//if obj is null, the actor must be the startup actor.
 		//if obj is an actorReference, this actor is created by a remote actor
@@ -115,7 +114,7 @@ public class RadialGrowth extends UniversalActor  {
 			      setSource(sourceActor.getUAN(), sourceActor.getUAL());
 			      activateGC();
 			    }
-			    createRemotely(__uan, __ual, "concurrent.RadialGrowth", sourceRef);
+			    createRemotely(__uan, __ual, "concurrent.Node", sourceRef);
 			  }
 
 			  // local creation
@@ -173,6 +172,12 @@ public class RadialGrowth extends UniversalActor  {
 		}
 	}
 
+	public UniversalActor construct (String fileLine) {
+		Object[] __arguments = { fileLine };
+		this.send( new Message(this, this, "construct", __arguments, null, null) );
+		return this;
+	}
+
 	public UniversalActor construct() {
 		Object[] __arguments = { };
 		this.send( new Message(this, this, "construct", __arguments, null, null) );
@@ -180,22 +185,14 @@ public class RadialGrowth extends UniversalActor  {
 	}
 
 	public class State extends UniversalActor .State {
-		public RadialGrowth self;
+		public Node self;
 		public void updateSelf(ActorReference actorReference) {
-			((RadialGrowth)actorReference).setUAL(getUAL());
-			((RadialGrowth)actorReference).setUAN(getUAN());
-			self = new RadialGrowth(false,getUAL());
+			((Node)actorReference).setUAL(getUAL());
+			((Node)actorReference).setUAN(getUAN());
+			self = new Node(false,getUAL());
 			self.setUAN(getUAN());
 			self.setUAL(getUAL());
 			self.activateGC();
-		}
-
-		public void preAct(String[] arguments) {
-			getActorMemory().getInverseList().removeInverseReference("rmsp://me",1);
-			{
-				Object[] __args={arguments};
-				self.send( new Message(self,self, "act", __args, null,null,false) );
-			}
 		}
 
 		public State() {
@@ -204,7 +201,7 @@ public class RadialGrowth extends UniversalActor  {
 
 		public State(UAN __uan, UAL __ual) {
 			super(__uan, __ual);
-			addClassName( "concurrent.RadialGrowth$State" );
+			addClassName( "concurrent.Node$State" );
 			addMethodsForClasses();
 		}
 
@@ -265,29 +262,25 @@ public class RadialGrowth extends UniversalActor  {
 			}
 		}
 
-		public void act(String[] args) {
-			System.out.println("hello");
-			String filename = args[1];
-			try {
-				BufferedReader reader = new BufferedReader(new FileReader(args[1]));
-				String line;
-				while ((line=reader.readLine())!=null) {
-					System.out.println(line);
-					Node newActor = ((Node)new Node(this).construct(line));
-				}
-				reader.close();
-			}
-			catch (IOException ioe) {
-				{
-					// standardOutput<-println("[error] Can't open the file "+filename+" for reading.")
-					{
-						Object _arguments[] = { "[error] Can't open the file "+filename+" for reading." };
-						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-						__messages.add( message );
-					}
-				}
-			}
-
+		int id;
+		int priority;
+		int tolerance;
+		String port;
+		String host;
+		boolean hasBeenLeader;
+		boolean currentLeader;
+		boolean hasRevolted;
+		Node left;
+		void construct(String fileLine){
+			String[] inputs = fileLine.split("\t");
+		}
+		public void printStatusMessage(int leaderId, int timestamp, String statusMessage) {
+		}
+		public void startElection(int originalId, int timestamp) {
+		}
+		public void findNextLeader(int senderId, int overallTimeStamp, int senderPriority) {
+		}
+		public void receiveLeaderMessage(int senderId, int timestamp, int numberRevolted, int totalPeople, int overallTimeStamp) {
 		}
 	}
 }
