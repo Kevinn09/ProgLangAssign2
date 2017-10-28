@@ -273,6 +273,14 @@ public class Node extends UniversalActor  {
 		Node left;
 		void construct(String fileLine){
 			String[] inputs = fileLine.split("\t");
+			host = inputs[1];
+			port = inputs[2];
+			hasRevolted = false;
+			hasBeenLeader = false;
+			currentLeader = false;
+			id = Integer.parseInt(inputs[0]);
+			priority = Integer.parseInt(inputs[3]);
+			tolerance = Integer.parseInt(inputs[4]);
 		}
 		public void printStatusMessage(int leaderId, int timestamp, String statusMessage) {
 		}

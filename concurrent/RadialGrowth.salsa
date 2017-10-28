@@ -1,13 +1,22 @@
 module concurrent;
 
 import java.io.*;
+import java.util.*;
 
 //java -cp salsa1.1.5.jar:. salsac.SalsaCompiler concurrent/RadialGrowth.salsa
 //javac -cp salsa1.1.5.jar:. concurrent/*.java
 //java -cp salsa1.1.5.jar:. concurrent.RadialGrowth config.tsv
 
 behavior RadialGrowth{
-	
+
+	String file;
+
+	//not sure which one I should be using a vector or a list???
+ 	Vector nodes = new Vector(); // all of the people in a vector
+
+ 	Node rootNode = null; // for a list
+ 	Node ptr; //starting pointer
+
 
 	void act(String[] args){
 		System.out.println("hello");
@@ -17,8 +26,20 @@ behavior RadialGrowth{
 			String line;
 			while((line = reader.readLine()) != null){
 				System.out.println(line);
-				Node newActor = new Node(line);
-				//need to figure out who is to the left
+				Node newNode = new Node(line);
+
+				//add to the vector and list
+				nodes.add(new Node(line));
+				//for the list implementation...
+				if (rootNode == null){//1st node
+				  rootNode = newNode;
+				  ptr = rootNode;
+				} 
+				else{
+				  //we need to assign the left pointer
+				  //addToLeft(newNode);
+
+				}
 			}
 
 			reader.close();
@@ -26,7 +47,11 @@ behavior RadialGrowth{
 		}catch(IOException ioe){
 			standardOutput<-println("[error] Can't open the file "+filename+" for reading.");
 		}
-		
+		beginElection();
+	}
+
+	void beginElection(){
+		rootNode<-startElection(0,0); //not sure about starting at 0,0, maybe should be //at -1,0
 	}
 
 }

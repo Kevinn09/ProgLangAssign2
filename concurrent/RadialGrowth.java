@@ -32,6 +32,7 @@ import salsa.resources.ActorService;
 // End SALSA compiler generated import delcarations.
 
 import java.io.*;
+import java.util.*;
 
 public class RadialGrowth extends UniversalActor  {
 	public static void main(String args[]) {
@@ -265,6 +266,10 @@ public class RadialGrowth extends UniversalActor  {
 			}
 		}
 
+		String file;
+		Vector nodes = new Vector();
+		Node root = null;
+		Node ptr;
 		public void act(String[] args) {
 			System.out.println("hello");
 			String filename = args[1];
@@ -273,8 +278,15 @@ public class RadialGrowth extends UniversalActor  {
 				String line;
 				while ((line=reader.readLine())!=null) {
 					System.out.println(line);
-					Node newActor = ((Node)new Node(this).construct(line));
-				}
+					Node newNode = ((Node)new Node(this).construct(line));
+					nodes.add(((Node)new Node(this).construct(line)));
+					if (root==null) {{
+						root = newNode;
+						ptr = root;
+					}
+}					else {{
+					}
+}				}
 				reader.close();
 			}
 			catch (IOException ioe) {
@@ -288,6 +300,24 @@ public class RadialGrowth extends UniversalActor  {
 				}
 			}
 
+			{
+				// beginElection()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, self, "beginElection", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
+		}
+		public void beginElection() {
+			{
+				// root<-startElection(0, 0)
+				{
+					Object _arguments[] = { new Integer(0), new Integer(0) };
+					Message message = new Message( self, root, "startElection", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
 		}
 	}
 }

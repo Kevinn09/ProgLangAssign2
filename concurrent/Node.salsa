@@ -16,19 +16,50 @@ behavior Node {
 
   Node(String fileLine){ //creating the object
     String[] inputs = fileLine.split("\t"); //parses the line 
-   
+    host = inputs[1];
+    port = inputs[2];
+    hasRevolted = false; // false if they havenot revolted yet
+    hasBeenLeader = false;
+    currentLeader = false;
+
+    id = Integer.parseInt(inputs[0]);
+    priority = Integer.parseInt(inputs[3]);
+    tolerance = Integer.parseInt(inputs[4]);
   }
 
   //prints a status message-will need to send this to output.txt?
-  void printStatusMessage(int leaderId, int timestamp, String statusMessage){
-  
+  void printStatusMessage(int leaderId, int time, String message){
+    standardOutput<-println("ID=" + Integer.toString(leaderId) + " " + message + " at t=" + Integer.toString(time));
   }
 
+  // Send a message to the left Person
+  void sendMessage(int time, int senderId, int senderCanBecomeLeader){
+    left<-receiveMessage(senderId, senderCanBecomeLeader, time);
+  }
 
+  void addtoLeft(Node ptr){
+    left = ptr;
+  }
+
+  void receiveMessage(int senderId, int senderCanBecomeLeader, int timestamp){
+
+  }
 
 
   //begins the election for a new leader
   void startElection(int originalId, int timestamp){
+    hasRevolted = false;//reset to false
+    if(originalId != id){ //if the starting id is not equal to the current id....
+      if(hasBeenLeader){//checks if they have been a leader
+        left <-startElection(originalId, timestamp); //go on to the next person
+      } 
+      else {
+        left <-receiveElectionMessage(id, timestamp, priority);//if they can be the next
+      }
+    }
+    else{ //if we are back at the starting point
+      standardOutput <- println("End of simulation");
+    }
   }
 
 
@@ -38,6 +69,8 @@ behavior Node {
 
   // Update all nodes with timestamps
   void receiveLeaderMessage(int senderId, int timestamp, int numberRevolted, int totalPeople, int overallTimeStamp){
+
+
   }
 
 
