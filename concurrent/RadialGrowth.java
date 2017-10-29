@@ -291,13 +291,20 @@ public class RadialGrowth extends UniversalActor  {
 				return;
 			}
 
-			System.out.println(nodes.size());
 			for (int i = 0; i<nodes.size()-1; i++){
 				{
 					// nodes.get(i)<-setLeft(nodes.get(i+1))
 					{
 						Object _arguments[] = { nodes.get(i+1) };
 						Message message = new Message( self, nodes.get(i), "setLeft", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+				{
+					// nodes.get(i)<-setSize(nodes.size())
+					{
+						Object _arguments[] = { nodes.size() };
+						Message message = new Message( self, nodes.get(i), "setSize", _arguments, null, null );
 						__messages.add( message );
 					}
 				}

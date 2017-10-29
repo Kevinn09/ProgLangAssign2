@@ -36,12 +36,13 @@ behavior RadialGrowth{
 			return;
 		}
 
-		System.out.println(nodes.size());
+		// System.out.println(nodes.size());
 
 
 		// ListIterator iter = nodes.listIterator();
 		for(int i=0;i<nodes.size()-1;i++){
 			nodes.get(i)<-setLeft(nodes.get(i+1));
+			nodes.get(i)<-setSize(nodes.size());
 		}
 		nodes.get(nodes.size()-1)<-setLeft(nodes.getFirst());
 

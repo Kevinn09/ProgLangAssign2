@@ -266,6 +266,7 @@ public class Node extends UniversalActor  {
 		int priority;
 		int tolerance;
 		int ttl;
+		int size;
 		String port;
 		String host;
 		boolean canBeLeader;
@@ -295,6 +296,9 @@ public class Node extends UniversalActor  {
 		}
 		public int getLeft() {
 			return id;
+		}
+		public void setSize(int s) {
+			size = s;
 		}
 		public void printLeft() {
 			Token temp = new Token("temp");
@@ -339,44 +343,12 @@ public class Node extends UniversalActor  {
 				}
 			}
 }			else {{
-				{
-					// standardOutput<-println("here1")
-					{
-						Object _arguments[] = { "here1" };
-						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-						__messages.add( message );
-					}
-				}
 				hasRevolted = false;
 				tTL--;
-				{
-					// standardOutput<-println(tTL)
-					{
-						Object _arguments[] = { tTL };
-						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-						__messages.add( message );
-					}
-				}
 				if (priority>senderPriority) {{
-					{
-						// standardOutput<-println("here2")
-						{
-							Object _arguments[] = { "here2" };
-							Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-							__messages.add( message );
-						}
-					}
 					senderLeaderStatus = false;
 				}
 }				if (tTL==0) {{
-					{
-						// standardOutput<-println("reply meesage")
-						{
-							Object _arguments[] = { "reply meesage" };
-							Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-							__messages.add( message );
-						}
-					}
 					{
 						// left<-replyMessage(id, senderId, senderLeaderStatus)
 						{
@@ -396,14 +368,6 @@ public class Node extends UniversalActor  {
 				}
 }				else {{
 					{
-						// standardOutput<-println("recieve meesage")
-						{
-							Object _arguments[] = { "recieve meesage" };
-							Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-							__messages.add( message );
-						}
-					}
-					{
 						// left<-receiveMessage(senderId, senderPriority, senderLeaderStatus, tTL)
 						{
 							Object _arguments[] = { senderId, senderPriority, senderLeaderStatus, tTL };
@@ -422,16 +386,10 @@ public class Node extends UniversalActor  {
 				}
 }			}
 }		}
+		public void leaderTime(int time, int revolts) {
+		}
 		public void replyMessage(int newId, int senderId, boolean senderLeaderStatus) {
 			if (id==senderId) {{
-				{
-					// standardOutput<-println("we are in reply")
-					{
-						Object _arguments[] = { "we are in reply" };
-						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-						__messages.add( message );
-					}
-				}
 				if (senderLeaderStatus==true) {{
 					ttl *= 2;
 					{
@@ -452,14 +410,6 @@ public class Node extends UniversalActor  {
 					}
 				}
 }				else {{
-					{
-						// standardOutput<-println("we are starting over")
-						{
-							Object _arguments[] = { "we are starting over" };
-							Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-							__messages.add( message );
-						}
-					}
 					{
 						// left<-startElection(0)
 						{
