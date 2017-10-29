@@ -346,9 +346,9 @@ public class RadialGrowth extends UniversalActor  {
 		}
 		public void beginElection() {
 			{
-				// (nodes.getFirst())<-startElection(0)
+				// (nodes.getFirst())<-startElection(0, 0)
 				{
-					Object _arguments[] = { new Integer(0) };
+					Object _arguments[] = { new Integer(0), new Integer(0) };
 					Message message = new Message( self, (nodes.getFirst()), "startElection", _arguments, null, null );
 					__messages.add( message );
 				}

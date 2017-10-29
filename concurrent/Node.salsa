@@ -68,21 +68,23 @@ behavior Node {
   void reset(int counter){
     if (counter < size){
       hasRevolted=false;
+      counter++;
       left<-reset();
+
     }
   }
 
 
   //Whenever a node v sees a message with w>v, it decides not to be a leader
   //  and becomes passive
-  void receiveMessage(int senderId, int senderPriority, boolean senderLeaderStatus, int tTL, int pastLeaders){
+  void receiveMessage(int senderId, int senderPriority, boolean senderLeaderStatus, int tTL, int pastLeaders,int time){
     
     if( senderId == id && canBeLeader==true ){ //if the current ID == the person we want to send to becomes leader
-      left<-reset();
       currentLeader = true;
       canBeLeader = false;
-      standardOutput<-println("ID=" + senderId + "became leader at t=0");
-      left<-leaderTime(time+1, 0,pastLeaders);
+      standardOutput<-println("ID=" + senderId + " became leader at t="+time);
+      left<-reset(0)@
+      left<-leaderTime(time++,0,pastLeaders);
       
     }else{
       // standardOutput<-println("here1");
@@ -96,12 +98,12 @@ behavior Node {
       }
       if(tTL == 0){
         // standardOutput<-println("reply meesage");
-        left<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders);
-        right<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders);
+        left<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time);
+        right<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time);
       }else{
         // standardOutput<-println("recieve meesage");
-        left<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders);
-        right<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders);
+        left<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time);
+        right<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time);
       }
     }
 
@@ -113,49 +115,54 @@ void leaderTime(int time, int revolts,int pastLeaders){
     hasRevolted= true;
     revolts++;
     standardOutput<-println("ID=" + id + "revolted at t="+time);
+    time++;
+    left<-leaderTime(time, revolts,pastLeaders);
   }else if (revolts >= (size +1)/2 && currentLeader==true){
     //time to elect a new leader
     currentLeader=false;
-
-    standardOutput<-println("ID=" + id + "was deposed at t="+time);
-    startElection(time,pastLeaders+1);
+    pastLeaders++;
+    standardOutput<-println("ID=" + id + "was deposed at t="+time)@
+    left<-startElection(time,pastLeaders);
   }else{
-    left<-leaderTime(time+1, revolts);
+    time++;
+    standardOutput<-println("ID=" + id + "time"+time);
+    left<-leaderTime(time, revolts,pastLeaders);
   }
 }
 
 
 
 //need to decide when the original node is the leader
-  void replyMessage(int newId, int senderId, boolean senderLeaderStatus, int pastLeaders){
+  void replyMessage(int newId, int senderId, boolean senderLeaderStatus, int pastLeaders,int time){
     if(id == senderId){
       // standardOutput<-println("we are in reply");
 
       if(senderLeaderStatus == true){
         ttl *= 2;
-        left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders);
-        right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders);
+        left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time);
+        right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time);
       }else{
         // standardOutput<-println("we are starting over");
         left<-startElection(0,pastLeaders); //go on to the next person
       }
     }else{
-      left<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders);
-      right<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders);
+      left<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time);
+      right<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time);
     }
   }
 
 
 
   void startElection(int timestamp, int pastLeaders){
-    if (pastLeaders == size)
+    System.out.println("wer sr");
+    if (pastLeaders == size){
       standardOutput <- println("End of simulation");
     }
     if(hasBeenLeader){//checks if they have been a leader
-      left<-startElection(timestamp); //go on to the next person
+      left<-startElection(timestamp,pastLeaders); //go on to the next person
     }else{
-      left<-receiveMessage(id,priority,canBeLeader,ttl, pastLeaders,pastLeaders);
-      right<-receiveMessage(id,priority,canBeLeader,ttl, pastLeaders,pastLeaders);
+      left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp);
+      right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp);
 
     }
     
