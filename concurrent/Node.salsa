@@ -28,7 +28,6 @@ behavior Node {
   }
 
   //prints a status message-will need to send this to output.txt?
-  //problem??
   void printStatusMessage(int leaderId, int time, String message){
     //standardOutput<-println("ID=" + Integer.toString(leaderId) + " " + message + " at t=" + Integer.toString(time));
   }
