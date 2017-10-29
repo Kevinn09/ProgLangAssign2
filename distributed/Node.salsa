@@ -1,4 +1,4 @@
-module concurrent;
+module distributed;
 
 //if they are the same prioirty
 //need to check if they are negative
@@ -11,7 +11,7 @@ behavior Node {
   int tolerance;  //how long they can stand someone else being a leader
   int ttl;        
   int size;
-
+  String filename;
   String port;
   String host;
 
@@ -34,6 +34,7 @@ behavior Node {
     port = inputs[2];
     host = inputs[1];
     
+    filename="output.txt";
     canBeLeader = true;
     hasBeenLeader = false;
     currentLeader = false;
@@ -63,10 +64,7 @@ behavior Node {
     return;
   }
 
-  //prints a status message-will need to send this to output.txt?
-  void printStatusMessage(int leaderId, int time, String message){
-   // standardOutput<-println("ID=" + Integer.toString(leaderId) + " " + message + " at t=" + Integer.toString(time));
-  }
+
 
   // Send a message
   // void sendMessage(int time, int senderId, int senderCanBecomeLeader){

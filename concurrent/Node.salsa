@@ -1,9 +1,10 @@
 module concurrent;
 
+import java.io.*;
 //if they are the same prioirty
 //need to check if they are negative
 //if they give us something out of order
-//do we use actors?
+//do we need to reset the file?
 behavior Node {
 
   int id;         //ID of the node
@@ -63,9 +64,17 @@ behavior Node {
     return;
   }
 
-  //prints a status message-will need to send this to output.txt?
-  void printStatusMessage(int leaderId, int time, String message){
-   // standardOutput<-println("ID=" + Integer.toString(leaderId) + " " + message + " at t=" + Integer.toString(time));
+   //prints a status message-will need to send this to output.txt?
+  void printStatusMessage(String mess){
+    //open file
+    try{
+     PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("output.txt", true)));
+      out.println(mess);
+      out.close();
+    }
+    catch(IOException ioe){
+      standardError<-println("[error] Can't open the file for writing.");
+    }
   }
 
   // Send a message
@@ -91,7 +100,8 @@ behavior Node {
     if( senderId == id && canBeLeader==true ){ //if the current ID == the person we want to send to becomes leader
       currentLeader = true;
       canBeLeader = false;
-      standardOutput<-println("ID=" + senderId + " became leader at t="+time);
+      printStatusMessage("ID=" + Integer.toString(senderId) + " became leader at t="+Integer.toString(time));
+      // standardOutput<-println("ID=" + senderId + " became leader at t="+time);
       time++;
       left<-reset(0)@
       left<-leaderTime(time,0,pastLeaders,0);
@@ -121,7 +131,8 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
   if (localTime >= tolerance && currentLeader == false && hasRevolted==false){ //leader has been in power too long
     hasRevolted= true;
     revolts++;
-    standardOutput<-println("ID=" + id + " revolted at t="+time);
+    printStatusMessage("ID=" + Integer.toString(id) + " revolted at t="+Integer.toString(time));
+    // standardOutput<-println("ID=" + id + " revolted at t="+time);
     time++;
     localTime++;
     left<-leaderTime(time, revolts, pastLeaders,localTime);
@@ -132,7 +143,8 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
     pastLeaders++;
     time++;
     localTime++;
-    standardOutput<-println("ID=" + id + " was deposed at t="+(time-1))@
+    printStatusMessage("ID=" + Integer.toString(id) + " was deposed at t="+Integer.toString(time-1));
+    // standardOutput<-println("ID=" + id + " was deposed at t="+(time-1))@
     left<-startElection(time,pastLeaders);
   }else{
     // standardOutput<-println("ID=" + id + " time "+time+" "+localTime+" "+revolts);
@@ -169,7 +181,8 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
 
   void startElection(int timestamp, int pastLeaders){
     if (pastLeaders == size){
-      standardOutput <- println("End of simulation");
+      printStatusMessage("End of simulation");
+      // standardOutput <- println("End of simulation");
       return;
     }
     if(hasBeenLeader){//checks if they have been a leader
