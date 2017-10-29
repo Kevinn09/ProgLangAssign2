@@ -1,91 +1,133 @@
 module concurrent;
 
 behavior Node {
-  int id; //ID of the node
-  int priority; //priority of the node
-  int tolerance; //how long they can stand someone else being a leader
 
-  String port; 
+  int id;         //ID of the node
+  int priority;   //priority of the node
+  int tolerance;  //how long they can stand someone else being a leader
+  int ttl;        // fuck this shit
+
+  String port;
   String host;
 
+  boolean canBeLeader;
   boolean hasBeenLeader;
   boolean currentLeader;
   boolean hasRevolted;
 
-  Node left;//node to the left of the current node- so they can pass messages
+  Node left; //node to the left of the current node- so they can pass messages
+  Node right; 
 
   Node(String fileLine){ //creating the object
-    String[] inputs = fileLine.split("\t"); //parses the line 
-    host = inputs[1];
-    port = inputs[2];
-    hasRevolted = false; // false if they havenot revolted yet
-    hasBeenLeader = false;
-    currentLeader = false;
+    String[] inputs = fileLine.split("\t"); //parses the line
 
     id = Integer.parseInt(inputs[0]);
     priority = Integer.parseInt(inputs[3]);
     tolerance = Integer.parseInt(inputs[4]);
+    ttl = 1;
+
+    port = inputs[2];
+    host = inputs[1];
+    
+    canBeLeader = true;
+    hasBeenLeader = false;
+    currentLeader = false;
+    hasRevolted = false;
+  }
+
+  void setLeft(Node toLeft){
+    left = toLeft;
+  }
+  void setRight(Node toRight){
+    right=toRight;
+  }
+  
+  int getLeft(){
+    return id;
+  }
+
+  void printLeft(){
+    token temp =left<-getLeft();
+    standardOutput<-print(id+"asdf ");
+    standardOutput<-println(temp);
   }
 
   //prints a status message-will need to send this to output.txt?
   //problem??
   void printStatusMessage(int leaderId, int time, String message){
-    //standardOutput<-println("ID=" + Integer.toString(leaderId) + " " + message + " at t=" + Integer.toString(time));
+   // standardOutput<-println("ID=" + Integer.toString(leaderId) + " " + message + " at t=" + Integer.toString(time));
   }
 
   // Send a message
-  void sendMessage(int time, int senderId, int senderCanBecomeLeader){
-    left<-receiveMessage(senderId, senderCanBecomeLeader, time);
-  }
-
-  void addtoLeft(Node ptr){
-    left = ptr;
-  }
+  // void sendMessage(int time, int senderId, int senderCanBecomeLeader){
+  //   this<-receiveMessage(senderId, senderCanBecomeLeader, time);
+  //   right<-receiveMessage(senderId, senderCanBecomeLeader, time);    
+  // }
 
   //Whenever a node v sees a message with w>v, it decides not to be a leader
   //  and becomes passive
-  void receiveMessage(int senderId, int senderCanBecomeLeader, int timestamp){
-    if( senderId == id ){//if the current ID == the person we want to send to
-      // becomes leader
+  void receiveMessage(int senderId, int senderPriority, boolean senderLeaderStatus, int tTL){
+    
+    if( senderId == id && canBeLeader==true ){ //if the current ID == the person we want to send to becomes leader
       currentLeader = true;
-    }
-    if( id > senderId ){
-      //this node has a bigger ID than the original sender, so set the leader bit to 0
-      senderCanBecomeLeader = 0;
-    }
-    else if(timestamp == 0){
-      // return message to sender including the leader bit (senderCanBecomeLeader)
-    }
-    else if(senderCanBecomeLeader == 1){
-      timestamp *= 2;
-      left<-receiveMessage(senderId, senderCanBecomeLeader, timestamp-1);
-    }
-    else{
-      hasRevolted = false; //
-    }
-  }
+      canBeLeader = false;
+      standardOutput<-println("ID=" + senderId + "became leader at t=0");
+    }else{
+      standardOutput<-println("here1");
 
-
-  //begins the election for a new leader
-  void startElection(int originalId, int timestamp){
-    hasRevolted = false;//reset to false
-    if(originalId != id){ //if the starting id is not equal to the current id....
-      if(hasBeenLeader){//checks if they have been a leader
-        left <-startElection(originalId, timestamp); //go on to the next person
-      } 
-      else {
-        left <-receiveElectionMessage(id, timestamp, priority);//if they can be the next
+      hasRevolted = false;
+      tTL--;
+      standardOutput<-println(tTL);
+      if(priority > senderPriority){
+        standardOutput<-println("here2");
+        senderLeaderStatus = false;
+      }
+      if(tTL == 0){
+        standardOutput<-println("reply meesage");
+        left<-replyMessage(id,senderId,senderLeaderStatus);
+        right<-replyMessage(id,senderId,senderLeaderStatus);
+      }else{
+        standardOutput<-println("recieve meesage");
+        left<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL);
+        right<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL);
       }
     }
-    else{ //if we are back at the starting point
-      standardOutput <- println("End of simulation");
+
+  }
+//need to decide when the original node is the leader
+  void replyMessage(int newId, int senderId, boolean senderLeaderStatus){
+    if(id == senderId){
+      standardOutput<-println("we are in reply");
+
+      if(senderLeaderStatus == true){
+        ttl *= 2;
+        left<-receiveMessage(id,priority,canBeLeader,ttl);
+        right<-receiveMessage(id,priority,canBeLeader,ttl);
+      }else{
+        standardOutput<-println("we are starting over");
+        left<-startElection(0); //go on to the next person
+      }
+    }else{
+      left<-replyMessage(newId,senderId,senderLeaderStatus);
+      right<-replyMessage(newId,senderId,senderLeaderStatus);
     }
   }
 
 
-  void recieveElectionMessage(int senderId, int overallTimeStamp, int senderPriority){
+  void startElection(int timestamp){
+    hasRevolted = false;//reset to false
 
+    if(hasBeenLeader){//checks if they have been a leader
+      left<-startElection(timestamp); //go on to the next person
+    }else{
+      left<-receiveMessage(id,priority,canBeLeader,ttl);
+      right<-receiveMessage(id,priority,canBeLeader,ttl);
 
+    }
+
+    // else{ //if we are back at the starting point
+    //   standardOutput <- println("End of simulation");
+    // }
   }
 
 

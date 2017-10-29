@@ -9,49 +9,53 @@ import java.util.*;
 
 behavior RadialGrowth{
 
-	String file;
-
-	//not sure which one I should be using a vector or a list???
- 	Vector nodes = new Vector(); // all of the people in a vector
-
- 	Node rootNode = null; // for a list
- 	Node ptr; //starting pointer
-
+ 	LinkedList nodes = new LinkedList();
 
 	void act(String[] args){
-		System.out.println("hello");
-		String filename =args[1];
-		try{
-			BufferedReader reader = new BufferedReader(new FileReader(args[1]));
+
+		String filename = args[1];
+
+		try{ 
+			BufferedReader reader = new BufferedReader(new FileReader(args[1])); 
+			
 			String line;
 			while((line = reader.readLine()) != null){
+		
 				System.out.println(line);
+
 				Node newNode = new Node(line);
 
-				//add to the vector and list
-				nodes.add(new Node(line));
-				//for the list implementation...
-				if (rootNode == null){//1st node
-				  rootNode = newNode;
-				  ptr = rootNode;
-				} 
-				else{
-				  //we need to assign the left pointer
-				  //addToLeft(newNode);
+				nodes.add(newNode);
 
-				}
 			}
 
 			reader.close();
 
 		}catch(IOException ioe){
-			standardOutput<-println("[error] Can't open the file "+filename+" for reading.");
+			standardError<-println("[error] Can't open the file "+filename+" for reading.");
+			return;
 		}
+
+		System.out.println(nodes.size());
+
+
+		// ListIterator iter = nodes.listIterator();
+		for(int i=0;i<nodes.size()-1;i++){
+			nodes.get(i)<-setLeft(nodes.get(i+1));
+		}
+		nodes.get(nodes.size()-1)<-setLeft(nodes.getFirst());
+
+		for(int i=1;i<nodes.size();i++){
+			nodes.get(i)<-setRight(nodes.get(i-1));
+		}
+		nodes.getFirst()<-setRight(nodes.get(nodes.size()-1));
+		
 		beginElection();
+
 	}
 
 	void beginElection(){
-		rootNode<-startElection(0,0); //not sure about starting at 0,0, maybe should be //at -1,0
+		(nodes.getFirst())<-startElection(0);
 	}
 
 }
