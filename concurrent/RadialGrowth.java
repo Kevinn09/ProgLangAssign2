@@ -266,12 +266,8 @@ public class RadialGrowth extends UniversalActor  {
 			}
 		}
 
-		String file;
-		Vector nodes = new Vector();
-		Node rootNode = null;
-		Node ptr;
+		LinkedList nodes = new LinkedList();
 		public void act(String[] args) {
-			System.out.println("hello");
 			String filename = args[1];
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(args[1]));
@@ -279,27 +275,59 @@ public class RadialGrowth extends UniversalActor  {
 				while ((line=reader.readLine())!=null) {
 					System.out.println(line);
 					Node newNode = ((Node)new Node(this).construct(line));
-					nodes.add(((Node)new Node(this).construct(line)));
-					if (rootNode==null) {{
-						rootNode = newNode;
-						ptr = rootNode;
-					}
-}					else {{
-					}
-}				}
+					nodes.add(newNode);
+				}
 				reader.close();
 			}
 			catch (IOException ioe) {
 				{
-					// standardOutput<-println("[error] Can't open the file "+filename+" for reading.")
+					// standardError<-println("[error] Can't open the file "+filename+" for reading.")
 					{
 						Object _arguments[] = { "[error] Can't open the file "+filename+" for reading." };
-						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+						Message message = new Message( self, standardError, "println", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+				return;
+			}
+
+			System.out.println(nodes.size());
+			for (int i = 0; i<nodes.size()-1; i++){
+				{
+					// nodes.get(i)<-setLeft(nodes.get(i+1))
+					{
+						Object _arguments[] = { nodes.get(i+1) };
+						Message message = new Message( self, nodes.get(i), "setLeft", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
 			}
-
+			{
+				// nodes.get(nodes.size()-1)<-setLeft(nodes.getFirst())
+				{
+					Object _arguments[] = { nodes.getFirst() };
+					Message message = new Message( self, nodes.get(nodes.size()-1), "setLeft", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
+			for (int i = 1; i<nodes.size(); i++){
+				{
+					// nodes.get(i)<-setRight(nodes.get(i-1))
+					{
+						Object _arguments[] = { nodes.get(i-1) };
+						Message message = new Message( self, nodes.get(i), "setRight", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+			}
+			{
+				// nodes.getFirst()<-setRight(nodes.get(nodes.size()-1))
+				{
+					Object _arguments[] = { nodes.get(nodes.size()-1) };
+					Message message = new Message( self, nodes.getFirst(), "setRight", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
 			{
 				// beginElection()
 				{
@@ -311,10 +339,10 @@ public class RadialGrowth extends UniversalActor  {
 		}
 		public void beginElection() {
 			{
-				// rootNode<-startElection(0, 0)
+				// (nodes.getFirst())<-startElection(0)
 				{
-					Object _arguments[] = { new Integer(0), new Integer(0) };
-					Message message = new Message( self, rootNode, "startElection", _arguments, null, null );
+					Object _arguments[] = { new Integer(0) };
+					Message message = new Message( self, (nodes.getFirst()), "startElection", _arguments, null, null );
 					__messages.add( message );
 				}
 			}
