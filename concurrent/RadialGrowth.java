@@ -293,27 +293,19 @@ public class RadialGrowth extends UniversalActor  {
 
 			for (int i = 0; i<nodes.size()-1; i++){
 				{
-					// nodes.get(i)<-setLeft(nodes.get(i+1))
+					// nodes.get(i+1)<-setLeft(nodes.get(i))
 					{
-						Object _arguments[] = { nodes.get(i+1) };
-						Message message = new Message( self, nodes.get(i), "setLeft", _arguments, null, null );
-						__messages.add( message );
-					}
-				}
-				{
-					// nodes.get(i)<-setSize(nodes.size())
-					{
-						Object _arguments[] = { nodes.size() };
-						Message message = new Message( self, nodes.get(i), "setSize", _arguments, null, null );
+						Object _arguments[] = { nodes.get(i) };
+						Message message = new Message( self, nodes.get(i+1), "setLeft", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
 			}
 			{
-				// nodes.get(nodes.size()-1)<-setLeft(nodes.getFirst())
+				// nodes.getFirst()<-setLeft(nodes.get(nodes.size()-1))
 				{
-					Object _arguments[] = { nodes.getFirst() };
-					Message message = new Message( self, nodes.get(nodes.size()-1), "setLeft", _arguments, null, null );
+					Object _arguments[] = { nodes.get(nodes.size()-1) };
+					Message message = new Message( self, nodes.getFirst(), "setLeft", _arguments, null, null );
 					__messages.add( message );
 				}
 			}
@@ -333,6 +325,16 @@ public class RadialGrowth extends UniversalActor  {
 					Object _arguments[] = { nodes.get(nodes.size()-1) };
 					Message message = new Message( self, nodes.getFirst(), "setRight", _arguments, null, null );
 					__messages.add( message );
+				}
+			}
+			for (int i = 0; i<nodes.size(); i++){
+				{
+					// nodes.get(i)<-setSize(nodes.size())
+					{
+						Object _arguments[] = { nodes.size() };
+						Message message = new Message( self, nodes.get(i), "setSize", _arguments, null, null );
+						__messages.add( message );
+					}
 				}
 			}
 			{
