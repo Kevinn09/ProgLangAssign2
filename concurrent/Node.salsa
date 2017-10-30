@@ -85,14 +85,16 @@ behavior Node{
       }else{
         tempCanBeLeader = true;
       }
+      counter++;
+      left<-leaderChosen(done,counter);
     }
+    return;
   }
 
   //Whenever a node v sees a message with w>v, it decides not to be a leader
   //  and becomes passive
   void receiveMessage(int senderId, int senderPriority, boolean senderLeaderStatus, int tTL, int pastLeaders,int time,int localTime){
-    
-    if( senderId == id && canBeLeader && tempCanBeLeader){ //if the current ID == the person we want to send to becomes leader
+    if( senderId == id && canBeLeader){ //if the current ID == the person we want to send to becomes leader
       currentLeader = true;
       canBeLeader = false;
       printStatusMessage("ID=" + Integer.toString(senderId) + " became leader at t="+Integer.toString(time));
@@ -114,7 +116,7 @@ behavior Node{
         left<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime);
         // right<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime);
       }else if(tempCanBeLeader){
-        left<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime)@
+        left<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime);
         right<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime);
       }
     }
@@ -154,7 +156,7 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
     if(id == senderId){
       if(senderLeaderStatus){
         ttl *= 2;
-        left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime)@
+        left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime);
         right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime);
       }else{
         left<-startElection(time,pastLeaders); //go on to the next person
@@ -175,7 +177,7 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
     if(hasBeenLeader){//checks if they have been a leader
       left<-startElection(timestamp,pastLeaders); //go on to the next person
     }else if(tempCanBeLeader){
-      left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp,0)@
+      left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp,0);
       right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp,0);
     }
     return;
