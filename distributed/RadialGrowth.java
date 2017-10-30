@@ -33,6 +33,7 @@ import salsa.resources.ActorService;
 
 import java.io.*;
 import java.util.*;
+import java.net.*;
 
 public class RadialGrowth extends UniversalActor  {
 	public static void main(String args[]) {
@@ -290,9 +291,21 @@ public class RadialGrowth extends UniversalActor  {
 					String host = inputs[1];
 					String port = inputs[2];
 					Node newNode = ((Node)new Node(new UAN("uan://127.0.0.1:3030/"+inputs[0]), new UAL("rmsp://127.0.0.1:"+port),this).construct(line));
+					System.out.println("check");
 					nodes.add(newNode);
 				}
 				reader.close();
+			}
+			catch (ConnectException ce) {
+				{
+					// standardError<-println("[error] connection error\n"+ce)
+					{
+						Object _arguments[] = { "[error] connection error\n"+ce };
+						Message message = new Message( self, standardError, "println", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+				return;
 			}
 			catch (IOException ioe) {
 				{

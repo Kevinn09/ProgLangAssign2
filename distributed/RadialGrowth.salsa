@@ -2,13 +2,10 @@ module distributed;
 
 import java.io.*;
 import java.util.*;
+import java.net.*;
 
 //Kevin De Leon
 //Rasika Ekhalikar
-
-//java -cp salsa1.1.5.jar:. salsac.SalsaCompiler concurrent/RadialGrowth.salsa
-//javac -cp salsa1.1.5.jar:. concurrent/*.java
-//java -cp salsa1.1.5.jar:. concurrent.RadialGrowth config.tsv
 
 behavior RadialGrowth{
 
@@ -22,9 +19,7 @@ behavior RadialGrowth{
 		}
 
 		String filename = args[1];
-		// String uan= args[2];
-		// String[] parts = uan.split(":");
-		// System.out.println("check");
+
 		try{ 
 			BufferedReader reader = new BufferedReader(new FileReader(args[1])); 
 
@@ -37,16 +32,17 @@ behavior RadialGrowth{
 				String host = inputs[1];
 				String port = inputs[2];
 
-				// Node newNode = new Node(line);
-				// Node newNode = new Node(line) at (new UAN("uan://127.0.0.1:3030/1"));				
 				Node newNode = new Node(line) at (new UAN("uan://127.0.0.1:3030/"+inputs[0]),new UAL("rmsp://127.0.0.1:"+port));
-				
+
 				nodes.add(newNode);
 
 			}
 
 			reader.close();
 
+		}catch(ConnectException ce){
+			standardError<-println("[error] connection error\n"+ce);
+			return;
 		}catch(IOException ioe){
 			standardError<-println("[error] Can't open the file "+filename+" for reading.");
 			return;
@@ -55,10 +51,6 @@ behavior RadialGrowth{
 			return;
 		}
 
-		// System.out.println(nodes.size());
-
-
-		// ListIterator iter = nodes.listIterator();
 		for(int i=0;i<nodes.size()-1;i++){
 			nodes.get(i+1)<-setLeft(nodes.get(i));
 		}
@@ -79,7 +71,6 @@ behavior RadialGrowth{
 
 	void beginElection(){
 		Node n = (Node)Node.getReferenceByName(new UAN("uan://127.0.0.1:3030/0"));
-		//n<-println("hello?");
 		n<-startElection(0,0);
 	}
 
