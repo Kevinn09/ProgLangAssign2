@@ -15,18 +15,21 @@ behavior RadialGrowth{
  	LinkedList nodes = new LinkedList();
 
 	void act(String[] args){
-		String hostName = args[2];
-		String filename = args[1];
 
+		String filename = args[1];
+		// String uan= args[2];
+		// String[] parts = uan.split(":");
+		// System.out.println(parts[0]);
 		try{ 
 			BufferedReader reader = new BufferedReader(new FileReader(args[1])); 
-			
 			String line;
 			while((line = reader.readLine()) != null){
-		
 				System.out.println(line);
-
-				Node newNode = new Node(line);
+				String tmp= line;
+				String[] inputs = tmp.split("\t");
+				String host=inputs[1];
+				String port = inputs[2];
+				Node newNode = (Node)Node.getReferenceByName(new UAN(host));
 
 				nodes.add(newNode);
 
@@ -57,7 +60,7 @@ behavior RadialGrowth{
 			nodes.get(i)<-setSize(nodes.size());
 		}
 
-		beginElection();
+		//beginElection();
 
 	}
 

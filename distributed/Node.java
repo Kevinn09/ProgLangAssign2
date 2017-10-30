@@ -31,6 +31,7 @@ import salsa.resources.ActorService;
 
 // End SALSA compiler generated import delcarations.
 
+import java.io.*;
 
 public class Node extends UniversalActor  {
 	public static void main(String args[]) {
@@ -331,7 +332,23 @@ public class Node extends UniversalActor  {
 			}
 			return;
 		}
-		public void printStatusMessage(int leaderId, int time, String message) {
+		public void printStatusMessage(String mess) {
+			try {
+				PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("output.txt", true)));
+				out.println(mess);
+				out.close();
+			}
+			catch (IOException ioe) {
+				{
+					// standardError<-println("[error] Can't open the file for writing.")
+					{
+						Object _arguments[] = { "[error] Can't open the file for writing." };
+						Message message = new Message( self, standardError, "println", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+			}
+
 		}
 		public void reset(int counter) {
 			if (counter<size) {{
@@ -354,10 +371,10 @@ public class Node extends UniversalActor  {
 				currentLeader = true;
 				canBeLeader = false;
 				{
-					// standardOutput<-println("ID="+senderId+" became leader at t="+time)
+					// printStatusMessage("ID="+Integer.toString(senderId)+" became leader at t="+Integer.toString(time))
 					{
-						Object _arguments[] = { "ID="+senderId+" became leader at t="+time };
-						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+						Object _arguments[] = { "ID="+Integer.toString(senderId)+" became leader at t="+Integer.toString(time) };
+						Message message = new Message( self, self, "printStatusMessage", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
@@ -411,10 +428,10 @@ public class Node extends UniversalActor  {
 				hasRevolted = true;
 				revolts++;
 				{
-					// standardOutput<-println("ID="+id+" revolted at t="+time)
+					// printStatusMessage("ID="+Integer.toString(id)+" revolted at t="+Integer.toString(time))
 					{
-						Object _arguments[] = { "ID="+id+" revolted at t="+time };
-						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+						Object _arguments[] = { "ID="+Integer.toString(id)+" revolted at t="+Integer.toString(time) };
+						Message message = new Message( self, self, "printStatusMessage", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
@@ -435,17 +452,18 @@ public class Node extends UniversalActor  {
 				time++;
 				localTime++;
 				{
-					Token token_3_0 = new Token();
-					// standardOutput<-println("ID="+id+" was deposed at t="+(time-1))
+					// printStatusMessage("ID="+Integer.toString(id)+" was deposed at t="+Integer.toString(time-1))
 					{
-						Object _arguments[] = { "ID="+id+" was deposed at t="+(time-1) };
-						Message message = new Message( self, standardOutput, "println", _arguments, null, token_3_0 );
+						Object _arguments[] = { "ID="+Integer.toString(id)+" was deposed at t="+Integer.toString(time-1) };
+						Message message = new Message( self, self, "printStatusMessage", _arguments, null, null );
 						__messages.add( message );
 					}
+				}
+				{
 					// left<-startElection(time, pastLeaders)
 					{
 						Object _arguments[] = { time, pastLeaders };
-						Message message = new Message( self, left, "startElection", _arguments, token_3_0, null );
+						Message message = new Message( self, left, "startElection", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
@@ -503,10 +521,10 @@ public class Node extends UniversalActor  {
 		public void startElection(int timestamp, int pastLeaders) {
 			if (pastLeaders==size) {{
 				{
-					// standardOutput<-println("End of simulation")
+					// printStatusMessage("End of simulation")
 					{
 						Object _arguments[] = { "End of simulation" };
-						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+						Message message = new Message( self, self, "printStatusMessage", _arguments, null, null );
 						__messages.add( message );
 					}
 				}

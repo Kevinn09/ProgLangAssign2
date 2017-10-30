@@ -268,14 +268,19 @@ public class RadialGrowth extends UniversalActor  {
 
 		LinkedList nodes = new LinkedList();
 		public void act(String[] args) {
-			String hostName = args[2];
 			String filename = args[1];
+			String uan = args[2];
+			String[] parts = uan.split(":");
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(args[1]));
 				String line;
 				while ((line=reader.readLine())!=null) {
 					System.out.println(line);
-					Node newNode = ((Node)new Node(this).construct(line));
+					String tmp = line;
+					String[] inputs = tmp.split("\t");
+					String host = inputs[1];
+					String port = inputs[2];
+					Node newNode = (Node)Node.getReferenceByName(new UAN(host));
 					nodes.add(newNode);
 				}
 				reader.close();
@@ -336,14 +341,6 @@ public class RadialGrowth extends UniversalActor  {
 						Message message = new Message( self, nodes.get(i), "setSize", _arguments, null, null );
 						__messages.add( message );
 					}
-				}
-			}
-			{
-				// beginElection()
-				{
-					Object _arguments[] = {  };
-					Message message = new Message( self, self, "beginElection", _arguments, null, null );
-					__messages.add( message );
 				}
 			}
 		}
