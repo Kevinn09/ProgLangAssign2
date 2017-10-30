@@ -5,7 +5,7 @@ import java.io.*;
 //need to check if they are negative
 //if they give us something out of order
 //do we need to reset the file?
-behavior Node {
+behavior Node implements ActorService{
 
   int id;         //ID of the node
   int priority;   //priority of the node

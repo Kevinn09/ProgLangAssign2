@@ -269,8 +269,6 @@ public class RadialGrowth extends UniversalActor  {
 		LinkedList nodes = new LinkedList();
 		public void act(String[] args) {
 			String filename = args[1];
-			String uan = args[2];
-			String[] parts = uan.split(":");
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(args[1]));
 				String line;
@@ -280,7 +278,7 @@ public class RadialGrowth extends UniversalActor  {
 					String[] inputs = tmp.split("\t");
 					String host = inputs[1];
 					String port = inputs[2];
-					Node newNode = (Node)Node.getReferenceByName(new UAN(host));
+					Node newNode = ((Node)new Node(new UAN("uan://127.0.0.1:3030/"+inputs[0]), new UAL("rmsp://127.0.0.1:"+port),this).construct(line));
 					nodes.add(newNode);
 				}
 				reader.close();
@@ -290,6 +288,17 @@ public class RadialGrowth extends UniversalActor  {
 					// standardError<-println("[error] Can't open the file "+filename+" for reading.")
 					{
 						Object _arguments[] = { "[error] Can't open the file "+filename+" for reading." };
+						Message message = new Message( self, standardError, "println", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+				return;
+			}
+			catch (Exception e) {
+				{
+					// standardError<-println("[error] distributed RadialGrowth failed\n"+e)
+					{
+						Object _arguments[] = { "[error] distributed RadialGrowth failed\n"+e };
 						Message message = new Message( self, standardError, "println", _arguments, null, null );
 						__messages.add( message );
 					}
@@ -343,13 +352,22 @@ public class RadialGrowth extends UniversalActor  {
 					}
 				}
 			}
+			{
+				// beginElection()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, self, "beginElection", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
 		}
 		public void beginElection() {
+			Node n = (Node)Node.getReferenceByName(new UAN("uan://127.0.0.1:3030/0"));
 			{
-				// (nodes.getFirst())<-startElection(0, 0)
+				// n<-startElection(0, 0)
 				{
 					Object _arguments[] = { new Integer(0), new Integer(0) };
-					Message message = new Message( self, (nodes.getFirst()), "startElection", _arguments, null, null );
+					Message message = new Message( self, n, "startElection", _arguments, null, null );
 					__messages.add( message );
 				}
 			}

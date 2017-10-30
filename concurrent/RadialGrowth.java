@@ -273,7 +273,6 @@ public class RadialGrowth extends UniversalActor  {
 				BufferedReader reader = new BufferedReader(new FileReader(args[1]));
 				String line;
 				while ((line=reader.readLine())!=null) {
-					System.out.println(line);
 					Node newNode = ((Node)new Node(this).construct(line));
 					nodes.add(newNode);
 				}

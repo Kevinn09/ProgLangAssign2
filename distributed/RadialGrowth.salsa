@@ -19,18 +19,23 @@ behavior RadialGrowth{
 		String filename = args[1];
 		// String uan= args[2];
 		// String[] parts = uan.split(":");
-		// System.out.println(parts[0]);
+		// System.out.println("check");
 		try{ 
 			BufferedReader reader = new BufferedReader(new FileReader(args[1])); 
+
 			String line;
 			while((line = reader.readLine()) != null){
 				System.out.println(line);
-				String tmp= line;
-				String[] inputs = tmp.split("\t");
-				String host=inputs[1];
-				String port = inputs[2];
-				Node newNode = (Node)Node.getReferenceByName(new UAN(host));
 
+				String tmp = line;
+				String[] inputs = tmp.split("\t");
+				String host = inputs[1];
+				String port = inputs[2];
+
+				// Node newNode = new Node(line);
+				// Node newNode = new Node(line) at (new UAN("uan://127.0.0.1:3030/1"));				
+				Node newNode = new Node(line) at (new UAN("uan://127.0.0.1:3030/"+inputs[0]),new UAL("rmsp://127.0.0.1:"+port));
+				
 				nodes.add(newNode);
 
 			}
@@ -39,6 +44,9 @@ behavior RadialGrowth{
 
 		}catch(IOException ioe){
 			standardError<-println("[error] Can't open the file "+filename+" for reading.");
+			return;
+		}catch(Exception e){
+			standardError<-println("[error] distributed RadialGrowth failed\n"+e);
 			return;
 		}
 
@@ -60,12 +68,14 @@ behavior RadialGrowth{
 			nodes.get(i)<-setSize(nodes.size());
 		}
 
-		//beginElection();
+		beginElection();
 
 	}
 
 	void beginElection(){
-		(nodes.getFirst())<-startElection(0,0);
+		Node n = (Node)Node.getReferenceByName(new UAN("uan://127.0.0.1:3030/0"));
+		//n<-println("hello?");
+		n<-startElection(0,0);
 	}
 
 }

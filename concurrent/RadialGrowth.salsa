@@ -24,7 +24,7 @@ behavior RadialGrowth{
 			String line;
 			while((line = reader.readLine()) != null){
 		
-				System.out.println(line);
+				// System.out.println(line);
 
 				Node newNode = new Node(line);
 
