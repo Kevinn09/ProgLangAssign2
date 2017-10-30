@@ -577,14 +577,6 @@ public class Node extends UniversalActor  {
 						__messages.add( message );
 					}
 				}
-				{
-					// right<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, timestamp, 0)
-					{
-						Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, timestamp, new Integer(0) };
-						Message message = new Message( self, right, "receiveMessage", _arguments, null, null );
-						__messages.add( message );
-					}
-				}
 			}
 }}			return;
 		}
