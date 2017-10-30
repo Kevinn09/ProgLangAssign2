@@ -6,7 +6,7 @@
 # SALSA 1.x aliases
 alias salsac="java -cp salsa1.1.5.jar:. salsac.SalsaCompiler distributed/*.salsa; javac -cp salsa1.1.5.jar:. distributed/*.java"
 
-alias salsa="java -cp salsa1.1.5.jar:. distributed.RadialGrowth distributed.Node config.tsv 127.0.0.1:3030"
+alias salsa="java -cp salsa1.1.5.jar:. distributed.RadialGrowth distributed.Node config.tsv "
 
 alias wwcns="java -cp salsa1.1.5.jar:. wwc.naming.WWCNamingServer"
 

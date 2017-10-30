@@ -32,6 +32,7 @@ import salsa.resources.ActorService;
 // End SALSA compiler generated import delcarations.
 
 import java.io.*;
+import java.util.*;
 
 public class Node extends UniversalActor  {
 	public static void main(String args[]) {
@@ -282,6 +283,7 @@ public class Node extends UniversalActor  {
 			priority = Integer.parseInt(inputs[3]);
 			tolerance = Integer.parseInt(inputs[4]);
 			ttl = 1;
+			size = 0;
 			port = inputs[2];
 			host = inputs[1];
 			canBeLeader = true;
@@ -297,39 +299,8 @@ public class Node extends UniversalActor  {
 			right = toRight;
 			return;
 		}
-		public int getLeft() {
-			return id;
-		}
 		public void setSize(int s) {
 			size = s;
-			return;
-		}
-		public void printLeft() {
-			Token temp = new Token("temp");
-			{
-				// token temp = left<-getLeft()
-				{
-					Object _arguments[] = {  };
-					Message message = new Message( self, left, "getLeft", _arguments, null, temp );
-					__messages.add( message );
-				}
-			}
-			{
-				// standardOutput<-print(id+"asdf ")
-				{
-					Object _arguments[] = { id+"asdf " };
-					Message message = new Message( self, standardOutput, "print", _arguments, null, null );
-					__messages.add( message );
-				}
-			}
-			{
-				// standardOutput<-println(temp)
-				{
-					Object _arguments[] = { temp };
-					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-					__messages.add( message );
-				}
-			}
 			return;
 		}
 		public void printStatusMessage(String mess) {
@@ -556,8 +527,6 @@ public class Node extends UniversalActor  {
 				}
 			}
 }			return;
-		}
-		public void receiveLeaderMessage(int senderId, int timestamp, int numberRevolted, int totalPeople, int overallTimeStamp) {
 		}
 	}
 }

@@ -1,10 +1,7 @@
 module distributed;
 
 import java.io.*;
-//if they are the same prioirty
-//need to check if they are negative
-//if they give us something out of order
-//do we need to reset the file?
+
 behavior Node implements ActorService{
 
   int id;         //ID of the node
@@ -31,6 +28,7 @@ behavior Node implements ActorService{
     priority = Integer.parseInt(inputs[3]);
     tolerance = Integer.parseInt(inputs[4]);
     ttl = 1;
+    size = 0;
 
     port = inputs[2];
     host = inputs[1];
@@ -49,18 +47,8 @@ behavior Node implements ActorService{
     right=toRight;
     return;
   }
-  
-  int getLeft(){
-    return id;
-  }
   void setSize(int s){
-    size =s;
-    return;
-  }
-  void printLeft(){
-    token temp =left<-getLeft();
-    standardOutput<-print(id+"asdf ");
-    standardOutput<-println(temp);
+    size = s;
     return;
   }
 
@@ -77,11 +65,6 @@ behavior Node implements ActorService{
     }
   }
 
-  // Send a message
-  // void sendMessage(int time, int senderId, int senderCanBecomeLeader){
-  //   this<-receiveMessage(senderId, senderCanBecomeLeader, time);
-  //   right<-receiveMessage(senderId, senderCanBecomeLeader, time);    
-  // }
   void reset(int counter){
     if (counter < size){
       hasRevolted = false;
@@ -194,14 +177,5 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
     }
     return;
   }
-
-
-  // Update all nodes with timestamps
-  void receiveLeaderMessage(int senderId, int timestamp, int numberRevolted, int totalPeople, int overallTimeStamp){
-
-
-  }
-
-
 
 }

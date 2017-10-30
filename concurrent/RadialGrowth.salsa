@@ -6,10 +6,6 @@ import java.util.*;
 //Kevin De Leon
 //Rasika Ekhalikar
 
-//java -cp salsa1.1.5.jar:. salsac.SalsaCompiler concurrent/RadialGrowth.salsa
-//javac -cp salsa1.1.5.jar:. concurrent/*.java
-//java -cp salsa1.1.5.jar:. concurrent.RadialGrowth config.tsv
-
 behavior RadialGrowth{
 
  	LinkedList nodes = new LinkedList();
@@ -29,8 +25,6 @@ behavior RadialGrowth{
 			String line;
 			while((line = reader.readLine()) != null){
 		
-				// System.out.println(line);
-
 				Node newNode = new Node(line);
 
 				nodes.add(newNode);
@@ -44,10 +38,6 @@ behavior RadialGrowth{
 			return;
 		}
 
-		// System.out.println(nodes.size());
-
-
-		// ListIterator iter = nodes.listIterator();
 		for(int i=0;i<nodes.size()-1;i++){
 			nodes.get(i+1)<-setLeft(nodes.get(i));
 		}
