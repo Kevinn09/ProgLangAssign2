@@ -1,0 +1,13 @@
+module concurrent;
+
+import java.io.*;
+import java.util.*;
+
+//Kevin De Leon
+//Rasika Ekhalikar
+
+behavior Run{
+	void act(String[] args){
+		RadialGrowth supervisor = new RadialGrowth(args);
+	}
+}

@@ -10,17 +10,24 @@ behavior RadialGrowth{
 
  	LinkedList nodes = new LinkedList();
 
+ 	RadialGrowth(String[] args){
+ 		act(args);
+ 	}
+
 	void act(String[] args){
 
-		if(args.length != 2){
-			standardError<-println("[error] incorrect amount of arguments");
+		if(args.length != 1){
+			standardError<-println("[error] incorrect amount of arguments. Expecting 1, received "+args.length);
 			return;
 		}
 
-		String filename = args[1];
+		String filename = args[0];
 
-		try{ 
-			BufferedReader reader = new BufferedReader(new FileReader(args[1])); 
+		try{
+			BufferedWriter out = new BufferedWriter(new FileWriter("output.txt",false));
+			out.close();
+
+			BufferedReader reader = new BufferedReader(new FileReader(args[0])); 
 			
 			String line;
 			while((line = reader.readLine()) != null){
@@ -34,7 +41,7 @@ behavior RadialGrowth{
 			reader.close();
 
 		}catch(IOException ioe){
-			standardError<-println("[error] Can't open the file "+filename+" for reading.");
+			standardError<-println("[error] Can't open the file "+filename+"\n"+ioe);
 			return;
 		}
 

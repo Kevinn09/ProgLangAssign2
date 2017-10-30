@@ -11,34 +11,41 @@ behavior RadialGrowth{
 
  	LinkedList nodes = new LinkedList();
 
+ 	RadialGrowth(String[] args){
+ 		act(args);
+ 	}
+
 	void act(String[] args){
 
-		if(args.length != 3){
-			standardError<-println("[error] incorrect amount of arguments");
+		if(args.length != 2){
+			standardError<-println("[error] incorrect amount of arguments. Expecting 2, received "+args.length);
 			return;
 		}
 
-		String filename = args[1];
+		String filename = args[0];
 
-		String startingUAN = args[2];
+		String startingUAN = args[1];
 
 		String startID = "";
 		int count = 0;
 
-		try{ 
-			BufferedReader reader = new BufferedReader(new FileReader(args[1])); 
+		try{
+			// reset the file
+			BufferedWriter out = new BufferedWriter(new FileWriter("output.txt",false));
+			out.close();
+
+			BufferedReader reader = new BufferedReader(new FileReader(filename)); 
 
 			String line;
 			while((line = reader.readLine()) != null){
-
-				System.out.println(line);
 
 				String tmp = line;
 				String[] inputs = tmp.split("\t");
 				String host = inputs[1];
 				String port = inputs[2];
 			
-				Node newNode = new Node(line) at (new UAN("uan://"+args[2]+"/"+inputs[0]),new UAL("rmsp://"+host+":"+port));
+				Node newNode = new Node(line) at (new UAN("uan://"+args[1]+"/"+inputs[0]),new UAL("rmsp://"+host+":"+port));
+
 	
 				nodes.add(newNode);
 
@@ -55,7 +62,7 @@ behavior RadialGrowth{
 			standardError<-println("[error] connection error\n"+ce);
 			return;
 		}catch(IOException ioe){
-			standardError<-println("[error] Can't open the file "+filename+" for reading.");
+			standardError<-println("[error] Can't open the file "+filename+"\n"+ioe);
 			return;
 		}catch(Exception e){
 			standardError<-println("[error] distributed RadialGrowth failed\n"+e);
@@ -76,7 +83,7 @@ behavior RadialGrowth{
 			nodes.get(i)<-setSize(nodes.size());
 		}
 
-		startingUAN = args[2]+"/"+startID;
+		startingUAN = args[1]+"/"+startID;
 		beginElection(startingUAN);
 
 	}

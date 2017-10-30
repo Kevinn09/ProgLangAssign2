@@ -385,6 +385,14 @@ public class Node extends UniversalActor  {
 							__messages.add( message );
 						}
 					}
+					{
+						// right<-replyMessage(id, senderId, senderLeaderStatus, pastLeaders, time, localTime)
+						{
+							Object _arguments[] = { id, senderId, senderLeaderStatus, pastLeaders, time, localTime };
+							Message message = new Message( self, right, "replyMessage", _arguments, null, null );
+							__messages.add( message );
+						}
+					}
 				}
 }				else {{
 					{
@@ -392,6 +400,14 @@ public class Node extends UniversalActor  {
 						{
 							Object _arguments[] = { senderId, senderPriority, senderLeaderStatus, tTL, pastLeaders, time, localTime };
 							Message message = new Message( self, left, "receiveMessage", _arguments, null, null );
+							__messages.add( message );
+						}
+					}
+					{
+						// right<-receiveMessage(senderId, senderPriority, senderLeaderStatus, tTL, pastLeaders, time, localTime)
+						{
+							Object _arguments[] = { senderId, senderPriority, senderLeaderStatus, tTL, pastLeaders, time, localTime };
+							Message message = new Message( self, right, "receiveMessage", _arguments, null, null );
 							__messages.add( message );
 						}
 					}
@@ -470,6 +486,14 @@ public class Node extends UniversalActor  {
 							__messages.add( message );
 						}
 					}
+					{
+						// right<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, time, localTime)
+						{
+							Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, time, localTime };
+							Message message = new Message( self, right, "receiveMessage", _arguments, null, null );
+							__messages.add( message );
+						}
+					}
 				}
 }				else {{
 					{
@@ -488,6 +512,14 @@ public class Node extends UniversalActor  {
 					{
 						Object _arguments[] = { newId, senderId, senderLeaderStatus, pastLeaders, time, localTime };
 						Message message = new Message( self, left, "replyMessage", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+				{
+					// right<-replyMessage(newId, senderId, senderLeaderStatus, pastLeaders, time, localTime)
+					{
+						Object _arguments[] = { newId, senderId, senderLeaderStatus, pastLeaders, time, localTime };
+						Message message = new Message( self, right, "replyMessage", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
@@ -522,6 +554,14 @@ public class Node extends UniversalActor  {
 					{
 						Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, timestamp, new Integer(0) };
 						Message message = new Message( self, left, "receiveMessage", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+				{
+					// right<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, timestamp, 0)
+					{
+						Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, timestamp, new Integer(0) };
+						Message message = new Message( self, right, "receiveMessage", _arguments, null, null );
 						__messages.add( message );
 					}
 				}

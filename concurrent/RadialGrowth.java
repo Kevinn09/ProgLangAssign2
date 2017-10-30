@@ -174,6 +174,12 @@ public class RadialGrowth extends UniversalActor  {
 		}
 	}
 
+	public UniversalActor construct (String[] args) {
+		Object[] __arguments = { args };
+		this.send( new Message(this, this, "construct", __arguments, null, null) );
+		return this;
+	}
+
 	public UniversalActor construct() {
 		Object[] __arguments = { };
 		this.send( new Message(this, this, "construct", __arguments, null, null) );
@@ -267,21 +273,33 @@ public class RadialGrowth extends UniversalActor  {
 		}
 
 		LinkedList nodes = new LinkedList();
-		public void act(String[] args) {
-			if (args.length!=2) {{
+		void construct(String[] args){
+						{
+				// act(args)
 				{
-					// standardError<-println("[error] incorrect amount of arguments")
+					Object _arguments[] = { args };
+					Message message = new Message( self, self, "act", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
+		}
+		public void act(String[] args) {
+			if (args.length!=1) {{
+				{
+					// standardError<-println("[error] incorrect amount of arguments. Expecting 1, received "+args.length)
 					{
-						Object _arguments[] = { "[error] incorrect amount of arguments" };
+						Object _arguments[] = { "[error] incorrect amount of arguments. Expecting 1, received "+args.length };
 						Message message = new Message( self, standardError, "println", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
 				return;
 			}
-}			String filename = args[1];
+}			String filename = args[0];
 			try {
-				BufferedReader reader = new BufferedReader(new FileReader(args[1]));
+				BufferedWriter out = new BufferedWriter(new FileWriter("output.txt", false));
+				out.close();
+				BufferedReader reader = new BufferedReader(new FileReader(args[0]));
 				String line;
 				while ((line=reader.readLine())!=null) {
 					Node newNode = ((Node)new Node(this).construct(line));
@@ -291,9 +309,9 @@ public class RadialGrowth extends UniversalActor  {
 			}
 			catch (IOException ioe) {
 				{
-					// standardError<-println("[error] Can't open the file "+filename+" for reading.")
+					// standardError<-println("[error] Can't open the file "+filename+"\n"+ioe)
 					{
-						Object _arguments[] = { "[error] Can't open the file "+filename+" for reading." };
+						Object _arguments[] = { "[error] Can't open the file "+filename+"\n"+ioe };
 						Message message = new Message( self, standardError, "println", _arguments, null, null );
 						__messages.add( message );
 					}

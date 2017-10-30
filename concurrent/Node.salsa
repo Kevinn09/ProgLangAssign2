@@ -2,11 +2,7 @@ module concurrent;
 
 import java.io.*;
 import java.util.*;
-//if they are the same prioirty
-//need to check if they are negative
-//if they give us something out of order
-//do we need to reset the file?
-//if it does not have enought arguments
+
 behavior Node{
 
   int id;         //ID of the node
@@ -103,10 +99,10 @@ behavior Node{
       }
       if(tTL == 0){
         left<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime);
-        // right<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time);
+        right<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime);
       }else{
         left<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime);
-        // right<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time);
+        right<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime);
       }
     }
 
@@ -129,10 +125,8 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
     time++;
     localTime++;
     printStatusMessage("ID=" + Integer.toString(id) + " was deposed at t="+Integer.toString(time-1));
-    // standardOutput<-println("ID=" + id + " was deposed at t="+(time-1))@
     left<-startElection(time,pastLeaders);
   }else{
-    // standardOutput<-println("ID=" + id + " time "+time+" "+localTime+" "+revolts);
     localTime++;
     time++;
     left<-leaderTime(time, revolts,pastLeaders,localTime);
@@ -141,24 +135,22 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
 }
 
 
-
 //need to decide when the original node is the leader
   void replyMessage(int newId, int senderId, boolean senderLeaderStatus, int pastLeaders,int time,int localTime){
     if(id == senderId){
       if(senderLeaderStatus == true){
         ttl *= 2;
         left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime);
-        // right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time);
+        right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime);
       }else{
         left<-startElection(time,pastLeaders); //go on to the next person
       }
     }else{
       left<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time,localTime);
-      // right<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time);
+      right<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time,localTime);
     }
     return;
   }
-
 
 
   void startElection(int timestamp, int pastLeaders){
@@ -170,7 +162,7 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
       left<-startElection(timestamp,pastLeaders); //go on to the next person
     }else{
       left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp,0);
-      // right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp);
+      right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp,0);
     }
     return;
   }
