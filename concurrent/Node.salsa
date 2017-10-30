@@ -78,15 +78,15 @@ behavior Node{
     return;
   }
 
-  void leaderChosen(boolean done,int counter){
+  void leaderChosen(boolean chosen,int counter){
     if(counter < size){
-      if(done == true){
+      if(chosen == true){
         tempCanBeLeader = false;
       }else{
         tempCanBeLeader = true;
       }
       counter++;
-      left<-leaderChosen(done,counter);
+      left<-leaderChosen(chosen,counter);
     }
     return;
   }
@@ -102,7 +102,7 @@ behavior Node{
       left<-leaderChosen(true,0)@
       left<-reset(0)@
       left<-leaderTime(time,0,pastLeaders,0);
-    }else{ // <----------------
+    }else{
       tTL--;
       if(priority > senderPriority && canBeLeader){
         senderLeaderStatus = false;
@@ -133,7 +133,7 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
     time++;
     localTime++;
     left<-leaderTime(time, revolts, pastLeaders,localTime);
-  }else if (revolts >= ((size + 1)/2) && currentLeader==true){
+  }else if (revolts >= ((size + 1)/2) && currentLeader){
     //time to elect a new leader
     currentLeader=false;
     pastLeaders++;
@@ -145,7 +145,7 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
   }else{
     localTime++;
     time++;
-    left<-leaderTime(time, revolts,pastLeaders,localTime);
+    left<-leaderTime(time,revolts,pastLeaders,localTime);
   }
   return;
 }
@@ -154,7 +154,7 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
 //need to decide when the original node is the leader
   void replyMessage(int newId, int senderId, boolean senderLeaderStatus, int pastLeaders,int time,int localTime){
     if(id == senderId){
-      if(senderLeaderStatus){
+      if(senderLeaderStatus && tempCanBeLeader){
         ttl *= 2;
         left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime);
         right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime);

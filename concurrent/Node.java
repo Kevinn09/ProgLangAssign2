@@ -339,9 +339,9 @@ public class Node extends UniversalActor  {
 			}
 }			return;
 		}
-		public void leaderChosen(boolean done, int counter) {
+		public void leaderChosen(boolean chosen, int counter) {
 			if (counter<size) {{
-				if (done==true) {{
+				if (chosen==true) {{
 					tempCanBeLeader = false;
 				}
 }				else {{
@@ -349,9 +349,9 @@ public class Node extends UniversalActor  {
 				}
 }				counter++;
 				{
-					// left<-leaderChosen(done, counter)
+					// left<-leaderChosen(chosen, counter)
 					{
-						Object _arguments[] = { done, counter };
+						Object _arguments[] = { chosen, counter };
 						Message message = new Message( self, left, "leaderChosen", _arguments, null, null );
 						__messages.add( message );
 					}
@@ -459,7 +459,7 @@ public class Node extends UniversalActor  {
 					}
 				}
 			}
-}			else {if (revolts>=((size+1)/2)&&currentLeader==true) {{
+}			else {if (revolts>=((size+1)/2)&&currentLeader) {{
 				currentLeader = false;
 				pastLeaders++;
 				time++;
@@ -504,7 +504,7 @@ public class Node extends UniversalActor  {
 		}
 		public void replyMessage(int newId, int senderId, boolean senderLeaderStatus, int pastLeaders, int time, int localTime) {
 			if (id==senderId) {{
-				if (senderLeaderStatus) {{
+				if (senderLeaderStatus&&tempCanBeLeader) {{
 					ttl *= 2;
 					{
 						// left<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, time, localTime)

@@ -4,19 +4,23 @@ ID=3 revolted at t=32
 ID=2 revolted at t=43
 ID=0 was deposed at t=45
 ID=4 became leader at t=46
-ID=3 became leader at t=46
 ID=0 revolted at t=60
+ID=3 revolted at t=77
 ID=2 revolted at t=88
-ID=1 revolted at t=99
-ID=4 was deposed at t=101
-ID=2 became leader at t=102
-ID=4 revolted at t=100
-ID=1 revolted at t=103
-ID=0 revolted at t=104
-ID=3 was deposed at t=106
-ID=4 revolted at t=105
-ID=1 became leader at t=107
-ID=0 revolted at t=119
-ID=4 revolted at t=125
-ID=3 revolted at t=136
-ID=2 was deposed at t=137
+ID=4 was deposed at t=91
+ID=3 became leader at t=92
+ID=0 revolted at t=105
+ID=4 revolted at t=116
+ID=2 revolted at t=133
+ID=3 was deposed at t=137
+ID=2 became leader at t=138
+ID=0 revolted at t=150
+ID=4 revolted at t=161
+ID=3 revolted at t=172
+ID=2 was deposed at t=173
+ID=1 became leader at t=174
+ID=0 revolted at t=185
+ID=4 revolted at t=196
+ID=3 revolted at t=207
+ID=1 was deposed at t=209
+End of simulation
