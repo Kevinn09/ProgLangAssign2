@@ -476,7 +476,5 @@ public class Node extends UniversalActor  implements ActorService {
 			}
 }			return;
 		}
-		public void receiveLeaderMessage(int senderId, int timestamp, int numberRevolted, int totalPeople, int overallTimeStamp) {
-		}
 	}
 }

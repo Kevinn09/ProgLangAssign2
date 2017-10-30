@@ -65,7 +65,7 @@ behavior Node implements ActorService{
   void printStatusMessage(String mess){
     //open file
     try{
-     PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("output.txt", true)));
+      PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("output.txt", true)));
       out.println(mess);
       out.close();
     }
@@ -98,23 +98,18 @@ behavior Node implements ActorService{
       currentLeader = true;
       canBeLeader = false;
       printStatusMessage("ID=" + Integer.toString(senderId) + " became leader at t="+Integer.toString(time));
-      // standardOutput<-println("ID=" + senderId + " became leader at t="+time);
       time++;
       left<-reset(0)@
       left<-leaderTime(time,0,pastLeaders,0);
     }else{      
       tTL--;
-      // standardOutput<-println(tTL);
       if(priority >= senderPriority && canBeLeader == true){
-        // standardOutput<-println("here2");
         senderLeaderStatus = false;
       }
       if(tTL == 0){
-        // standardOutput<-println("reply meesage");
         left<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime);
         // right<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time);
       }else{
-        // standardOutput<-println("recieve meesage");
         left<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime);
         // right<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time);
       }
@@ -129,22 +124,18 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
     hasRevolted= true;
     revolts++;
     printStatusMessage("ID=" + Integer.toString(id) + " revolted at t="+Integer.toString(time));
-    // standardOutput<-println("ID=" + id + " revolted at t="+time);
     time++;
     localTime++;
     left<-leaderTime(time, revolts, pastLeaders,localTime);
   }else if (revolts >= ((size +1)/2) && currentLeader==true){
     //time to elect a new leader
-    // standardOutput<-println("ID=" + id + " time "+time+" "+localTime+" "+revolts+" "+size);
     currentLeader=false;
     pastLeaders++;
     time++;
     localTime++;
     printStatusMessage("ID=" + Integer.toString(id) + " was deposed at t="+Integer.toString(time-1));
-    // standardOutput<-println("ID=" + id + " was deposed at t="+(time-1))@
     left<-startElection(time,pastLeaders);
   }else{
-    // standardOutput<-println("ID=" + id + " time "+time+" "+localTime+" "+revolts);
     localTime++;
     time++;
     left<-leaderTime(time, revolts,pastLeaders,localTime);
@@ -157,14 +148,12 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
 //need to decide when the original node is the leader
   void replyMessage(int newId, int senderId, boolean senderLeaderStatus, int pastLeaders,int time,int localTime){
     if(id == senderId){
-      // standardOutput<-println("we are in reply");
 
       if(senderLeaderStatus == true){
         ttl *= 2;
         left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime);
         // right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time);
       }else{
-        // standardOutput<-println("we are starting over");
         left<-startElection(time,pastLeaders); //go on to the next person
       }
     }else{
@@ -179,25 +168,17 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
   void startElection(int timestamp, int pastLeaders){
     if (pastLeaders == size){
       printStatusMessage("End of simulation");
-      // standardOutput <- println("End of simulation");
       return;
     }
     if(hasBeenLeader){//checks if they have been a leader
       left<-startElection(timestamp,pastLeaders); //go on to the next person
     }else{
-      // System.out.println(timestamp + " recieved");
       left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp,0);
       // right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp);
     }
     return;
   }
 
-
-  // Update all nodes with timestamps
-  void receiveLeaderMessage(int senderId, int timestamp, int numberRevolted, int totalPeople, int overallTimeStamp){
-
-
-  }
 
 
 

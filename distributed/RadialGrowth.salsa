@@ -16,22 +16,27 @@ behavior RadialGrowth{
 
 	void act(String[] args){
 
-		if(args.length != 3){
-			standardError<-println("[error] incorrect amount of arguments");
+		if(args.length != 2){
+			standardError<-println("[error] incorrect amount of arguments " + args.length);
 			return;
 		}
 
-		String filename = args[1];
-		String startingUAN_ = args[2];
+		String filename = args[0];
+		String startingUAN_ = args[1];
 		String startID="";
 		int count =0;
+		try{
+			BufferedWriter out = new BufferedWriter(new FileWriter("output.txt",false));
+			out.close();
+		}
+		catch(IOException ioe){
+		    standardError<-println("[error] Can't open the file for writing.");
+		}
 		try{ 
-			BufferedReader reader = new BufferedReader(new FileReader(args[1])); 
+			BufferedReader reader = new BufferedReader(new FileReader(filename)); 
 
 			String line;
 			while((line = reader.readLine()) != null){
-
-				System.out.println(line);
 
 				String tmp = line;
 				String[] inputs = tmp.split("\t");
@@ -40,7 +45,7 @@ behavior RadialGrowth{
 
 				// Node newNode = new Node(line);
 				// Node newNode = new Node(line) at (new UAN("uan://127.0.0.1:3030/1"));				
-				Node newNode = new Node(line) at (new UAN("uan://"+args[2]+"/"+inputs[0]),new UAL("rmsp://"+host+":"+port));
+				Node newNode = new Node(line) at (new UAN("uan://"+args[1]+"/"+inputs[0]),new UAL("rmsp://"+host+":"+port));
 	
 				nodes.add(newNode);
 				if (count ==0){
@@ -76,8 +81,8 @@ behavior RadialGrowth{
 		for(int i=0;i<nodes.size();i++){
 			nodes.get(i)<-setSize(nodes.size());
 		}
-		startingUAN_ = args[2]+"/"+startID;
-		beginElection(startingUAN_);
+		startingUAN_ = args[1]+"/"+startID;
+		//beginElection(startingUAN_);
 
 	}
 

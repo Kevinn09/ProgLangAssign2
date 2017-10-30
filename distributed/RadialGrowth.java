@@ -268,31 +268,45 @@ public class RadialGrowth extends UniversalActor  {
 
 		LinkedList nodes = new LinkedList();
 		public void act(String[] args) {
-			if (args.length!=3) {{
+			if (args.length!=2) {{
 				{
-					// standardError<-println("[error] incorrect amount of arguments")
+					// standardError<-println("[error] incorrect amount of arguments "+args.length)
 					{
-						Object _arguments[] = { "[error] incorrect amount of arguments" };
+						Object _arguments[] = { "[error] incorrect amount of arguments "+args.length };
 						Message message = new Message( self, standardError, "println", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
 				return;
 			}
-}			String filename = args[1];
-			String startingUAN_ = args[2];
+}			String filename = args[0];
+			String startingUAN_ = args[1];
 			String startID = "";
 			int count = 0;
 			try {
-				BufferedReader reader = new BufferedReader(new FileReader(args[1]));
+				BufferedWriter out = new BufferedWriter(new FileWriter("output.txt", false));
+				out.close();
+			}
+			catch (IOException ioe) {
+				{
+					// standardError<-println("[error] Can't open the file for writing.")
+					{
+						Object _arguments[] = { "[error] Can't open the file for writing." };
+						Message message = new Message( self, standardError, "println", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+			}
+
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(filename));
 				String line;
 				while ((line=reader.readLine())!=null) {
-					System.out.println(line);
 					String tmp = line;
 					String[] inputs = tmp.split("\t");
 					String host = inputs[1];
 					String port = inputs[2];
-					Node newNode = ((Node)new Node(new UAN("uan://"+args[2]+"/"+inputs[0]), new UAL("rmsp://"+host+":"+port),this).construct(line));
+					Node newNode = ((Node)new Node(new UAN("uan://"+args[1]+"/"+inputs[0]), new UAL("rmsp://"+host+":"+port),this).construct(line));
 					nodes.add(newNode);
 					if (count==0) {{
 						startID = inputs[0];
@@ -370,15 +384,7 @@ public class RadialGrowth extends UniversalActor  {
 					}
 				}
 			}
-			startingUAN_ = args[2]+"/"+startID;
-			{
-				// beginElection(startingUAN_)
-				{
-					Object _arguments[] = { startingUAN_ };
-					Message message = new Message( self, self, "beginElection", _arguments, null, null );
-					__messages.add( message );
-				}
-			}
+			startingUAN_ = args[1]+"/"+startID;
 		}
 		public void beginElection(String startingUAN_) {
 			Node n = (Node)Node.getReferenceByName(new UAN("uan://"+startingUAN_));

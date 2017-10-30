@@ -22,7 +22,13 @@ behavior RadialGrowth{
 		}
 
 		String filename = args[1];
-
+		try{
+			BufferedWriter out = new BufferedWriter(new FileWriter("output.txt",false));
+			out.close();
+		}
+		catch(IOException ioe){
+		    standardError<-println("[error] Can't open the file for writing.");
+		}
 		try{ 
 			BufferedReader reader = new BufferedReader(new FileReader(args[1])); 
 			
