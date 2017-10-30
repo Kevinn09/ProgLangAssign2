@@ -397,10 +397,15 @@ public class Node extends UniversalActor  {
 			}
 }			else {{
 				tTL--;
-				if (priority>=senderPriority&&canBeLeader==true) {{
+				if (priority>senderPriority&&canBeLeader==true) {{
 					senderLeaderStatus = false;
 				}
-}				if (tTL==0) {{
+}				else {if (priority==senderPriority&&canBeLeader) {{
+					if (id>senderId) {{
+						senderLeaderStatus = false;
+					}
+}				}
+}}				if (tTL==0) {{
 					{
 						// left<-replyMessage(id, senderId, senderLeaderStatus, pastLeaders, time, localTime)
 						{

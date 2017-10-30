@@ -5,6 +5,7 @@ import java.io.*;
 //need to check if they are negative
 //if they give us something out of order
 //do we need to reset the file?
+//if it does not have enought arguments
 behavior Node {
 
   int id;         //ID of the node
@@ -108,9 +109,14 @@ behavior Node {
     }else{      
       tTL--;
       // standardOutput<-println(tTL);
-      if(priority >= senderPriority && canBeLeader == true){
+      if(priority > senderPriority && canBeLeader == true){
         // standardOutput<-println("here2");
         senderLeaderStatus = false;
+      }
+      else if (priority == senderPriority && canBeLeader){//check based on ID
+        if(id > senderId){
+          senderLeaderStatus = false;
+        }
       }
       if(tTL == 0){
         // standardOutput<-println("reply meesage");
