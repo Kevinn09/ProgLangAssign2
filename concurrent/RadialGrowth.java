@@ -268,7 +268,18 @@ public class RadialGrowth extends UniversalActor  {
 
 		LinkedList nodes = new LinkedList();
 		public void act(String[] args) {
-			String filename = args[1];
+			if (args.length!=2) {{
+				{
+					// standardError<-println("[error] incorrect amount of arguments")
+					{
+						Object _arguments[] = { "[error] incorrect amount of arguments" };
+						Message message = new Message( self, standardError, "println", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+				return;
+			}
+}			String filename = args[1];
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(args[1]));
 				String line;

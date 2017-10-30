@@ -16,6 +16,11 @@ behavior RadialGrowth{
 
 	void act(String[] args){
 
+		if(args.length != 2){
+			standardError<-println("[error] incorrect amount of arguments");
+			return;
+		}
+
 		String filename = args[1];
 		// String uan= args[2];
 		// String[] parts = uan.split(":");
