@@ -16,20 +16,21 @@ behavior RadialGrowth{
 
 	void act(String[] args){
 
-		if(args.length != 2){
+		if(args.length != 3){
 			standardError<-println("[error] incorrect amount of arguments");
 			return;
 		}
 
 		String filename = args[1];
-		// String uan= args[2];
-		// String[] parts = uan.split(":");
-		// System.out.println("check");
+		String startingUAN_ = args[2];
+		String startID="";
+		int count =0;
 		try{ 
 			BufferedReader reader = new BufferedReader(new FileReader(args[1])); 
 
 			String line;
 			while((line = reader.readLine()) != null){
+
 				System.out.println(line);
 
 				String tmp = line;
@@ -39,11 +40,14 @@ behavior RadialGrowth{
 
 				// Node newNode = new Node(line);
 				// Node newNode = new Node(line) at (new UAN("uan://127.0.0.1:3030/1"));				
-				Node newNode = new Node(line) at (new UAN("uan://127.0.0.1:3030/"+inputs[0]),new UAL("rmsp://127.0.0.1:"+port));
-				
+				Node newNode = new Node(line) at (new UAN("uan://"+args[2]+"/"+inputs[0]),new UAL("rmsp://"+host+":"+port));
+	
 				nodes.add(newNode);
-
-			}
+				if (count ==0){
+					startID=inputs[0];//sets the ID
+				}
+				count++;
+			}	
 
 			reader.close();
 
@@ -72,13 +76,13 @@ behavior RadialGrowth{
 		for(int i=0;i<nodes.size();i++){
 			nodes.get(i)<-setSize(nodes.size());
 		}
-
-		beginElection();
+		startingUAN_ = args[2]+"/"+startID;
+		beginElection(startingUAN_);
 
 	}
 
-	void beginElection(){
-		Node n = (Node)Node.getReferenceByName(new UAN("uan://127.0.0.1:3030/0"));
+	void beginElection(String startingUAN_){
+		Node n = (Node)Node.getReferenceByName(new UAN("uan://"+startingUAN_));
 		//n<-println("hello?");
 		n<-startElection(0,0);
 	}

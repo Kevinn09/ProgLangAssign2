@@ -1,10 +1,7 @@
 module distributed;
 
 import java.io.*;
-//if they are the same prioirty
-//need to check if they are negative
-//if they give us something out of order
-//do we need to reset the file?
+
 behavior Node implements ActorService{
 
   int id;         //ID of the node

@@ -268,7 +268,7 @@ public class RadialGrowth extends UniversalActor  {
 
 		LinkedList nodes = new LinkedList();
 		public void act(String[] args) {
-			if (args.length!=2) {{
+			if (args.length!=3) {{
 				{
 					// standardError<-println("[error] incorrect amount of arguments")
 					{
@@ -280,6 +280,9 @@ public class RadialGrowth extends UniversalActor  {
 				return;
 			}
 }			String filename = args[1];
+			String startingUAN_ = args[2];
+			String startID = "";
+			int count = 0;
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(args[1]));
 				String line;
@@ -289,8 +292,12 @@ public class RadialGrowth extends UniversalActor  {
 					String[] inputs = tmp.split("\t");
 					String host = inputs[1];
 					String port = inputs[2];
-					Node newNode = ((Node)new Node(new UAN("uan://127.0.0.1:3030/"+inputs[0]), new UAL("rmsp://127.0.0.1:"+port),this).construct(line));
+					Node newNode = ((Node)new Node(new UAN("uan://"+args[2]+"/"+inputs[0]), new UAL("rmsp://"+host+":"+port),this).construct(line));
 					nodes.add(newNode);
+					if (count==0) {{
+						startID = inputs[0];
+					}
+}					count++;
 				}
 				reader.close();
 			}
@@ -363,17 +370,18 @@ public class RadialGrowth extends UniversalActor  {
 					}
 				}
 			}
+			startingUAN_ = args[2]+"/"+startID;
 			{
-				// beginElection()
+				// beginElection(startingUAN_)
 				{
-					Object _arguments[] = {  };
+					Object _arguments[] = { startingUAN_ };
 					Message message = new Message( self, self, "beginElection", _arguments, null, null );
 					__messages.add( message );
 				}
 			}
 		}
-		public void beginElection() {
-			Node n = (Node)Node.getReferenceByName(new UAN("uan://127.0.0.1:3030/0"));
+		public void beginElection(String startingUAN_) {
+			Node n = (Node)Node.getReferenceByName(new UAN("uan://"+startingUAN_));
 			{
 				// n<-startElection(0, 0)
 				{
