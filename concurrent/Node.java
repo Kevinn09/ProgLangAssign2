@@ -504,7 +504,7 @@ public class Node extends UniversalActor  {
 		}
 		public void replyMessage(int newId, int senderId, boolean senderLeaderStatus, int pastLeaders, int time, int localTime) {
 			if (id==senderId) {{
-				if (senderLeaderStatus&&tempCanBeLeader) {{
+				if (senderLeaderStatus) {{
 					ttl *= 2;
 					{
 						// left<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, time, localTime)
@@ -574,6 +574,14 @@ public class Node extends UniversalActor  {
 					{
 						Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, timestamp, new Integer(0) };
 						Message message = new Message( self, left, "receiveMessage", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+				{
+					// right<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, timestamp, 0)
+					{
+						Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, timestamp, new Integer(0) };
+						Message message = new Message( self, right, "receiveMessage", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
