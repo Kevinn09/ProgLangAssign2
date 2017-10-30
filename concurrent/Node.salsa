@@ -15,6 +15,7 @@ behavior Node{
   String host;
 
   boolean canBeLeader;
+  boolean tempCanBeLeader;
   boolean hasBeenLeader;
   boolean currentLeader;
   boolean hasRevolted;
@@ -35,6 +36,7 @@ behavior Node{
     host = inputs[1];
     
     canBeLeader = true;
+    tempCanBeLeader = true;
     hasBeenLeader = false;
     currentLeader = false;
     hasRevolted = false;
@@ -76,32 +78,43 @@ behavior Node{
     return;
   }
 
+  void leaderChosen(boolean done,int counter){
+    if(counter < size){
+      if(done == true){
+        tempCanBeLeader = false;
+      }else{
+        tempCanBeLeader = true;
+      }
+    }
+  }
+
   //Whenever a node v sees a message with w>v, it decides not to be a leader
   //  and becomes passive
   void receiveMessage(int senderId, int senderPriority, boolean senderLeaderStatus, int tTL, int pastLeaders,int time,int localTime){
     
-    if( senderId == id && canBeLeader==true ){ //if the current ID == the person we want to send to becomes leader
+    if( senderId == id && canBeLeader && tempCanBeLeader){ //if the current ID == the person we want to send to becomes leader
       currentLeader = true;
       canBeLeader = false;
       printStatusMessage("ID=" + Integer.toString(senderId) + " became leader at t="+Integer.toString(time));
       time++;
+      left<-leaderChosen(true,0)@
       left<-reset(0)@
       left<-leaderTime(time,0,pastLeaders,0);
-    }else{      
+    }else{ // <----------------
       tTL--;
-      if(priority > senderPriority && canBeLeader == true){
+      if(priority > senderPriority && canBeLeader){
         senderLeaderStatus = false;
-      }
-      else if (priority == senderPriority && canBeLeader){//check based on ID
+      }else if(priority == senderPriority && canBeLeader){//check based on ID
         if(id > senderId){
           senderLeaderStatus = false;
         }
       }
+
       if(tTL == 0){
         left<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime);
-        right<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime);
-      }else{
-        left<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime);
+        // right<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime);
+      }else if(tempCanBeLeader){
+        left<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime)@
         right<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime);
       }
     }
@@ -125,6 +138,7 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
     time++;
     localTime++;
     printStatusMessage("ID=" + Integer.toString(id) + " was deposed at t="+Integer.toString(time-1));
+    left<-leaderChosen(false,0)@
     left<-startElection(time,pastLeaders);
   }else{
     localTime++;
@@ -138,35 +152,34 @@ void leaderTime(int time, int revolts,int pastLeaders, int localTime){
 //need to decide when the original node is the leader
   void replyMessage(int newId, int senderId, boolean senderLeaderStatus, int pastLeaders,int time,int localTime){
     if(id == senderId){
-      if(senderLeaderStatus == true){
+      if(senderLeaderStatus){
         ttl *= 2;
-        left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime);
+        left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime)@
         right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime);
       }else{
         left<-startElection(time,pastLeaders); //go on to the next person
       }
     }else{
       left<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time,localTime);
-      right<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time,localTime);
+      // right<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time,localTime);
     }
     return;
   }
 
 
   void startElection(int timestamp, int pastLeaders){
-    if (pastLeaders == size){
+    if(pastLeaders == size){
       printStatusMessage("End of simulation");
       return;
     }
     if(hasBeenLeader){//checks if they have been a leader
       left<-startElection(timestamp,pastLeaders); //go on to the next person
-    }else{
-      left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp,0);
+    }else if(tempCanBeLeader){
+      left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp,0)@
       right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp,0);
     }
     return;
   }
-
 
 
 }

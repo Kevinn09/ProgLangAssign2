@@ -1,1 +1,6 @@
 ID=0 became leader at t=0
+ID=4 revolted at t=21
+ID=3 revolted at t=32
+ID=2 revolted at t=43
+ID=0 was deposed at t=45
+ID=4 became leader at t=46
