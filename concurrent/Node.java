@@ -360,17 +360,10 @@ public class Node extends UniversalActor  {
 }			return;
 		}
 		public void receiveMessage(int senderId, int senderPriority, boolean senderLeaderStatus, int tTL, int pastLeaders, int time, int localTime) {
-			{
-				// printStatusMessage("check: "+senderId+" "+senderPriority+" "+senderLeaderStatus+"|"+id+" "+priority+"\t"+tTL+" "+canBeLeader)
-				{
-					Object _arguments[] = { "check: "+senderId+" "+senderPriority+" "+senderLeaderStatus+"|"+id+" "+priority+"\t"+tTL+" "+canBeLeader };
-					Message message = new Message( self, self, "printStatusMessage", _arguments, null, null );
-					__messages.add( message );
-				}
-			}
-			if (senderId==id&&canBeLeader&&senderLeaderStatus) {{
+			if (senderId==id&&canBeLeader) {{
 				currentLeader = true;
 				canBeLeader = false;
+				hasBeenLeader = true;
 				{
 					// printStatusMessage("ID="+Integer.toString(senderId)+" became leader at t="+Integer.toString(time))
 					{
@@ -423,7 +416,7 @@ public class Node extends UniversalActor  {
 						}
 					}
 				}
-}				else {if (tempCanBeLeader&&senderLeaderStatus) {{
+}				else {if (tempCanBeLeader) {{
 					{
 						// left<-receiveMessage(senderId, senderPriority, senderLeaderStatus, tTL, pastLeaders, time, localTime)
 						{
@@ -432,8 +425,6 @@ public class Node extends UniversalActor  {
 							__messages.add( message );
 						}
 					}
-				}
-}				else {{
 				}
 }}			}
 }			return;
@@ -508,14 +499,6 @@ public class Node extends UniversalActor  {
 			if (id==senderId) {{
 				if (senderLeaderStatus&&tempCanBeLeader) {{
 					ttl *= 2;
-					{
-						// printStatusMessage("check5: "+senderId+" "+senderLeaderStatus+"|"+id+" "+priority+"\t"+ttl)
-						{
-							Object _arguments[] = { "check5: "+senderId+" "+senderLeaderStatus+"|"+id+" "+priority+"\t"+ttl };
-							Message message = new Message( self, self, "printStatusMessage", _arguments, null, null );
-							__messages.add( message );
-						}
-					}
 					{
 						// left<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, time, localTime)
 						{
