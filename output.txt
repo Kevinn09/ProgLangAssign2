@@ -24,3 +24,1205 @@ ID=4 revolted at t=196
 ID=3 revolted at t=207
 ID=1 was deposed at t=209
 End of simulation
+check: 1 4 false|0 20	1 false
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check2: 1 4 false|0 20	0
+check: 4 14 false|0 20	1 false
+check: 4 14 true|3 15	1 false
+check2: 4 14 false|0 20	0
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check2: 4 14 false|3 15	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 4 14 false|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check: 4 14 false|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 4 14 false|0 20	1 false
+check: 1 4 true|0 20	1 false
+check2: 4 14 false|0 20	0
+check2: 1 4 false|0 20	0
+check: 4 14 true|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 0 20 false|4 14	1
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 0 20 false|1 4	1
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check: 1 4 false|2 18	1
+check2: 1 4 false|2 18	0
+check2: 0 20 false|1 4	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check: 4 14 false|0 20	1 false
+check2: 4 14 false|0 20	0
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 4 14 false|0 20	1 false
+check: 1 4 true|2 18	1 false
+check2: 4 14 false|0 20	0
+check2: 1 4 false|2 18	0
+check: 4 14 false|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 4 14 false|0 20	1 false
+check: 0 20 false|4 14	1 false
+check2: 4 14 false|0 20	0
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check: 1 4 true|2 18	1 false
+check2: 0 20 false|4 14	0
+check: 1 4 false|2 18	1 false
+check: 0 20 false|4 14	1 false
+check2: 1 4 false|2 18	0
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check: 2 18 false|3 15	1
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 1 4 true|0 20	1 false
+check: 0 20 false|4 14	1 false
+check2: 1 4 false|0 20	0
+check2: 0 20 false|4 14	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 3 15 false|2 18	1 false
+check2: 3 15 false|2 18	0
+check: 0 20 false|1 4	1 false
+check2: 0 20 false|1 4	0
+check: 0 20 false|1 4	1 false
+check2: 0 20 false|1 4	0
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 3 15 false|2 18	1 false
+check2: 3 15 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check: 4 14 false|0 20	1 false
+check2: 1 4 false|2 18	0
+check2: 4 14 false|0 20	0
+check: 4 14 false|3 15	1 false
+check: 4 14 false|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 0 20 false|1 4	1 false
+check2: 0 20 false|1 4	0
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 2 18 false|3 15	1 false
+check: 4 14 false|0 20	1 false
+check2: 2 18 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 1 4 true|0 20	1 false
+check: 4 14 false|3 15	1 false
+check2: 1 4 false|0 20	0
+check2: 4 14 false|3 15	0
+check: 1 4 true|0 20	1 false
+check: 2 18 false|3 15	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 2 18 false|3 15	0
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 2 18 false|3 15	1 false
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 2 18 false|3 15	0
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check: 2 18 false|3 15	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 2 18 false|3 15	0
+check2: 1 4 false|0 20	0
+check: 2 18 false|3 15	1 false
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check2: 2 18 false|3 15	0
+check: 4 14 true|0 20	1 false
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|0 20	0
+check2: 4 14 false|3 15	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 2 18 false|3 15	1 false
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check2: 2 18 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check2: 4 14 false|0 20	0
+check: 4 14 false|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 4 14 false|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 1 4 false|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 1 4 false|0 20	1 false
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 1 4 false|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 0 20 false|1 4	1 true
+check2: 0 20 false|1 4	0
+check: 0 20 false|1 4	1 true
+check2: 0 20 false|1 4	0
+check: 0 20 false|1 4	1 true
+check2: 0 20 false|1 4	0
+check: 0 20 false|1 4	1 true
+check2: 0 20 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 0 20 false|1 4	1 true
+check2: 0 20 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check2: 2 18 false|3 15	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|3 15	1 false
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|3 15	0
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 2 18 false|3 15	1 false
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|3 15	0
+check2: 2 18 false|1 4	0
+check: 1 4 false|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 1 4 false|2 18	1 false
+check2: 1 4 false|2 18	0
+check2: 1 4 false|0 20	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 0 20 false|1 4	1 true
+check2: 0 20 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 2 18 false|1 4	0
+check: 0 20 false|1 4	1 false
+check: 0 20 false|1 4	1 true
+check2: 0 20 false|1 4	0
+check: 2 18 false|1 4	1 true
+check2: 0 20 false|1 4	0
+check2: 2 18 false|1 4	0
+check: 0 20 false|1 4	1 false
+check2: 0 20 false|1 4	0
+check: 0 20 false|1 4	1 false
+check2: 0 20 false|1 4	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 0 20 false|1 4	1 false
+check2: 0 20 false|1 4	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 2 18 false|1 4	1 false
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 3 15 false|4 14	1 false
+check2: 2 18 false|1 4	0
+check2: 3 15 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 2 18 false|1 4	1 false
+check2: 2 18 false|1 4	0
+check: 0 20 false|1 4	1 false
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check2: 0 20 false|1 4	0
+check: 2 18 false|1 4	1 false
+check2: 2 18 false|1 4	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check: 0 20 false|1 4	1 false
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|1 4	0
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 2 18 false|1 4	1 false
+check: 3 15 false|4 14	1 false
+check2: 2 18 false|1 4	0
+check2: 3 15 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 2 18 false|1 4	1 false
+check2: 2 18 false|1 4	0
+check: 0 20 false|1 4	1 false
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|1 4	0
+check2: 0 20 false|4 14	0
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 1 4 false|2 18	1 false
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check2: 1 4 false|2 18	0
+check: 1 4 false|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 2 18 false|1 4	1 false
+check2: 2 18 false|1 4	0
+check: 1 4 false|0 20	1 false
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check2: 1 4 false|0 20	0
+check: 4 14 true|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 false|2 18	1 false
+check: 0 20 false|1 4	1 false
+check2: 0 20 false|1 4	0
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 0 20 false|4 14	1 false
+check: 2 18 false|3 15	1 false
+check: 1 4 true|2 18	1 false
+check2: 2 18 false|3 15	0
+check2: 1 4 false|2 18	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|3 15	1 false
+check: 1 4 true|2 18	1 false
+check2: 2 18 false|3 15	0
+check2: 1 4 false|2 18	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check2: 0 20 false|4 14	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|3 15	1 false
+check: 1 4 true|2 18	1 false
+check2: 2 18 false|3 15	0
+check2: 1 4 false|2 18	0
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check2: 1 4 false|2 18	0
+check: 1 4 false|0 20	1 false
+check: 0 20 false|4 14	1 false
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check2: 1 4 false|0 20	0
+check: 1 4 false|0 20	1 false
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check2: 1 4 false|0 20	0
+check: 1 4 false|0 20	1 false
+check: 2 18 false|3 15	1 false
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check: 1 4 false|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check2: 0 20 false|4 14	0
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check2: 1 4 false|0 20	0
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 3 15 false|4 14	1 false
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check2: 2 18 false|3 15	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 false|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check: 1 4 false|2 18	1 false
+check2: 1 4 false|2 18	0
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check2: 3 15 false|4 14	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check: 2 18 false|3 15	1 false
+check: 2 18 false|1 4	1 false
+check: 4 14 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check2: 2 18 false|1 4	0
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check2: 4 14 false|3 15	0
+check: 2 18 false|3 15	1 false
+check: 4 14 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|1 4	1 false
+check2: 4 14 false|3 15	0
+check2: 2 18 false|1 4	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|3 15	1 false
+check: 4 14 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check2: 4 14 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|3 15	1 false
+check: 1 4 false|2 18	1 false
+check2: 2 18 false|3 15	0
+check2: 1 4 false|2 18	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 4 14 true|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 2 18 false|1 4	1 false
+check: 4 14 true|3 15	1 false
+check2: 4 14 false|3 15	0
+check2: 2 18 false|1 4	0
+check: 4 14 true|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 4 14 false|3 15	1 false
+check: 3 15 false|4 14	1 false
+check2: 4 14 false|3 15	0
+check2: 3 15 false|4 14	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check: 3 15 false|4 14	1 false
+check2: 4 14 false|3 15	0
+check2: 3 15 false|4 14	0
+check: 3 15 false|2 18	1 false
+check2: 3 15 false|2 18	0
+check: 3 15 false|2 18	1 false
+check2: 3 15 false|2 18	0
+check: 2 18 false|3 15	1 false
+check: 1 4 false|0 20	1 false
+check2: 2 18 false|3 15	0
+check2: 1 4 false|0 20	0
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check: 3 15 false|4 14	1 true
+check2: 3 15 false|4 14	0
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 3 15 false|2 18	1 false
+check2: 3 15 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 3 15 false|2 18	1 false
+check2: 3 15 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 3 15 false|2 18	1 false
+check2: 3 15 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 true|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 3 15 false|2 18	1 false
+check2: 3 15 false|2 18	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 1 4 false|0 20	1 false
+check: 4 14 false|3 15	1 false
+check2: 1 4 false|0 20	0
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 1 4 true|2 18	1 false
+check: 3 15 false|4 14	1 false
+check2: 1 4 false|2 18	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check2: 3 15 false|4 14	0
+check: 2 18 false|3 15	1 false
+check: 1 4 true|2 18	1 false
+check2: 2 18 false|3 15	0
+check2: 1 4 false|2 18	0
+check: 2 18 false|3 15	1 false
+check: 3 15 false|2 18	1 false
+check2: 3 15 false|2 18	0
+check: 3 15 false|2 18	1 false
+check2: 3 15 false|2 18	0
+check2: 2 18 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 4 14 true|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 4 14 true|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 false|0 20	1 false
+check: 4 14 true|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 1 4 true|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 3 15 false|2 18	1 false
+check2: 3 15 false|2 18	0
+check: 3 15 false|2 18	1 false
+check2: 3 15 false|2 18	0
+check2: 1 4 false|0 20	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 2 18 false|1 4	1 false
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 false
+check2: 2 18 false|1 4	0
+check: 2 18 false|1 4	1 false
+check2: 2 18 false|1 4	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 1 4 false|0 20	1 false
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check2: 1 4 false|0 20	0
+check: 4 14 false|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 1 4 false|0 20	1 false
+check2: 1 4 false|0 20	0
+check: 4 14 false|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|0 20	1 false
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|0 20	0
+check2: 4 14 false|3 15	0
+check: 4 14 false|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 4 14 false|0 20	1 false
+check2: 4 14 false|0 20	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 2 18 false|3 15	1 false
+check2: 2 18 false|3 15	0
+check: 3 15 false|2 18	1 false
+check: 0 20 false|1 4	1 false
+check2: 0 20 false|1 4	0
+check2: 3 15 false|2 18	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 1 4 false|2 18	1 false
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 0 20 false|1 4	1 false
+check2: 0 20 false|1 4	0
+check: 2 18 false|1 4	1 false
+check2: 2 18 false|1 4	0
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check2: 1 4 false|2 18	0
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 2 18 false|1 4	1 false
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check2: 2 18 false|1 4	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 3 15 false|2 18	1 false
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check2: 3 15 false|2 18	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 1 4 false|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 3 15 false|2 18	1 false
+check2: 3 15 false|2 18	0
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 4 14 false|3 15	1 false
+check2: 4 14 false|3 15	0
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 0 20 false|4 14	1 false
+check2: 0 20 false|4 14	0
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 3 15 false|4 14	1 false
+check2: 3 15 false|4 14	0
+check: 3 15 false|2 18	1 false
+check2: 3 15 false|2 18	0
+check: 1 4 false|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 false|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 1 4 false|2 18	1 false
+check2: 1 4 false|2 18	0
+check: 0 20 false|4 14	1 false
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 3 15 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 0 20 false|1 4	1
+check: 0 20 false|1 4	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 0 20 false|1 4	1
+check: 1 4 false|2 18	1
+check: 3 15 false|2 18	1
+check: 3 15 false|2 18	1
+check: 3 15 false|2 18	1
+check: 3 15 false|2 18	1
+check: 3 15 false|2 18	1
+check: 0 20 false|4 14	1
+check: 2 18 false|3 15	1
+check: 2 18 false|3 15	1
+check: 4 14 false|3 15	1
+check: 4 14 false|3 15	1
+check: 0 20 false|4 14	1
+check: 1 4 false|0 20	1
+check: 2 18 false|3 15	1
+check: 0 20 false|4 14	1
+check: 1 4 false|0 20	1
+check: 0 20 false|4 14	1
+check: 1 4 false|0 20	1
+check: 0 20 false|4 14	1
+check: 1 4 false|0 20	1
+check: 3 15 false|4 14	1
+check: 3 15 false|4 14	1
+check: 3 15 false|4 14	1
+check: 3 15 false|4 14	1
+check: 3 15 false|4 14	1
+check: 3 15 false|4 14	1
+check: 2 18 false|3 15	1
+check: 3 15 false|4 14	1
+check: 3 15 false|4 14	1
+check: 3 15 false|4 14	1
+check: 3 15 false|4 14	1
+check: 1 4 false|0 20	1
+check: 3 15 false|4 14	1
+check: 1 4 false|0 20	1
+check: 4 14 false|3 15	1
+check: 2 18 false|3 15	1
+check: 2 18 false|3 15	1
+check: 2 18 false|3 15	1
+check: 2 18 false|3 15	1
+check: 2 18 false|3 15	1
+check: 2 18 false|3 15	1
+check: 2 18 false|3 15	1
+check: 2 18 false|3 15	1
+check: 1 4 false|0 20	1
+check: 2 18 false|3 15	1
+check: 4 14 false|3 15	1
+check: 3 15 false|4 14	1
+check: 4 14 false|3 15	1
+check: 3 15 false|4 14	1
+check: 4 14 false|3 15	1
+check: 3 15 false|4 14	1
+check: 3 15 false|4 14	1
+check: 4 14 false|3 15	1
+check: 3 15 false|4 14	1
+check: 4 14 false|3 15	1
+check: 3 15 false|4 14	1
+check: 4 14 false|3 15	1
+check: 3 15 false|4 14	1
+check: 3 15 false|4 14	1
+check: 3 15 false|4 14	1
+check: 3 15 false|4 14	1
+check: 1 4 false|0 20	1
+check: 3 15 false|4 14	1
+check: 4 14 false|3 15	1
+check: 3 15 false|4 14	1
+check: 1 4 false|0 20	1
+check: 4 14 false|3 15	1
+check: 0 20 false|4 14	1
+check: 4 14 false|3 15	1
+check: 2 18 false|3 15	1
+check: 4 14 false|3 15	1
+check: 1 4 false|0 20	1
+check: 2 18 false|3 15	1
+check: 4 14 false|3 15	1
+check: 1 4 false|0 20	1
+check: 2 18 false|3 15	1
+check: 0 20 false|4 14	1
+check: 2 18 false|3 15	1
+check: 1 4 false|0 20	1
+check: 4 14 false|3 15	1
+check: 4 14 false|3 15	1
+check: 4 14 false|3 15	1
+check: 1 4 false|0 20	1
+check: 4 14 false|3 15	1
+check: 0 20 false|4 14	1
+check: 4 14 false|3 15	1
+check: 0 20 false|4 14	1
+check: 0 20 false|4 14	1
+check: 0 20 false|4 14	1
+check: 0 20 false|4 14	1
+check: 0 20 false|4 14	1
+check: 0 20 false|4 14	1
+check: 0 20 false|4 14	1
+check: 0 20 false|4 14	1
+check: 0 20 false|4 14	1
+check: 1 4 false|0 20	1
+check: 0 20 false|4 14	1
+check: 3 15 false|2 18	1
+check: 0 20 false|4 14	1
+check: 3 15 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|0 20	1
+check: 0 20 false|4 14	1
+check: 3 15 false|2 18	1
+check: 1 4 false|2 18	1
+check: 3 15 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 3 15 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1
+check: 1 4 false|2 18	1

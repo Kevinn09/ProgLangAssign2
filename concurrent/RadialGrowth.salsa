@@ -1,4 +1,4 @@
-module concurrent;
+module concurrent; 
 
 import java.io.*;
 import java.util.*;
@@ -8,60 +8,61 @@ import java.util.*;
 
 behavior RadialGrowth{
 
- 	LinkedList nodes = new LinkedList();
+ 	LinkedList nodes = new LinkedList(); //creates a linked list of nodes
 
- 	RadialGrowth(String[] args){
+ 	RadialGrowth(String[] args){ 		//constructor-kicks off the program
  		act(args);
  	}
 
 	void act(String[] args){
 
-		if(args.length != 1){
+		if(args.length != 1){			//ensures we have the correct number of arguments
 			standardError<-println("[error] incorrect amount of arguments. Expecting 1, received "+args.length);
 			return;
 		}
 
-		String filename = args[0];
+		String filename = args[0];		//stores the filename
 
 		try{
-			BufferedWriter out = new BufferedWriter(new FileWriter("output.txt",false));
-			out.close();
-
+			//opens the output file to clear it and closes it
+			BufferedWriter out = new BufferedWriter(new FileWriter("output.txt",false));	
+			out.close();																	
+			//opens the input file and reads line by line
 			BufferedReader reader = new BufferedReader(new FileReader(args[0])); 
 			
 			String line;
-			while((line = reader.readLine()) != null){
+			while((line = reader.readLine()) != null){ 	//reads line by line
 		
-				Node newNode = new Node(line);
+				Node newNode = new Node(line);			//creates a new node
 
-				nodes.add(newNode);
+				nodes.add(newNode);						//adds the node to the linked list
 
 			}
 
-			reader.close();
+			reader.close();								//closes the input file
 
-		}catch(IOException ioe){
+		}catch(IOException ioe){//catches an exception when opening the file
 			standardError<-println("[error] Can't open the file "+filename+"\n"+ioe);
 			return;
 		}
 
-		for(int i=0;i<nodes.size()-1;i++){
+		for(int i=0;i<nodes.size()-1;i++){ 				//sets the left and right nodes
 			nodes.get(i+1)<-setLeft(nodes.get(i));
 			nodes.get(i)<-setRight(nodes.get(i+1));
 		}
-		nodes.getFirst()<-setLeft(nodes.getLast());
-		nodes.getLast()<-setRight(nodes.getFirst());
+		nodes.getFirst()<-setLeft(nodes.getLast());		//sets the firsts node's left equal to the last node
+		nodes.getLast()<-setRight(nodes.getFirst());	//sets the last node right equal to the first node
 		
-		for(int i=0;i<nodes.size();i++){
+		for(int i=0;i<nodes.size();i++){				//sets the size of the list
 			nodes.get(i)<-setSize(nodes.size());
 		}
 
-		beginElection();
+		beginElection();								//starts the first election
 
 	}
 
 	void beginElection(){
-		(nodes.getFirst())<-startElection(0,0);
+		(nodes.getFirst())<-startElection(0,0);			//starts the election
 	}
 
 }

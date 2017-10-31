@@ -25,27 +25,31 @@ To pass timestamp messages, we only pass to the left as specificed in the hw fil
 
 
 
-How to run(without using aliases)
+How to run
 ------------------------------------------------------------------
-Concurrent
-java -cp salsa1.1.5.jar:. salsac.SalsaCompiler concurrent/*.salsa
+Concurrent (.cshrc)
+# SALSA 1.x aliases
+alias salsac="java -cp salsa1.1.5.jar:. salsac.SalsaCompiler concurrent/*.salsa; javac -cp salsa1.1.5.jar:. concurrent/*.java"
 
-javac -cp salsa1.1.5.jar:. concurrent/*.java
-
-java -cp salsa1.1.5.jar:. concurrent.Run config.tsv
-
--------------------------------------------------------------------
-
-Djstributed
-**need to start the 
-java -cp salsa1.1.5.jar:. salsac.SalsaCompiler distributed/*.salsa
-
-javac -cp salsa1.1.5.jar:. distributed/*.java
-
-java -cp salsa1.1.5.jar:. distributed.Run config.tsv 127.0.0.1:3030
+alias salsa="java -cp salsa1.1.5.jar:. concurrent.Run config.tsv"
 
 -------------------------------------------------------------------
-Seting up the Server
+Djstributed (.cshrc_d)
+# SALSA 1.x aliases
+alias salsac="java -cp salsa1.1.5.jar:. salsac.SalsaCompiler distributed/*.salsa; javac -cp salsa1.1.5.jar:. distributed/*.java"
+
+alias salsa="java -cp salsa1.1.5.jar:. distributed.Run config.tsv 127.0.0.1:3030"
+
 alias wwcns="java -cp salsa1.1.5.jar:. wwc.naming.WWCNamingServer"
 
 alias wwctheater="java -cp salsa1.1.5.jar:. wwc.messaging.Theater"
+
+-------------------------------------------------------------------
+To Run:
+Save the code above in either .cshrc or .cshrc_d
+For concurrent run: source .cshrc
+For distributed run: source .cshrc_d
+
+For both:
+	salsac
+	salsa

@@ -9,87 +9,85 @@ import java.net.*;
 
 behavior RadialGrowth{
 
- 	LinkedList nodes = new LinkedList();
+ 	LinkedList nodes = new LinkedList(); //creates a linked list of nodes
 
- 	RadialGrowth(String[] args){
+ 	RadialGrowth(String[] args){		//constructor-kicks of the program
  		act(args);
  	}
 
-	void act(String[] args){
+	void act(String[] args){			
 
-		if(args.length != 2){
+		if(args.length != 2){			//makes sure there are enough arguments- input file and nameserver
 			standardError<-println("[error] incorrect amount of arguments. Expecting 2, received "+args.length);
 			return;
 		}
 
-		String filename = args[0];
+		String filename = args[0];		//store the filename
 
-		String startingUAN = args[1];
+		String startingUAN = args[1];	//stores the name server
 
-		String startID = "";
-		int count = 0;
+		String startID = "";			//the starting ID of the node, for the nameserver kick off
+		int count = 0;					//counts the number of nodes
 
 		try{
-			// reset the file
+			//opens and closes the output file- to reset it
 			BufferedWriter out = new BufferedWriter(new FileWriter("output.txt",false));
 			out.close();
-
+			//opens the input file and reads it linen by line
 			BufferedReader reader = new BufferedReader(new FileReader(filename)); 
 
 			String line;
-			while((line = reader.readLine()) != null){
-
+			while((line = reader.readLine()) != null){ //reading lines
+				//parses the line and sets the host and port values
 				String tmp = line;
 				String[] inputs = tmp.split("\t");
 				String host = inputs[1];
 				String port = inputs[2];
-			
+				//creates a new node, with UAN and UAL
+				//for the nameserver-input[0] if the unique ID per node
 				Node newNode = new Node(line) at (new UAN("uan://"+args[1]+"/"+inputs[0]),new UAL("rmsp://"+host+":"+port));
 
-	
+				//adds the node to the list
 				nodes.add(newNode);
-
+				//finds the starting ID
 				if (count ==0){
 					startID=inputs[0];//sets the ID
 					count++;
 				}
 
 			}	
-
+			//closes the input file
 			reader.close();
 
-		}catch(ConnectException ce){
+		}catch(ConnectException ce){ //catches a connection error
 			standardError<-println("[error] connection error\n"+ce);
 			return;
-		}catch(IOException ioe){
+		}catch(IOException ioe){	//catches an error with openng the file
 			standardError<-println("[error] Can't open the file "+filename+"\n"+ioe);
 			return;
-		}catch(Exception e){
+		}catch(Exception e){		//if there was an error with distributed radial growth
 			standardError<-println("[error] distributed RadialGrowth failed\n"+e);
 			return;
 		}
 
-		for(int i=0;i<nodes.size()-1;i++){
+		for(int i=0;i<nodes.size()-1;i++){ 				//sets the left and right nodes
 			nodes.get(i+1)<-setLeft(nodes.get(i));
+			nodes.get(i)<-setRight(nodes.get(i+1));
 		}
-		nodes.getFirst()<-setLeft(nodes.get(nodes.size()-1));
-
-		for(int i=1;i<nodes.size();i++){
-			nodes.get(i)<-setRight(nodes.get(i-1));
-		}
-		nodes.getFirst()<-setRight(nodes.get(nodes.size()-1));
+		nodes.getFirst()<-setLeft(nodes.getLast());		//sets the firsts node's left equal to the last node
+		nodes.getLast()<-setRight(nodes.getFirst());	//sets the last node right equal to the first node
 		
-		for(int i=0;i<nodes.size();i++){
+		for(int i=0;i<nodes.size();i++){				//sets the size of the list
 			nodes.get(i)<-setSize(nodes.size());
 		}
 
-		startingUAN = args[1]+"/"+startID;
-		beginElection(startingUAN);
+		startingUAN = args[1]+"/"+startID;				//finds the starting UAN
+		beginElection(startingUAN);						//begins the election at a specific node
 
 	}
 
-	void beginElection(String startingUAN){
-		Node n = (Node)Node.getReferenceByName(new UAN("uan://"+startingUAN));
+	void beginElection(String startingUAN){//begins the election
+		Node n = (Node)Node.getReferenceByName(new UAN("uan://"+startingUAN));	
 		n<-startElection(0,0);
 	}
 
