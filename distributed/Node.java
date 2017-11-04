@@ -262,7 +262,7 @@ public class Node extends UniversalActor  implements ActorService {
 }			return;
 		}
 		public void receiveMessage(int senderId, int senderPriority, boolean senderLeaderStatus, int tTL, int pastLeaders, int time, int localTime) {
-			if (senderId==id&&canBeLeader==true) {{
+			if (senderId==id&&canBeLeader) {{
 				currentLeader = true;
 				canBeLeader = false;
 				{
@@ -292,10 +292,15 @@ public class Node extends UniversalActor  implements ActorService {
 			}
 }			else {{
 				tTL--;
-				if (priority>=senderPriority&&canBeLeader==true) {{
+				if (priority>=senderPriority&&canBeLeader) {{
 					senderLeaderStatus = false;
 				}
-}				if (tTL==0) {{
+}				else {if (priority==senderPriority&&canBeLeader) {{
+					if (id>senderId) {{
+						senderLeaderStatus = false;
+					}
+}				}
+}}				if (tTL==0) {{
 					{
 						// left<-replyMessage(id, senderId, senderLeaderStatus, pastLeaders, time, localTime)
 						{

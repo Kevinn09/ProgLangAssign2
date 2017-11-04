@@ -5,36 +5,36 @@ import java.util.*;
 
 behavior Node{
 
-  int id;                   //ID of the node
-  int priority;             //priority of the node
-  int tolerance;            //how long they can stand someone else being a leader
-  int ttl;                  //
-  int size;                 //number of all of the nodes
+  int id;                   // node ID
+  int priority;             // node priority
+  int tolerance;            // how long they can tolerate someone else being a leader
+  int ttl;                  // time to live (or hop limit) of the node's message
+  int size;                 // how many nodes there are
+  int time1;                // time of last deposition
+  int numPastLeaders;       //number of past leaders
 
-  String port;              //port of the node
-  String host;              //host of the nodes
+  boolean canBeLeader;      // if the node can be a leader
+  boolean tempCanBeLeader;  // if there already is a leader
+  boolean hasBeenLeader;    // if the node has been a leader
+  boolean currentLeader;    // if the node is currently a leader
+  boolean hasRevolted;      // if the node has revolted
 
-  boolean canBeLeader;      //if the node can be a leader
-  boolean tempCanBeLeader;  //if there already is a leader
-  boolean hasBeenLeader;    //if the node has been a leader
-  boolean currentLeader;    //if the node is currently a leader
-  boolean hasRevolted;      //if the node has revolted
+  Node left;                // node to the left of the current node
+  Node right;               // node to the right of the current node
 
-  Node left;                //node to the left of the current node
-  Node right;               //node to the right of the current node
-
-  Node(String fileLine){                    //constructor
+  // node constructor that takes in a file and parses the information
+  // from the line to fill in its variables
+  Node(String fileLine){
     String[] inputs = fileLine.split("\t"); //parses the line
-    //inilizes all of the variables  
+
+    // initilization of all the variables  
     id = Integer.parseInt(inputs[0]);       
     priority = Integer.parseInt(inputs[3]);
     tolerance = Integer.parseInt(inputs[4]);
     ttl = 1;
     size = 0;
-
-    port = inputs[2];
-    host = inputs[1];
-    
+    time1 = 0;
+    numPastLeaders = 0;
     canBeLeader = true;
     tempCanBeLeader = true;
     hasBeenLeader = false;
@@ -42,60 +42,82 @@ behavior Node{
     hasRevolted = false;
   }
 
-  //Input: Node to the left of the current node
-  //Output:None
-  //Sets left node to the current node
+  void update(int newTime, int counter, int newLeaders){
+    if(counter < size){
+      time1 = newTime;
+      numPastLeaders = newLeaders;
+      counter++; // keeps track of how many nodes we have reset
+      left<-update(newTime,counter,newLeaders);
+    }
+    return;
+  }
+
+  int getTime(){
+    return time1;
+  }
+
+  int getNumLeaders(){
+    return numPastLeaders;
+  }
+
+  // input: Node to the left of the current node
+  // Sets left node to the current node
   void setLeft(Node toLeft){
     left = toLeft;
     return;
   }
-  //Input: Node to the right of the current node
-  //Output:None
-  //Sets right node to the current node
+
+  // input: Node to the right of the current node
+  // Sets right node to the current node
   void setRight(Node toRight){
     right=toRight;
     return;
   }
-  //Input: size
-  //Output:None
-  //Sets the size
+
+  // input: size
+  // sets the size
   void setSize(int s){
-    size =s;
+    size = s;
     return;
   }
-  //Input: message to be printed
-  //Output:mesage to the file
-  //Opens the file and prints a status message to output.txt
+
+  // input: message to be printed
+  // opens the file and prints a status message to output.txt
   void printStatusMessage(String mess){
-    //open file
     try{
-     PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("output.txt", true)));
-      out.println(mess);//adds the message
-      out.close();//closes the file
-    }
-    catch(IOException ioe){//error handing
+      PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("output.txt", true)));
+      out.println(mess);  // adds the message
+      out.close();        // closes the file
+
+    // error handling
+    }catch(IOException ioe){
       standardError<-println("[error] Can't open the file for writing.");
     }
   }
 
-  //resets the hasRevolted once we are trying to find a new leader
+
+  // input: place holder that will keep track of how many nodes we have reset
+  // resets hasRevolted and ttl of all nodes when we need to find a new leader
   void reset(int counter){
     if (counter < size){
       hasRevolted = false;
       ttl = 1;
-      counter++;
+      counter++; // keeps track of how many nodes we have reset
       left<-reset(counter);
     }
     return;
   }
 
-  //once we have chosen a leader or trying to find a leader,
-  //reset the tempCanBeLeader variable
+  // input: whether a leader was chosen or not
+  // states whether we can or cannot elect a new leader 
+  // by editing tempCanBeLeader accordingly
   void leaderChosen(boolean chosen,int counter){
     if(counter < size){
-      if(chosen == true){
+      if(chosen == true){ // leader was chosen
+        // no one can be a leader anymore, someone already is
         tempCanBeLeader = false;
       }else{
+        // anyone can be a leader, no one is anymore
         tempCanBeLeader = true;
       }
       counter++;
@@ -104,96 +126,162 @@ behavior Node{
     return;
   }
 
-  //When a node v sees a message with w>v, it decides not to be a leader and becomes passive
-  void receiveMessage(int senderId, int senderPriority, boolean senderLeaderStatus, int tTL, int pastLeaders,int time,int localTime){
-    if( senderId == id && canBeLeader){ //if the current ID == the person we want to send to becomes leader
-      currentLeader = true;             //current node is the new leader
+  // input: orginal sender's id, orginal sender's leader status, ttl, 
+  //        # of past leaders, general time of the process as a whole, time between leaders
+  // main function of passing message between nodes
+  int receiveMessage(int senderId, int senderPriority, boolean senderLeaderStatus, int tTL, int pastLeaders,int time,int localTime, boolean direction){
+    
+    // if the sender's ID == the current node's id && if current node can be a leader
+    if( senderId == id && canBeLeader){
+      // current node recieved its message it sent out so it can become leader
+      currentLeader = true;
       canBeLeader = false;
       hasBeenLeader = true;
+      
       printStatusMessage("ID=" + Integer.toString(senderId) + " became leader at t="+Integer.toString(time));
+      
       time++;
       left<-leaderChosen(true,0)@ //makes sure nobody else can become a leader
       left<-reset(0)@             //resets all of the revolts
       left<-leaderTime(time,0,pastLeaders,0);   //pass timestamp messages
-    }
-    else{ //if we do no have a new leader
+
+      return id;
+
+    // if it is a node that is not the message sender
+    }else{
       tTL--; 
 
-      if(priority > senderPriority && canBeLeader){ //
+      // if current node's priority is higher than that if the sender's
+      // and the current node can be a leader (i.e. has not been a leader before)
+      // then will say sender should not be leader
+      if(priority >= senderPriority && canBeLeader){
         senderLeaderStatus = false;
-      }else if(priority == senderPriority && canBeLeader){//check based on ID
+
+      // if nodes' priority match then compare against unique IDs
+      }else if(priority == senderPriority && canBeLeader){
         if(id > senderId){
           senderLeaderStatus = false;
         }
       }
 
+      // if tTL is 0, let the original sender know if it can be a leader
       if(tTL == 0){
-        left<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime);
+        if(direction){
+          left<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime,direction);
+        }else{
+          right<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime,direction);
+        }
+      // pass the message on
       }else if(tempCanBeLeader){
-        // right<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime);
-        left<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime);
+        if(direction){
+          right<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime,direction);          
+        }else{
+          left<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime,direction);
+        }
       }
     }
-
-    return;
+    return -1;
   }
 
-//supoosed to send the current time to all the nodes, only passes to the left
-void leaderTime(int time, int revolts,int pastLeaders, int localTime){
-  if (localTime >= tolerance && currentLeader == false && hasRevolted==false){ //leader has been in power too long
-    hasRevolted= true;  //sets the revolt flag
-    revolts++;          //increases the number of revolts
-    printStatusMessage("ID=" + Integer.toString(id) + " revolted at t="+Integer.toString(time));
-    time++;
-    localTime++;
-    left<-leaderTime(time, revolts, pastLeaders,localTime);
-  }else if (revolts >= ((size + 1)/2) && currentLeader){
-    //time to elect a new leader
-    currentLeader=false;
-    pastLeaders++;
-    time++;
-    localTime++;
-    printStatusMessage("ID=" + Integer.toString(id) + " was deposed at t="+Integer.toString(time-1));
-    left<-leaderChosen(false,0)@
-    left<-startElection(time,pastLeaders);
-  }else{
-    localTime++;
-    time++;
-    left<-leaderTime(time,revolts,pastLeaders,localTime);
+  // input: time, how many revolts, how many past leaders, time between leaders
+  // passes the message to the left, letting nodes know how long leader has been a leader
+  int leaderTime(int time, int revolts,int pastLeaders, int localTime){
+
+    // checks node's tolerance to time leader has been a leader
+    if(localTime >= tolerance && currentLeader == false && hasRevolted==false){
+      hasRevolted= true;  //sets the revolt flag
+      revolts++;          //increases the number of revolts
+
+      printStatusMessage("ID=" + Integer.toString(id) + " revolted at t="+Integer.toString(time));
+      
+      time++;
+      localTime++;
+      left<-leaderTime(time, revolts, pastLeaders,localTime);
+
+    // if enough nodes have revolted, then it is time for a new leader
+    }else if (revolts >= ((size + 1)/2) && currentLeader){
+      currentLeader=false;
+      pastLeaders++;
+      localTime++;
+
+      printStatusMessage("ID=" + Integer.toString(id) + " was deposed at t="+Integer.toString(time));
+      
+      time++;
+      left<-update(time,0,pastLeaders)@
+      left<-leaderChosen(false,0);
+
+      return -1;
+      // left<-startElection(time,pastLeaders);
+
+    // otherwise, keep going
+    }else{
+      localTime++;
+      time++;
+      left<-leaderTime(time,revolts,pastLeaders,localTime);
+    }
+    return -1;
   }
-  return;
-}
 
-
-//need to decide when the original node is the leader
-  void replyMessage(int newId, int senderId, boolean senderLeaderStatus, int pastLeaders,int time,int localTime){
+  // input: id of most recent node, id of original sender, whether original sender can be leader,
+  //        # of past leaders, general time of the process as a whole, time between leaders
+  // messege sent back to original messenger to tell it if it can be a leader or not
+  int replyMessage(int newId, int senderId, boolean senderLeaderStatus, int pastLeaders,int time,int localTime, boolean direction){
+    // original sender recieved the reply
     if(id == senderId){
+      // if can be leader and no other node disagrees,
+      // itpasses another message again, but with a longer ttl 
       if(senderLeaderStatus && tempCanBeLeader){
         ttl *= 2;
-        // right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime);
-        left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime);
+        if(direction){
+          right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime,direction);
+        }else{
+          left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime,direction);
+        }
+      
+      // if it cannot be a leader then move on to the next node
       }else{
-        left<-startElection(time,pastLeaders); //go on to the next person
+        return -1;
+        // left<-startElection(time,pastLeaders);
       }
+
+    // if it is not the original sender, keep sending till it is
     }else{
-      left<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time,localTime);
+      if(direction){
+        left<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time,localTime,direction);
+      }else{
+        right<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time,localTime,direction);
+      }
     }
-    return;
+    return -1;
   }
 
-  //This is to kick off finding a new leader
-  void startElection(int timestamp, int pastLeaders){
-    if(pastLeaders == size){
-      printStatusMessage("End of simulation");
-      return;
+  // this is to kick off finding a new leader
+  int startElection(int timestamp, int pastLeaders){
+
+    // if(pastLeaders == size){
+    //   // return -1;
+    //   printStatusMessage("End of simulation");
+
+    //   return id;
+    // }
+
+    //--------------------------------------------------------
+    // take out later
+    //checks if node has been a leader
+    // if(hasBeenLeader){
+    //   // if so, go to another node
+    //   return -1;
+      // left<-startElection(timestamp,pastLeaders);
+    //----------------------------------------------------------
+
+    if(tempCanBeLeader){
+      // join{
+        right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp,0,true);
+        left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp,0,false);
+      // } @ standardOutput<-println(token);
     }
-    if(hasBeenLeader){//checks if they have been a leader
-      left<-startElection(timestamp,pastLeaders); //go on to the next person
-    }else if(tempCanBeLeader){
-      // right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp,0);
-      left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,timestamp,0);
-    }
-    return;
+    
+    return id;
   }
 
 }

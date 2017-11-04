@@ -299,11 +299,11 @@ public class RadialGrowth extends UniversalActor  {
 }			String filename = args[0];
 			String startingUAN = args[1];
 			String startID = "";
-			int count = 0;
 			try {
 				BufferedWriter out = new BufferedWriter(new FileWriter("output.txt", false));
 				out.close();
 				BufferedReader reader = new BufferedReader(new FileReader(filename));
+				int count = 0;
 				String line;
 				while ((line=reader.readLine())!=null) {
 					String tmp = line;
@@ -362,30 +362,28 @@ public class RadialGrowth extends UniversalActor  {
 						__messages.add( message );
 					}
 				}
-			}
-			{
-				// nodes.getFirst()<-setLeft(nodes.get(nodes.size()-1))
 				{
-					Object _arguments[] = { nodes.get(nodes.size()-1) };
-					Message message = new Message( self, nodes.getFirst(), "setLeft", _arguments, null, null );
-					__messages.add( message );
-				}
-			}
-			for (int i = 1; i<nodes.size(); i++){
-				{
-					// nodes.get(i)<-setRight(nodes.get(i-1))
+					// nodes.get(i)<-setRight(nodes.get(i+1))
 					{
-						Object _arguments[] = { nodes.get(i-1) };
+						Object _arguments[] = { nodes.get(i+1) };
 						Message message = new Message( self, nodes.get(i), "setRight", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
 			}
 			{
-				// nodes.getFirst()<-setRight(nodes.get(nodes.size()-1))
+				// nodes.getFirst()<-setLeft(nodes.getLast())
 				{
-					Object _arguments[] = { nodes.get(nodes.size()-1) };
-					Message message = new Message( self, nodes.getFirst(), "setRight", _arguments, null, null );
+					Object _arguments[] = { nodes.getLast() };
+					Message message = new Message( self, nodes.getFirst(), "setLeft", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
+			{
+				// nodes.getLast()<-setRight(nodes.getFirst())
+				{
+					Object _arguments[] = { nodes.getFirst() };
+					Message message = new Message( self, nodes.getLast(), "setRight", _arguments, null, null );
 					__messages.add( message );
 				}
 			}

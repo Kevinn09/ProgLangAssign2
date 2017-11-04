@@ -6,6 +6,7 @@ import java.util.*;
 //Kevin De Leon
 //Rasika Ekhalikar
 
+// Starts the concurrent process
 behavior Run{
 	void act(String[] args){
 		RadialGrowth supervisor = new RadialGrowth(args);

@@ -1,69 +1,129 @@
-module concurrent;
+module concurrent; 
 
 import java.io.*;
 import java.util.*;
+import java.lang.*;
 
-//Kevin De Leon
-//Rasika Ekhalikar
+// Kevin De Leon
+// Rasika Ekhalikar
 
 behavior RadialGrowth{
 
- 	LinkedList nodes = new LinkedList();
+	// creates a linked list of nodes
+ 	Node[] nodes = new Node[8];
+ 	int counter = 0;
+ 	int totalTime =0;
 
+ 	// constructor-kicks off the program
  	RadialGrowth(String[] args){
  		act(args);
  	}
 
 	void act(String[] args){
 
+		// ensures we have the correct number of arguments
 		if(args.length != 1){
-			standardError<-println("[error] incorrect amount of arguments. Expecting 1, received "+args.length);
+			standardError<-println("[error] incorrect amount of arguments. Expecting 1, received " + args.length);
 			return;
 		}
 
-		String filename = args[0];
+		String filename = args[0];	// stores the filename
 
 		try{
-			BufferedWriter out = new BufferedWriter(new FileWriter("output.txt",false));
-			out.close();
-
+			// opens the output file to clear it and closes it
+			BufferedWriter out = new BufferedWriter(new FileWriter("output.txt",false));	
+			out.close();																	
+			// opens the input file and reads line by line
 			BufferedReader reader = new BufferedReader(new FileReader(args[0])); 
 			
+			// reads line by line
 			String line;
-			while((line = reader.readLine()) != null){
-		
+			
+			while((line = reader.readLine()) != null){ 	
+				// creates a new node
 				Node newNode = new Node(line);
 
-				nodes.add(newNode);
-
+				// adds the node to the linked list
+				nodes[counter] = newNode;
+				counter++;
 			}
 
+			// closes the input file
 			reader.close();
 
+		// catches an exception when opening the file
 		}catch(IOException ioe){
 			standardError<-println("[error] Can't open the file "+filename+"\n"+ioe);
 			return;
 		}
 
-		for(int i=0;i<nodes.size()-1;i++){
-			nodes.get(i+1)<-setLeft(nodes.get(i));
-			nodes.get(i)<-setRight(nodes.get(i+1));
+		// sets a nodes left and right nodes
+		for(int i=0;i<counter-1;i++){
+			nodes[i+1]<-setLeft(nodes[i]);
+			nodes[i]<-setRight(nodes[i+1]);
 		}
-		nodes.getFirst()<-setLeft(nodes.getLast());
-		nodes.getLast()<-setRight(nodes.getFirst());
+
+		// sets the first node's left equal to the last node
+		nodes[0]<-setLeft(nodes[counter-1]);
+
+		// sets the last node right equal to the first node
+		nodes[counter-1]<-setRight(nodes[0]);
 		
-		for(int i=0;i<nodes.size();i++){
-			nodes.get(i)<-setSize(nodes.size());
+		// tells nodes the size of the list
+		for(int i=0;i<counter;i++){
+			nodes[i]<-setSize(counter);
 		}
 
-		beginElection();
-
+		// starts the first election
+		beginElection(0,0);
+	
 	}
 
-	void beginElection(){
-		(nodes.getFirst())<-startElection(0,0);
+	int ha(Object results){
+		if( (((Integer)results).intValue()) == counter){
+			standardOutput<-println("done");
+			return 1;
+		}
+		else{
+			return -1;
+		}
+		// return ((Integer) results.intValue());
+	}
+
+	void beginElection(int time, int pastLeaders){
+		Node temp = nodes[0];
+
+		token t2 = temp<-getNumLeaders();
+		// standardOutput<-println(t2);
+		// if (pastLeaders == counter){
+		// 	return;
+		// }
+		// int mytemp = t2;
+
+		// if(t2 == counter){
+		// 	standardOutput<-println("done");
+		// 	return;
+		// }
+
+		// starts the election
+		
+		join{
+			for(int a=0; a < counter;a++){
+				(nodes[a])<-startElection(time,pastLeaders);
+			}
+		} @ standardOutput<-println(token)@
+ 			
+		token t1 = temp<-getTime()@
+		standardOutput<-println(t1);
+
+		
+		// standardOutput<-println(t2);
+		// pastLeaders++;
+		join{
+			beginElection(t1, ++pastLeaders);
+		}@ standardOutput<-println(token);
+
+		//return;
 	}
 
 }
-
-

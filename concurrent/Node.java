@@ -269,8 +269,8 @@ public class Node extends UniversalActor  {
 		int tolerance;
 		int ttl;
 		int size;
-		String port;
-		String host;
+		int time1;
+		int numPastLeaders;
 		boolean canBeLeader;
 		boolean tempCanBeLeader;
 		boolean hasBeenLeader;
@@ -285,13 +285,35 @@ public class Node extends UniversalActor  {
 			tolerance = Integer.parseInt(inputs[4]);
 			ttl = 1;
 			size = 0;
-			port = inputs[2];
-			host = inputs[1];
+			time1 = 0;
+			numPastLeaders = 0;
 			canBeLeader = true;
 			tempCanBeLeader = true;
 			hasBeenLeader = false;
 			currentLeader = false;
 			hasRevolted = false;
+		}
+		public void update(int newTime, int counter, int newLeaders) {
+			if (counter<size) {{
+				time1 = newTime;
+				numPastLeaders = newLeaders;
+				counter++;
+				{
+					// left<-update(newTime, counter, newLeaders)
+					{
+						Object _arguments[] = { newTime, counter, newLeaders };
+						Message message = new Message( self, left, "update", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+			}
+}			return;
+		}
+		public int getTime() {
+			return time1;
+		}
+		public int getNumLeaders() {
+			return numPastLeaders;
 		}
 		public void setLeft(Node toLeft) {
 			left = toLeft;
@@ -359,7 +381,7 @@ public class Node extends UniversalActor  {
 			}
 }			return;
 		}
-		public void receiveMessage(int senderId, int senderPriority, boolean senderLeaderStatus, int tTL, int pastLeaders, int time, int localTime) {
+		public int receiveMessage(int senderId, int senderPriority, boolean senderLeaderStatus, int tTL, int pastLeaders, int time, int localTime, boolean direction) {
 			if (senderId==id&&canBeLeader) {{
 				currentLeader = true;
 				canBeLeader = false;
@@ -395,10 +417,11 @@ public class Node extends UniversalActor  {
 						__messages.add( message );
 					}
 				}
+				return id;
 			}
 }			else {{
 				tTL--;
-				if (priority>senderPriority&&canBeLeader) {{
+				if (priority>=senderPriority&&canBeLeader) {{
 					senderLeaderStatus = false;
 				}
 }				else {if (priority==senderPriority&&canBeLeader) {{
@@ -407,29 +430,53 @@ public class Node extends UniversalActor  {
 					}
 }				}
 }}				if (tTL==0) {{
-					{
-						// left<-replyMessage(id, senderId, senderLeaderStatus, pastLeaders, time, localTime)
+					if (direction) {{
 						{
-							Object _arguments[] = { id, senderId, senderLeaderStatus, pastLeaders, time, localTime };
-							Message message = new Message( self, left, "replyMessage", _arguments, null, null );
-							__messages.add( message );
+							// left<-replyMessage(id, senderId, senderLeaderStatus, pastLeaders, time, localTime, direction)
+							{
+								Object _arguments[] = { id, senderId, senderLeaderStatus, pastLeaders, time, localTime, direction };
+								Message message = new Message( self, left, "replyMessage", _arguments, null, null );
+								__messages.add( message );
+							}
 						}
 					}
-				}
+}					else {{
+						{
+							// right<-replyMessage(id, senderId, senderLeaderStatus, pastLeaders, time, localTime, direction)
+							{
+								Object _arguments[] = { id, senderId, senderLeaderStatus, pastLeaders, time, localTime, direction };
+								Message message = new Message( self, right, "replyMessage", _arguments, null, null );
+								__messages.add( message );
+							}
+						}
+					}
+}				}
 }				else {if (tempCanBeLeader) {{
-					{
-						// left<-receiveMessage(senderId, senderPriority, senderLeaderStatus, tTL, pastLeaders, time, localTime)
+					if (direction) {{
 						{
-							Object _arguments[] = { senderId, senderPriority, senderLeaderStatus, tTL, pastLeaders, time, localTime };
-							Message message = new Message( self, left, "receiveMessage", _arguments, null, null );
-							__messages.add( message );
+							// right<-receiveMessage(senderId, senderPriority, senderLeaderStatus, tTL, pastLeaders, time, localTime, direction)
+							{
+								Object _arguments[] = { senderId, senderPriority, senderLeaderStatus, tTL, pastLeaders, time, localTime, direction };
+								Message message = new Message( self, right, "receiveMessage", _arguments, null, null );
+								__messages.add( message );
+							}
 						}
 					}
-				}
+}					else {{
+						{
+							// left<-receiveMessage(senderId, senderPriority, senderLeaderStatus, tTL, pastLeaders, time, localTime, direction)
+							{
+								Object _arguments[] = { senderId, senderPriority, senderLeaderStatus, tTL, pastLeaders, time, localTime, direction };
+								Message message = new Message( self, left, "receiveMessage", _arguments, null, null );
+								__messages.add( message );
+							}
+						}
+					}
+}				}
 }}			}
-}			return;
+}			return -1;
 		}
-		public void leaderTime(int time, int revolts, int pastLeaders, int localTime) {
+		public int leaderTime(int time, int revolts, int pastLeaders, int localTime) {
 			if (localTime>=tolerance&&currentLeader==false&&hasRevolted==false) {{
 				hasRevolted = true;
 				revolts++;
@@ -455,31 +502,32 @@ public class Node extends UniversalActor  {
 }			else {if (revolts>=((size+1)/2)&&currentLeader) {{
 				currentLeader = false;
 				pastLeaders++;
-				time++;
 				localTime++;
 				{
-					// printStatusMessage("ID="+Integer.toString(id)+" was deposed at t="+Integer.toString(time-1))
+					// printStatusMessage("ID="+Integer.toString(id)+" was deposed at t="+Integer.toString(time))
 					{
-						Object _arguments[] = { "ID="+Integer.toString(id)+" was deposed at t="+Integer.toString(time-1) };
+						Object _arguments[] = { "ID="+Integer.toString(id)+" was deposed at t="+Integer.toString(time) };
 						Message message = new Message( self, self, "printStatusMessage", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
+				time++;
 				{
 					Token token_3_0 = new Token();
+					// left<-update(time, 0, pastLeaders)
+					{
+						Object _arguments[] = { time, new Integer(0), pastLeaders };
+						Message message = new Message( self, left, "update", _arguments, null, token_3_0 );
+						__messages.add( message );
+					}
 					// left<-leaderChosen(false, 0)
 					{
 						Object _arguments[] = { false, new Integer(0) };
-						Message message = new Message( self, left, "leaderChosen", _arguments, null, token_3_0 );
-						__messages.add( message );
-					}
-					// left<-startElection(time, pastLeaders)
-					{
-						Object _arguments[] = { time, pastLeaders };
-						Message message = new Message( self, left, "startElection", _arguments, token_3_0, null );
+						Message message = new Message( self, left, "leaderChosen", _arguments, token_3_0, null );
 						__messages.add( message );
 					}
 				}
+				return -1;
 			}
 }			else {{
 				localTime++;
@@ -493,77 +541,81 @@ public class Node extends UniversalActor  {
 					}
 				}
 			}
-}}			return;
+}}			return -1;
 		}
-		public void replyMessage(int newId, int senderId, boolean senderLeaderStatus, int pastLeaders, int time, int localTime) {
+		public int replyMessage(int newId, int senderId, boolean senderLeaderStatus, int pastLeaders, int time, int localTime, boolean direction) {
 			if (id==senderId) {{
 				if (senderLeaderStatus&&tempCanBeLeader) {{
 					ttl *= 2;
-					{
-						// left<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, time, localTime)
+					if (direction) {{
 						{
-							Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, time, localTime };
-							Message message = new Message( self, left, "receiveMessage", _arguments, null, null );
+							// right<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, time, localTime, direction)
+							{
+								Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, time, localTime, direction };
+								Message message = new Message( self, right, "receiveMessage", _arguments, null, null );
+								__messages.add( message );
+							}
+						}
+					}
+}					else {{
+						{
+							// left<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, time, localTime, direction)
+							{
+								Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, time, localTime, direction };
+								Message message = new Message( self, left, "receiveMessage", _arguments, null, null );
+								__messages.add( message );
+							}
+						}
+					}
+}				}
+}				else {{
+					return -1;
+				}
+}			}
+}			else {{
+				if (direction) {{
+					{
+						// left<-replyMessage(newId, senderId, senderLeaderStatus, pastLeaders, time, localTime, direction)
+						{
+							Object _arguments[] = { newId, senderId, senderLeaderStatus, pastLeaders, time, localTime, direction };
+							Message message = new Message( self, left, "replyMessage", _arguments, null, null );
 							__messages.add( message );
 						}
 					}
 				}
 }				else {{
 					{
-						// left<-startElection(time, pastLeaders)
+						// right<-replyMessage(newId, senderId, senderLeaderStatus, pastLeaders, time, localTime, direction)
 						{
-							Object _arguments[] = { time, pastLeaders };
-							Message message = new Message( self, left, "startElection", _arguments, null, null );
+							Object _arguments[] = { newId, senderId, senderLeaderStatus, pastLeaders, time, localTime, direction };
+							Message message = new Message( self, right, "replyMessage", _arguments, null, null );
 							__messages.add( message );
 						}
 					}
 				}
 }			}
-}			else {{
-				{
-					// left<-replyMessage(newId, senderId, senderLeaderStatus, pastLeaders, time, localTime)
-					{
-						Object _arguments[] = { newId, senderId, senderLeaderStatus, pastLeaders, time, localTime };
-						Message message = new Message( self, left, "replyMessage", _arguments, null, null );
-						__messages.add( message );
-					}
-				}
-			}
-}			return;
+}			return -1;
 		}
-		public void startElection(int timestamp, int pastLeaders) {
-			if (pastLeaders==size) {{
+		public int startElection(int timestamp, int pastLeaders) {
+			if (tempCanBeLeader) {{
 				{
-					// printStatusMessage("End of simulation")
+					// right<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, timestamp, 0, true)
 					{
-						Object _arguments[] = { "End of simulation" };
-						Message message = new Message( self, self, "printStatusMessage", _arguments, null, null );
+						Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, timestamp, new Integer(0), true };
+						Message message = new Message( self, right, "receiveMessage", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
-				return;
-			}
-}			if (hasBeenLeader) {{
 				{
-					// left<-startElection(timestamp, pastLeaders)
+					// left<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, timestamp, 0, false)
 					{
-						Object _arguments[] = { timestamp, pastLeaders };
-						Message message = new Message( self, left, "startElection", _arguments, null, null );
-						__messages.add( message );
-					}
-				}
-			}
-}			else {if (tempCanBeLeader) {{
-				{
-					// left<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, timestamp, 0)
-					{
-						Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, timestamp, new Integer(0) };
+						Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, timestamp, new Integer(0), false };
 						Message message = new Message( self, left, "receiveMessage", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
 			}
-}}			return;
+}			return id;
 		}
 	}
 }

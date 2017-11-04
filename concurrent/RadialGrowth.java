@@ -33,6 +33,7 @@ import salsa.resources.ActorService;
 
 import java.io.*;
 import java.util.*;
+import java.lang.*;
 
 public class RadialGrowth extends UniversalActor  {
 	public static void main(String args[]) {
@@ -272,7 +273,9 @@ public class RadialGrowth extends UniversalActor  {
 			}
 		}
 
-		LinkedList nodes = new LinkedList();
+		Node[] nodes = new Node[8];
+		int counter = 0;
+		int totalTime = 0;
 		void construct(String[] args){
 						{
 				// act(args)
@@ -303,7 +306,8 @@ public class RadialGrowth extends UniversalActor  {
 				String line;
 				while ((line=reader.readLine())!=null) {
 					Node newNode = ((Node)new Node(this).construct(line));
-					nodes.add(newNode);
+					nodes[counter] = newNode;
+					counter++;
 				}
 				reader.close();
 			}
@@ -319,65 +323,139 @@ public class RadialGrowth extends UniversalActor  {
 				return;
 			}
 
-			for (int i = 0; i<nodes.size()-1; i++){
+			for (int i = 0; i<counter-1; i++){
 				{
-					// nodes.get(i+1)<-setLeft(nodes.get(i))
+					// nodes[i+1]<-setLeft(nodes[i])
 					{
-						Object _arguments[] = { nodes.get(i) };
-						Message message = new Message( self, nodes.get(i+1), "setLeft", _arguments, null, null );
+						Object _arguments[] = { nodes[i] };
+						Message message = new Message( self, nodes[i+1], "setLeft", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
 				{
-					// nodes.get(i)<-setRight(nodes.get(i+1))
+					// nodes[i]<-setRight(nodes[i+1])
 					{
-						Object _arguments[] = { nodes.get(i+1) };
-						Message message = new Message( self, nodes.get(i), "setRight", _arguments, null, null );
+						Object _arguments[] = { nodes[i+1] };
+						Message message = new Message( self, nodes[i], "setRight", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
 			}
 			{
-				// nodes.getFirst()<-setLeft(nodes.getLast())
+				// nodes[0]<-setLeft(nodes[counter-1])
 				{
-					Object _arguments[] = { nodes.getLast() };
-					Message message = new Message( self, nodes.getFirst(), "setLeft", _arguments, null, null );
+					Object _arguments[] = { nodes[counter-1] };
+					Message message = new Message( self, nodes[0], "setLeft", _arguments, null, null );
 					__messages.add( message );
 				}
 			}
 			{
-				// nodes.getLast()<-setRight(nodes.getFirst())
+				// nodes[counter-1]<-setRight(nodes[0])
 				{
-					Object _arguments[] = { nodes.getFirst() };
-					Message message = new Message( self, nodes.getLast(), "setRight", _arguments, null, null );
+					Object _arguments[] = { nodes[0] };
+					Message message = new Message( self, nodes[counter-1], "setRight", _arguments, null, null );
 					__messages.add( message );
 				}
 			}
-			for (int i = 0; i<nodes.size(); i++){
+			for (int i = 0; i<counter; i++){
 				{
-					// nodes.get(i)<-setSize(nodes.size())
+					// nodes[i]<-setSize(counter)
 					{
-						Object _arguments[] = { nodes.size() };
-						Message message = new Message( self, nodes.get(i), "setSize", _arguments, null, null );
+						Object _arguments[] = { counter };
+						Message message = new Message( self, nodes[i], "setSize", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
 			}
 			{
-				// beginElection()
+				// beginElection(0, 0)
 				{
-					Object _arguments[] = {  };
+					Object _arguments[] = { new Integer(0), new Integer(0) };
 					Message message = new Message( self, self, "beginElection", _arguments, null, null );
 					__messages.add( message );
 				}
 			}
 		}
-		public void beginElection() {
-			{
-				// (nodes.getFirst())<-startElection(0, 0)
+		public int ha(Object results) {
+			if ((((Integer)results).intValue())==counter) {{
 				{
-					Object _arguments[] = { new Integer(0), new Integer(0) };
-					Message message = new Message( self, (nodes.getFirst()), "startElection", _arguments, null, null );
+					// standardOutput<-println("done")
+					{
+						Object _arguments[] = { "done" };
+						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+				return 1;
+			}
+}			else {{
+				return -1;
+			}
+}		}
+		public void beginElection(int time, int pastLeaders) {
+			Node temp = nodes[0];
+			Token t2 = new Token("t2");
+			{
+				// token t2 = temp<-getNumLeaders()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, temp, "getNumLeaders", _arguments, null, t2 );
+					__messages.add( message );
+				}
+			}
+			Token t1 = new Token("t1");
+			{
+				Token token_2_0 = new Token();
+				Token token_2_1 = new Token();
+				// join block
+				token_2_0.setJoinDirector();
+				for (int a = 0; a<counter; a++){
+					{
+						// (nodes[a])<-startElection(time, pastLeaders)
+						{
+							Object _arguments[] = { time, pastLeaders };
+							Message message = new Message( self, (nodes[a]), "startElection", _arguments, null, token_2_0 );
+							__messages.add( message );
+						}
+					}
+				}
+				addJoinToken(token_2_0);
+				// standardOutput<-println(token)
+				{
+					Object _arguments[] = { token_2_0 };
+					Message message = new Message( self, standardOutput, "println", _arguments, token_2_0, token_2_1 );
+					__messages.add( message );
+				}
+				// token t1 = temp<-getTime()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, temp, "getTime", _arguments, token_2_1, t1 );
+					__messages.add( message );
+				}
+				// standardOutput<-println(t1)
+				{
+					Object _arguments[] = { t1 };
+					Message message = new Message( self, standardOutput, "println", _arguments, t1, null );
+					__messages.add( message );
+				}
+			}
+			{
+				Token token_2_0 = new Token();
+				// join block
+				token_2_0.setJoinDirector();
+				{
+					// beginElection(t1, ++pastLeaders)
+					{
+						Object _arguments[] = { t1, ++pastLeaders };
+						Message message = new Message( self, self, "beginElection", _arguments, null, token_2_0 );
+						__messages.add( message );
+					}
+				}
+				addJoinToken(token_2_0);
+				// standardOutput<-println(token)
+				{
+					Object _arguments[] = { token_2_0 };
+					Message message = new Message( self, standardOutput, "println", _arguments, token_2_0, null );
 					__messages.add( message );
 				}
 			}
