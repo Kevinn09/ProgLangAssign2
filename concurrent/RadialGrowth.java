@@ -276,6 +276,7 @@ public class RadialGrowth extends UniversalActor  {
 		Node[] nodes = new Node[8];
 		int counter = 0;
 		int totalTime = 0;
+		int done = 0;
 		void construct(String[] args){
 						{
 				// act(args)
@@ -376,22 +377,96 @@ public class RadialGrowth extends UniversalActor  {
 				}
 			}
 		}
-		public int ha(Object results) {
-			if ((((Integer)results).intValue())==counter) {{
+		public void printResults(Object results[]) {
+			for (int i = 0; i<5; i++){
 				{
-					// standardOutput<-println("done")
+					// standardOutput<-println(i+" "+results[i])
 					{
-						Object _arguments[] = { "done" };
+						Object _arguments[] = { i+" "+results[i] };
 						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
 						__messages.add( message );
 					}
 				}
-				return 1;
 			}
-}			else {{
-				return -1;
+		}
+		public int ha(Object results[]) {
+			int next = -1;
+			for (int i = 0; i<5; i++){
+				if (next==-1&&results[i]!=-1) {{
+					next = (Integer)results[i];
+				}
+}				if (next!=-1&&results[i]==next) {{
+					next = (Integer)results[i];
+				}
+}				if (next!=-1&&results[i]==next) {{
+					next = -5;
+				}
+}			}
+			{
+				// standardOutput<-print(next)
+				{
+					Object _arguments[] = { next };
+					Message message = new Message( self, standardOutput, "print", _arguments, null, null );
+					__messages.add( message );
+				}
 			}
-}		}
+			{
+				// standardOutput<-println("Hello")
+				{
+					Object _arguments[] = { "Hello" };
+					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
+			return next;
+		}
+		public int ret(int r) {
+			return r;
+		}
+		public int figureOutLeader() {
+			{
+				// standardOutput<-println("hello")
+				{
+					Object _arguments[] = { "hello" };
+					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
+			{
+				Token token_2_0 = new Token();
+				// join block
+				token_2_0.setJoinDirector();
+				for (int i = 0; i<5; i++){
+					{
+						// nodes[i]<-getWant()
+						{
+							Object _arguments[] = {  };
+							Message message = new Message( self, nodes[i], "getWant", _arguments, null, token_2_0 );
+							__messages.add( message );
+						}
+					}
+				}
+				addJoinToken(token_2_0);
+				// ha(token)
+				{
+					Object _arguments[] = { token_2_0 };
+					Message message = new Message( self, self, "ha", _arguments, token_2_0, null );
+					__messages.add( message );
+				}
+			}
+			for (int i = 0; i<5; i++){
+				Token a = new Token("a");
+				{
+					// token a = nodes[i]<-getWant()
+					{
+						Object _arguments[] = {  };
+						Message message = new Message( self, nodes[i], "getWant", _arguments, null, a );
+						__messages.add( message );
+					}
+				}
+			}
+			return -1;
+		}
 		public void beginElection(int time, int pastLeaders) {
 			Node temp = nodes[0];
 			Token t2 = new Token("t2");
@@ -403,8 +478,10 @@ public class RadialGrowth extends UniversalActor  {
 					__messages.add( message );
 				}
 			}
-			Token t1 = new Token("t1");
-			{
+			if (pastLeaders==5) {{
+				return;
+			}
+}			{
 				Token token_2_0 = new Token();
 				Token token_2_1 = new Token();
 				// join block
@@ -420,42 +497,59 @@ public class RadialGrowth extends UniversalActor  {
 					}
 				}
 				addJoinToken(token_2_0);
-				// standardOutput<-println(token)
+				// ha(token)
 				{
 					Object _arguments[] = { token_2_0 };
-					Message message = new Message( self, standardOutput, "println", _arguments, token_2_0, token_2_1 );
+					Message message = new Message( self, self, "ha", _arguments, token_2_0, token_2_1 );
 					__messages.add( message );
 				}
+				// (nodes[0])<-setCurr()
+				{
+					Object _arguments[] = {  };
+					Message message = new Message( self, (nodes[0]), "setCurr", _arguments, token_2_1, null );
+					__messages.add( message );
+				}
+			}
+			Token t1 = new Token("t1");
+			{
 				// token t1 = temp<-getTime()
 				{
 					Object _arguments[] = {  };
-					Message message = new Message( self, temp, "getTime", _arguments, token_2_1, t1 );
-					__messages.add( message );
-				}
-				// standardOutput<-println(t1)
-				{
-					Object _arguments[] = { t1 };
-					Message message = new Message( self, standardOutput, "println", _arguments, t1, null );
+					Message message = new Message( self, temp, "getTime", _arguments, null, t1 );
 					__messages.add( message );
 				}
 			}
 			{
-				Token token_2_0 = new Token();
-				// join block
-				token_2_0.setJoinDirector();
+				// (nodes[0])<-leaderTime(t1, 0, ++pastLeaders, 0)
 				{
-					// beginElection(t1, ++pastLeaders)
-					{
-						Object _arguments[] = { t1, ++pastLeaders };
-						Message message = new Message( self, self, "beginElection", _arguments, null, token_2_0 );
-						__messages.add( message );
-					}
+					Object _arguments[] = { t1, new Integer(0), ++pastLeaders, new Integer(0) };
+					Message message = new Message( self, (nodes[0]), "leaderTime", _arguments, null, null );
+					__messages.add( message );
 				}
-				addJoinToken(token_2_0);
-				// standardOutput<-println(token)
+			}
+			{
+				// t1 = temp<-getTime()
+				Token t1_next = new Token("<-_next");
 				{
-					Object _arguments[] = { token_2_0 };
-					Message message = new Message( self, standardOutput, "println", _arguments, token_2_0, null );
+					Object _arguments[] = {  };
+					Message message = new Message( self, temp, "getTime", _arguments, null, t1_next );
+					__messages.add( message );
+				}
+				t1 = t1_next;
+			}
+			{
+				// standardOutput<-println(t1)
+				{
+					Object _arguments[] = { t1 };
+					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
+			{
+				// beginElection(t1, pastLeaders)
+				{
+					Object _arguments[] = { t1, pastLeaders };
+					Message message = new Message( self, self, "beginElection", _arguments, null, null );
 					__messages.add( message );
 				}
 			}

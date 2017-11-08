@@ -1,6 +1,7 @@
-ID=0 became leader at t=0
-ID=1 revolted at t=51
-ID=0 was deposed at t=52
-ID=1 became leader at t=53
-ID=0 revolted at t=64
-ID=1 was deposed at t=65
+ID=4 revolted at t=21
+ID=3 revolted at t=32
+ID=2 revolted at t=43
+ID=0 was deposed at t=45
+Number of leaders2
+ID=0 revolted at t=40
+ID=1 revolted at t=54
