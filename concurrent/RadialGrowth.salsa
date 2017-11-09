@@ -31,6 +31,7 @@ behavior RadialGrowth{
 		String filename = args[0];	// stores the filename
 
 		try{
+			totalTime=0;
 			// opens the output file to clear it and closes it
 			BufferedWriter out = new BufferedWriter(new FileWriter("output.txt",false));	
 			out.close();																	
@@ -76,10 +77,13 @@ behavior RadialGrowth{
 		}
 
 		// starts the first election
-		beginElection(0,0): delay (new Integer (100));
-		setTime():delay (new Integer (100));
-		standardOutput<-println(totalTime);
-		//beginElection(totalTime,1);
+		join{
+			for (int i=0;i<2;i++){
+				standardOutput<-println(totalTime)@
+				beginElection(totalTime,i): delay (new Integer (100))@
+				setTime():delay (new Integer (200));
+			}
+		}@setTime();
 	
 	}
 
@@ -101,11 +105,12 @@ behavior RadialGrowth{
 	}
 
 	void findBest(Object results[]){
-		standardOutput<-print("POTAA:");
+		// standardOutput<-print("POTAA:")
 		join{
 			for (int i=0;i<counter;i++){
-				if ((Integer)results[i] >=0){
+				if ((Integer)results[i] >= 0){
 					(nodes[(Integer)results[i]])<-getPrior();
+					//standardOutput<-println((Integer)results[i]);
 				}else{
 					retneg();
 				}
@@ -121,9 +126,10 @@ behavior RadialGrowth{
 			}
 		}@findBest(token) : delay(new Integer (200));
 	}
-	void retNum(int i){
-		standardOutput<-println(i);
+	int retNum(int i){
+		// standardOutput<-println(i);
 		totalTime=i;
+		return totalTime;
 	}
 	void setTime(){
 		token t = nodes[n]<-getTime();
@@ -131,16 +137,21 @@ behavior RadialGrowth{
 	}
 
 	void beginElection(int time, int pastLeaders){
-
-		
 		join{
 			for(int a=0; a < counter;a++){
 				(nodes[a])<-startElection(time,pastLeaders);
 			}
 		} @ha(): delay(new Integer (200));
-		pastLeaders++;
-		token t1 = nodes[n]<-getTime();
-		nodes[n]<-leaderTime(t1, 0,pastLeaders, 0): delay(new Integer (200));;
+	
+		join{
+			pastLeaders++;
+			setTime();
+			nodes[this.n]<-leaderTime(totalTime, 0,pastLeaders, 0,this.n);
+			nodes[this.n]<-reset(0);
+		}@setTime(): delay(new Integer (200));
+
+		beginElection(totalTime,pastLeaders): delay (new Integer (100));
+				// setTime():delay (new Integer (200));
 	}
 
 }

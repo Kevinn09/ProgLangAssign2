@@ -301,6 +301,7 @@ public class RadialGrowth extends UniversalActor  {
 			}
 }			String filename = args[0];
 			try {
+				totalTime = 0;
 				BufferedWriter out = new BufferedWriter(new FileWriter("output.txt", false));
 				out.close();
 				BufferedReader reader = new BufferedReader(new FileReader(args[0]));
@@ -369,30 +370,42 @@ public class RadialGrowth extends UniversalActor  {
 				}
 			}
 			{
-				// 00beginElection:((new Integer(100)))
-				{
-					Object _arguments[] = { new Integer(0), new Integer(0) };
-					Message message = new Message( self, self, "beginElection", _arguments, null, null );
-					Object[] _propertyInfo = { new Integer(100) };
-					message.setProperty( "delay", _propertyInfo );
-					__messages.add( message );
+				Token token_2_0 = new Token();
+				// join block
+				token_2_0.setJoinDirector();
+				for (int i = 0; i<2; i++){
+					{
+						Token token_4_0 = new Token();
+						Token token_4_1 = new Token();
+						// standardOutput<-println(totalTime)
+						{
+							Object _arguments[] = { totalTime };
+							Message message = new Message( self, standardOutput, "println", _arguments, null, token_4_0 );
+							__messages.add( message );
+						}
+						// totalTimeibeginElection:((new Integer(100)))
+						{
+							Object _arguments[] = { totalTime, i };
+							Message message = new Message( self, self, "beginElection", _arguments, token_4_0, token_4_1 );
+							Object[] _propertyInfo = { new Integer(100) };
+							message.setProperty( "delay", _propertyInfo );
+							__messages.add( message );
+						}
+						// ()setTime:((new Integer(200)))
+						{
+							Object _arguments[] = {  };
+							Message message = new Message( self, self, "setTime", _arguments, token_4_1, token_2_0 );
+							Object[] _propertyInfo = { new Integer(200) };
+							message.setProperty( "delay", _propertyInfo );
+							__messages.add( message );
+						}
+					}
 				}
-			}
-			{
-				// ()setTime:((new Integer(100)))
+				addJoinToken(token_2_0);
+				// setTime()
 				{
 					Object _arguments[] = {  };
-					Message message = new Message( self, self, "setTime", _arguments, null, null );
-					Object[] _propertyInfo = { new Integer(100) };
-					message.setProperty( "delay", _propertyInfo );
-					__messages.add( message );
-				}
-			}
-			{
-				// standardOutput<-println(totalTime)
-				{
-					Object _arguments[] = { totalTime };
-					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+					Message message = new Message( self, self, "setTime", _arguments, token_2_0, null );
 					__messages.add( message );
 				}
 			}
@@ -428,14 +441,6 @@ public class RadialGrowth extends UniversalActor  {
 			return -1;
 		}
 		public void findBest(Object results[]) {
-			{
-				// standardOutput<-print("POTAA:")
-				{
-					Object _arguments[] = { "POTAA:" };
-					Message message = new Message( self, standardOutput, "print", _arguments, null, null );
-					__messages.add( message );
-				}
-			}
 			{
 				Token token_2_0 = new Token();
 				// join block
@@ -497,16 +502,9 @@ public class RadialGrowth extends UniversalActor  {
 				}
 			}
 		}
-		public void retNum(int i) {
-			{
-				// standardOutput<-println(i)
-				{
-					Object _arguments[] = { i };
-					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-					__messages.add( message );
-				}
-			}
+		public int retNum(int i) {
 			totalTime = i;
+			return totalTime;
 		}
 		public void setTime() {
 			Token t = new Token("t");
@@ -554,26 +552,55 @@ public class RadialGrowth extends UniversalActor  {
 					__messages.add( message );
 				}
 			}
-			pastLeaders++;
-			Token t1 = new Token("t1");
 			{
-				// token t1 = nodes[n]<-getTime()
+				Token token_2_0 = new Token();
+				// join block
+				token_2_0.setJoinDirector();
+				pastLeaders++;
+				{
+					// setTime()
+					{
+						Object _arguments[] = {  };
+						Message message = new Message( self, self, "setTime", _arguments, null, token_2_0 );
+						__messages.add( message );
+					}
+				}
+				{
+					// nodes[this.n]<-leaderTime(totalTime, 0, pastLeaders, 0, this.n)
+					{
+						Object _arguments[] = { totalTime, new Integer(0), pastLeaders, new Integer(0), this.n };
+						Message message = new Message( self, nodes[this.n], "leaderTime", _arguments, null, token_2_0 );
+						__messages.add( message );
+					}
+				}
+				{
+					// nodes[this.n]<-reset(0)
+					{
+						Object _arguments[] = { new Integer(0) };
+						Message message = new Message( self, nodes[this.n], "reset", _arguments, null, token_2_0 );
+						__messages.add( message );
+					}
+				}
+				addJoinToken(token_2_0);
+				// ()setTime:((new Integer(200)))
 				{
 					Object _arguments[] = {  };
-					Message message = new Message( self, nodes[n], "getTime", _arguments, null, t1 );
-					__messages.add( message );
-				}
-			}
-			{
-				// nodes[n]<-leaderTime(t1, 0, pastLeaders, 0)
-				{
-					Object _arguments[] = { t1, new Integer(0), pastLeaders, new Integer(0) };
-					Message message = new Message( self, nodes[n], "leaderTime", _arguments, null, null );
+					Message message = new Message( self, self, "setTime", _arguments, token_2_0, null );
 					Object[] _propertyInfo = { new Integer(200) };
 					message.setProperty( "delay", _propertyInfo );
 					__messages.add( message );
 				}
 			}
-;		}
+			{
+				// totalTimepastLeadersbeginElection:((new Integer(100)))
+				{
+					Object _arguments[] = { totalTime, pastLeaders };
+					Message message = new Message( self, self, "beginElection", _arguments, null, null );
+					Object[] _propertyInfo = { new Integer(100) };
+					message.setProperty( "delay", _propertyInfo );
+					__messages.add( message );
+				}
+			}
+		}
 	}
 }

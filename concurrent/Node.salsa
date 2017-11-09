@@ -57,6 +57,7 @@ behavior Node{
   }
 
   int getTime(){
+    standardOutput<-print("getting time:");
     standardOutput<-println(time1);
     return time1;
   }
@@ -99,7 +100,9 @@ behavior Node{
       standardError<-println("[error] Can't open the file for writing.");
     }
   }
-
+  int ret(){
+    return -1;
+  } 
 
   // input: place holder that will keep track of how many nodes we have reset
   // resets hasRevolted and ttl of all nodes when we need to find a new leader
@@ -151,7 +154,7 @@ behavior Node{
   int receiveMessage(int senderId, int senderPriority, boolean senderLeaderStatus, int tTL, int pastLeaders,int time,int localTime, boolean direction){
     
     // if the sender's ID == the current node's id && if current node can be a leader
-    if( senderId == id && canBeLeader && senderLeaderStatus && currentLeaderNum==-1){
+    if( senderId == id && senderLeaderStatus && currentLeader==false){
       // current node recieved its message it sent out so it can become leader
       currentLeader = true;
       canBeLeader = false;
@@ -172,30 +175,33 @@ behavior Node{
       // if current node's priority is higher than that if the sender's
       // and the current node can be a leader (i.e. has not been a leader before)
       // then will say sender should not be leader
-      if(priority >= senderPriority && canBeLeader){
+      if(priority >= senderPriority){
         senderLeaderStatus = false;
 
       // if nodes' priority match then compare against unique IDs
-      }else if(priority == senderPriority && canBeLeader){
+      }else if(priority == senderPriority){
         if(id > senderId){
           senderLeaderStatus = false;
         }
       }
+      if (hasBeenLeader==true){
+        senderLeaderStatus=false;
+      }
 
       // if tTL is 0, let the original sender know if it can be a leader
       if(tTL == 0){
-        if(direction){
-          left<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime,direction);
-        }else{
-          right<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime,direction);
-        }
+        left<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime,direction);
+        // if(direction){
+        // }else{
+        //   right<-replyMessage(id,senderId,senderLeaderStatus,pastLeaders,time,localTime,direction);
+        // }
       // pass the message on
       }else if(tempCanBeLeader){
-        if(direction){
-          right<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime,direction);          
-        }else{
-          left<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime,direction);
-        }
+        left<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime,direction);
+        // if(direction){
+        //   right<-receiveMessage(senderId,senderPriority,senderLeaderStatus,tTL,pastLeaders,time,localTime,direction);          
+        // }else{
+        // }
       }
     }
     return -1;
@@ -203,10 +209,10 @@ behavior Node{
 
   // input: time, how many revolts, how many past leaders, time between leaders
   // passes the message to the left, letting nodes know how long leader has been a leader
-  int leaderTime(int time, int revolts,int pastLeaders, int localTime){
+  int leaderTime(int time, int revolts,int pastLeaders, int localTime, int l){
 
     // checks node's tolerance to time leader has been a leader
-    if(localTime >= tolerance && currentLeader == false && hasRevolted==false){
+    if(localTime >= tolerance && id != l && hasRevolted==false && tempCanBeLeader==false){
       hasRevolted= true;  //sets the revolt flag
       revolts++;          //increases the number of revolts
 
@@ -214,8 +220,9 @@ behavior Node{
       
       time++;
       localTime++;
-      left<-leaderTime(time, revolts, pastLeaders,localTime);
-
+      left<-leaderTime(time, revolts, pastLeaders,localTime,l);
+      ret()@
+      currentContinuation;
     // if enough nodes have revolted, then it is time for a new leader
     }else if (revolts >= ((size + 1)/2) && currentLeader){
       currentLeader=false;
@@ -228,18 +235,21 @@ behavior Node{
       join{
         left<-update(time,0,pastLeaders)@
         left<-leaderChosen(false,0,id);
-      }
 
-      return -1;
+      }@ret()@
+      currentContinuation;
+      //return -1;
       // left<-startElection(time,pastLeaders);
 
     // otherwise, keep going
     }else{
       localTime++;
       time++;
-      left<-leaderTime(time,revolts,pastLeaders,localTime);
+      left<-leaderTime(time,revolts,pastLeaders,localTime,l);
+      ret()@
+      currentContinuation;
     }
-    return -1;
+   
   }
 
   // input: id of most recent node, id of original sender, whether original sender can be leader,
@@ -250,27 +260,25 @@ behavior Node{
     if(id == senderId){
       // if can be leader and no other node disagrees,
       // itpasses another message again, but with a longer ttl 
-      if(senderLeaderStatus && tempCanBeLeader){
+      if(senderLeaderStatus){
         ttl *= 2;
-        if(direction){
-          right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime,direction);
-        }else{
-          left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime,direction);
-        }
-      
-      // if it cannot be a leader then move on to the next node
-      }else{
-        return -1;
-        // left<-startElection(time,pastLeaders);
-      }
+        left<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime,direction);
+        // right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime,direction);
 
+        // if(direction){
+        //   right<-receiveMessage(id,priority,canBeLeader,ttl,pastLeaders,time,localTime,direction);
+        // }else{
+        // }
+        // if it cannot be a leader then move on to the next node
+      }
     // if it is not the original sender, keep sending till it is
     }else{
-      if(direction){
-        left<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time,localTime,direction);
-      }else{
-        right<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time,localTime,direction);
-      }
+      left<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time,localTime,direction);
+
+      // if(direction){
+      // }else{
+      //   right<-replyMessage(newId,senderId,senderLeaderStatus,pastLeaders,time,localTime,direction);
+      // }
     }
     return -1;
   }
