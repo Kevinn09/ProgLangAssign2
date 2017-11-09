@@ -137,6 +137,10 @@ behavior RadialGrowth{
 	}
 
 	void beginElection(int time, int pastLeaders){
+
+		if (pastLeaders>counter){
+			return;
+		}
 		join{
 			for(int a=0; a < counter;a++){
 				(nodes[a])<-startElection(time,pastLeaders);

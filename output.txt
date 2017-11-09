@@ -4,18 +4,14 @@ ID=3 revolted at t=32
 ID=2 revolted at t=43
 ID=0 was deposed at t=45
 ID=2 became leader at t=0
-ID=1 revolted at t=159
-ID=4 revolted at t=161
-ID=3 revolted at t=162
-ID=2 revolted at t=163
-ID=2 was deposed at t=168
-ID=3 became leader at t=46
-ID=1 revolted at t=155
-ID=2 revolted at t=154
-ID=4 revolted at t=157
-ID=3 revolted at t=158
-ID=2 revolted at t=159
-ID=1 revolted at t=160
-ID=4 revolted at t=162
-ID=3 revolted at t=163
-ID=3 was deposed at t=168
+ID=3 became leader at t=0
+ID=2 revolted at t=133
+ID=1 revolted at t=134
+ID=4 revolted at t=136
+ID=2 revolted at t=138
+ID=3 revolted at t=137
+ID=1 revolted at t=139
+ID=4 revolted at t=141
+ID=3 revolted at t=142
+ID=2 revolted at t=143
+ID=3 was deposed at t=147

@@ -528,7 +528,10 @@ public class RadialGrowth extends UniversalActor  {
 			}
 		}
 		public void beginElection(int time, int pastLeaders) {
-			{
+			if (pastLeaders>counter) {{
+				return;
+			}
+}			{
 				Token token_2_0 = new Token();
 				// join block
 				token_2_0.setJoinDirector();
