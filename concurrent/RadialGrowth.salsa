@@ -13,7 +13,7 @@ behavior RadialGrowth{
  	Node[] nodes = new Node[8];
  	int counter = 0;
  	int totalTime =0;
- 	int done =0;
+ 	int n;
 
  	// constructor-kicks off the program
  	RadialGrowth(String[] args){
@@ -76,87 +76,71 @@ behavior RadialGrowth{
 		}
 
 		// starts the first election
-		beginElection(0,0);
-		// leaderTime(int time, int revolts,int pastLeaders, int localTime)
-		// join {
-		// 	nodes[0]<-geCurrentLeader();
-		// 	nodes[1]<-geCurrentLeader();
-		// 	nodes[2]<-geCurrentLeader();
-		// 	nodes[3]<-geCurrentLeader();
-		// 	nodes[4]<-geCurrentLeader();
-		// }@printResults(token);
+		beginElection(0,0): delay (new Integer (100));
+		setTime():delay (new Integer (100));
+		standardOutput<-println(totalTime);
+		//beginElection(totalTime,1);
+	
 	}
 
-	void printResults(Object results[]){
-		for (int i=0;i<5;i++){
-			standardOutput<-println(i +" "+results[i]);
-		}
-	}
-
-	int ha(Object results[]){
-		int next = -1;
-		for (int i=0;i<5;i++){
-			
-			if (next == -1 && results[i]!=-1){
-				next = (Integer)results[i];
-			}
-			if (next != -1 && results[i] == next){
-				next = (Integer) results[i];
-			}
-			if (next != -1 && results[i] == next){
-				next = -5;
+	void highest(Object results[]){
+		int high= -1;
+		int higestid=-1;
+		for (int i=0;i<counter;i++){
+			if((Integer)results[i] > high){
+				higestid = i;
+				high = (Integer)results[i];
 			}
 		}
-		standardOutput<-print(next);
-		standardOutput<-println("Hello");
-
-		return next;
+		this.n=higestid;
+		standardOutput<-print("Next node:");
+		standardOutput<-println(n);
 	}
-
-	int ret(int r){
-		return r;
-	}
-
-	int figureOutLeader(){
-		standardOutput<-println("hello");
-		join{
-			for (int i=0;i<5;i++){
-				nodes[i]<-getWant();
-				// standardOutput<-println(a);
-			}
-			// standardOutput<-println("hi");
-		}@ha(token);
-
-		for (int i=0;i<5;i++){
-				token a = nodes[i]<-getWant();
-				//standardOutput<-println(a);
-		}
-		//return (( Integer )results [ 0 ] ) . intValue ();
-		//return ret(results[0]);
+	int retneg(){
 		return -1;
-
 	}
+
+	void findBest(Object results[]){
+		standardOutput<-print("POTAA:");
+		join{
+			for (int i=0;i<counter;i++){
+				if ((Integer)results[i] >=0){
+					(nodes[(Integer)results[i]])<-getPrior();
+				}else{
+					retneg();
+				}
+			}
+		}@highest(token);
+	}
+	void ha(){
+		// standardOutput<-print("Next node:");
+		join{
+			for(int a=0; a < counter;a++){
+				(nodes[a])<-getWant();
+				//standardOutput<-println(b);
+			}
+		}@findBest(token) : delay(new Integer (200));
+	}
+	void retNum(int i){
+		standardOutput<-println(i);
+		totalTime=i;
+	}
+	void setTime(){
+		token t = nodes[n]<-getTime();
+		retNum(t): delay(new Integer (200));
+	}
+
 	void beginElection(int time, int pastLeaders){
-		Node temp = nodes[0];
 
-		token t2 = temp<-getNumLeaders();
-		//ha(t2);
-		// standardOutput<-println(t2);
-		if (pastLeaders == 5){
-		 	return;
-		}
-
+		
 		join{
 			for(int a=0; a < counter;a++){
 				(nodes[a])<-startElection(time,pastLeaders);
 			}
-		}@ha(token)@
-		(nodes[0])<-setCurr();
-		token t1 = temp<-getTime();
-		(nodes[0])<-leaderTime(t1, 0,++pastLeaders, 0); //need a way to pass token to nodes[0]
-		t1 = temp<-getTime();
-		standardOutput<-println(t1);
-		beginElection(t1, pastLeaders);
+		} @ha(): delay(new Integer (200));
+		pastLeaders++;
+		token t1 = nodes[n]<-getTime();
+		nodes[n]<-leaderTime(t1, 0,pastLeaders, 0): delay(new Integer (200));;
 	}
 
 }

@@ -272,6 +272,7 @@ public class Node extends UniversalActor  {
 		int time1;
 		int numPastLeaders;
 		int wantLeader;
+		int currentLeaderNum;
 		boolean canBeLeader;
 		boolean tempCanBeLeader;
 		boolean hasBeenLeader;
@@ -294,6 +295,7 @@ public class Node extends UniversalActor  {
 			currentLeader = false;
 			hasRevolted = false;
 			wantLeader = -1;
+			currentLeaderNum = -1;
 		}
 		public void update(int newTime, int counter, int newLeaders) {
 			if (counter<size) {{
@@ -312,13 +314,15 @@ public class Node extends UniversalActor  {
 }			return;
 		}
 		public int getTime() {
+			{
+				// standardOutput<-println(time1)
+				{
+					Object _arguments[] = { time1 };
+					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
+					__messages.add( message );
+				}
+			}
 			return time1;
-		}
-		public boolean geCurrentLeader() {
-			return currentLeader;
-		}
-		public int getWant() {
-			return wantLeader;
 		}
 		public int getNumLeaders() {
 			return numPastLeaders;
@@ -369,19 +373,21 @@ public class Node extends UniversalActor  {
 			}
 }			return;
 		}
-		public void leaderChosen(boolean chosen, int counter) {
+		public void leaderChosen(boolean chosen, int counter, int i) {
 			if (counter<size) {{
 				if (chosen==true) {{
 					tempCanBeLeader = false;
+					currentLeaderNum = i;
 				}
 }				else {{
 					tempCanBeLeader = true;
+					currentLeaderNum = -1;
 				}
 }				counter++;
 				{
-					// left<-leaderChosen(chosen, counter)
+					// left<-leaderChosen(chosen, counter, i)
 					{
-						Object _arguments[] = { chosen, counter };
+						Object _arguments[] = { chosen, counter, i };
 						Message message = new Message( self, left, "leaderChosen", _arguments, null, null );
 						__messages.add( message );
 					}
@@ -389,12 +395,48 @@ public class Node extends UniversalActor  {
 			}
 }			return;
 		}
-		public void setCurr() {
+		public int getWant() {
+			return this.wantLeader;
+		}
+		public int getPrior() {
+			return this.priority;
+		}
+		public void setleader() {
 			currentLeader = true;
+			canBeLeader = false;
+			hasBeenLeader = true;
 		}
 		public int receiveMessage(int senderId, int senderPriority, boolean senderLeaderStatus, int tTL, int pastLeaders, int time, int localTime, boolean direction) {
-			if (senderId==id&&canBeLeader&&currentLeader==false&&senderLeaderStatus==true) {{
-				wantLeader = 10;
+			if (senderId==id&&canBeLeader&&senderLeaderStatus&&currentLeaderNum==-1) {{
+				currentLeader = true;
+				canBeLeader = false;
+				hasBeenLeader = true;
+				wantLeader = id;
+				{
+					// printStatusMessage("ID="+Integer.toString(senderId)+" became leader at t="+Integer.toString(time))
+					{
+						Object _arguments[] = { "ID="+Integer.toString(senderId)+" became leader at t="+Integer.toString(time) };
+						Message message = new Message( self, self, "printStatusMessage", _arguments, null, null );
+						__messages.add( message );
+					}
+				}
+				time++;
+				time1 = time;
+				{
+					Token token_3_0 = new Token();
+					// left<-leaderChosen(true, 0, id)
+					{
+						Object _arguments[] = { true, new Integer(0), id };
+						Message message = new Message( self, left, "leaderChosen", _arguments, null, token_3_0 );
+						__messages.add( message );
+					}
+					// left<-reset(0)
+					{
+						Object _arguments[] = { new Integer(0) };
+						Message message = new Message( self, left, "reset", _arguments, token_3_0, null );
+						__messages.add( message );
+					}
+				}
 				return id;
 			}
 }			else {{
@@ -454,7 +496,7 @@ public class Node extends UniversalActor  {
 }}			}
 }			return -1;
 		}
-		public void leaderTime(int time, int revolts, int pastLeaders, int localTime) {
+		public int leaderTime(int time, int revolts, int pastLeaders, int localTime) {
 			if (localTime>=tolerance&&currentLeader==false&&hasRevolted==false) {{
 				hasRevolted = true;
 				revolts++;
@@ -489,15 +531,8 @@ public class Node extends UniversalActor  {
 						__messages.add( message );
 					}
 				}
-				{
-					// printStatusMessage("Number of leaders"+pastLeaders)
-					{
-						Object _arguments[] = { "Number of leaders"+pastLeaders };
-						Message message = new Message( self, self, "printStatusMessage", _arguments, null, null );
-						__messages.add( message );
-					}
-				}
 				time++;
+				time1 = time;
 				{
 					Token token_3_0 = new Token();
 					// left<-update(time, 0, pastLeaders)
@@ -506,13 +541,14 @@ public class Node extends UniversalActor  {
 						Message message = new Message( self, left, "update", _arguments, null, token_3_0 );
 						__messages.add( message );
 					}
-					// left<-leaderChosen(false, 0)
+					// left<-leaderChosen(false, 0, id)
 					{
-						Object _arguments[] = { false, new Integer(0) };
+						Object _arguments[] = { false, new Integer(0), id };
 						Message message = new Message( self, left, "leaderChosen", _arguments, token_3_0, null );
 						__messages.add( message );
 					}
 				}
+				return -1;
 			}
 }			else {{
 				localTime++;
@@ -526,28 +562,33 @@ public class Node extends UniversalActor  {
 					}
 				}
 			}
-}}		}
+}}			return -1;
+		}
 		public int replyMessage(int newId, int senderId, boolean senderLeaderStatus, int pastLeaders, int time, int localTime, boolean direction) {
 			if (id==senderId) {{
 				if (senderLeaderStatus&&tempCanBeLeader) {{
 					ttl *= 2;
-					{
-						// right<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, time, localTime, direction)
+					if (direction) {{
 						{
-							Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, time, localTime, direction };
-							Message message = new Message( self, right, "receiveMessage", _arguments, null, null );
-							__messages.add( message );
+							// right<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, time, localTime, direction)
+							{
+								Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, time, localTime, direction };
+								Message message = new Message( self, right, "receiveMessage", _arguments, null, null );
+								__messages.add( message );
+							}
 						}
 					}
-					{
-						// left<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, time, localTime, direction)
+}					else {{
 						{
-							Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, time, localTime, direction };
-							Message message = new Message( self, left, "receiveMessage", _arguments, null, null );
-							__messages.add( message );
+							// left<-receiveMessage(id, priority, canBeLeader, ttl, pastLeaders, time, localTime, direction)
+							{
+								Object _arguments[] = { id, priority, canBeLeader, ttl, pastLeaders, time, localTime, direction };
+								Message message = new Message( self, left, "receiveMessage", _arguments, null, null );
+								__messages.add( message );
+							}
 						}
 					}
-				}
+}				}
 }				else {{
 					return -1;
 				}
@@ -576,41 +617,6 @@ public class Node extends UniversalActor  {
 }			}
 }			return -1;
 		}
-		public int findLead(Object results[]) {
-			{
-				// standardOutput<-print(results[0])
-				{
-					Object _arguments[] = { results[0] };
-					Message message = new Message( self, standardOutput, "print", _arguments, null, null );
-					__messages.add( message );
-				}
-			}
-			{
-				// standardOutput<-println(results[1])
-				{
-					Object _arguments[] = { results[1] };
-					Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-					__messages.add( message );
-				}
-			}
-			if (wantLeader!=-1) {{
-				canBeLeader = false;
-				hasBeenLeader = true;
-				{
-					// standardOutput<-println("hii")
-					{
-						Object _arguments[] = { "hii" };
-						Message message = new Message( self, standardOutput, "println", _arguments, null, null );
-						__messages.add( message );
-					}
-				}
-				return id;
-			}
-}			return -1;
-		}
-		public int returnTok(Object tok) {
-			return ((Integer)tok).intValue();
-		}
 		public int startElection(int timestamp, int pastLeaders) {
 			if (tempCanBeLeader) {{
 				{
@@ -634,16 +640,17 @@ public class Node extends UniversalActor  {
 						}
 					}
 					addJoinToken(token_3_0);
-					// findLead(token)
+					// standardOutput<-println(token)
 					{
 						Object _arguments[] = { token_3_0 };
-						Message message = new Message( self, self, "findLead", _arguments, token_3_0, currentMessage.getContinuationToken() );
+						Message message = new Message( self, standardOutput, "println", _arguments, token_3_0, null );
+						Object[] _propertyInfo = { new Integer(100) };
+						message.setProperty( "delay", _propertyInfo );
 						__messages.add( message );
 					}
-					throw new CurrentContinuationException();
 				}
 			}
-}			return -1;
+}			return id;
 		}
 	}
 }
